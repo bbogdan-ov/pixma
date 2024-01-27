@@ -1,0 +1,72 @@
+// Tabs
+.tab {
+    --min-width: 130px;
+    --padding: 4px;
+
+    min-width: var(--min-width);
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+
+    background: var(--black);
+    border-radius: var(--base-border-radius);
+    color: var(--muted-text-color);
+
+    cursor: pointer;
+
+    // Children
+    .tab-content {
+        width: 100%;
+        height: 100%;
+        padding-left: calc(var(--padding) + 2px);
+
+        display: flex;
+        align-items: center;
+
+        font-weight: 500;
+    }
+    .tab-close-button-wrapper {
+        padding: var(--padding);
+        padding-left: 0;
+        // opacity: 0;
+
+        &:not(:has(.button:focus)) {
+            opacity: 0;
+        }
+        .button {
+            @include fixed-size(18px);
+        }
+
+    }
+
+    // States
+    &.active {
+        .tab-content {
+            color: var(--normal-text-color);
+        }
+    }
+    &.active,
+    &:hover {
+        background: var(--darkgray);
+        .tab-close-button-wrapper {
+            opacity: 1 !important;
+        }
+    }
+}
+.tabs-list {
+    display: flex;
+    align-items: center;
+}
+
+// Tab view
+.tab-view-slot {
+    width: 100%;
+    height: 100%;
+}
+.tab-view {
+    width: 100%;
+    height: 100%
+}

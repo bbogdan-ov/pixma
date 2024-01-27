@@ -1,0 +1,80 @@
+.layer {
+    --preview-size: 52px;
+    --gap: var(--unit-1);
+    --selected-color: var(--primary);
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    background: var(--black);
+    border-radius: var(--base-border-radius);
+
+    cursor: pointer;
+
+    // Children
+    .layer-content {
+        width: 100%;
+        padding: var(--gap);
+
+        display: flex;
+        align-items: center;
+        gap: var(--unit-2);
+
+        .layer-name {
+            font-weight: 500;
+            color: var(--muted-text-color);
+        }
+        .layer-preview {
+            width: var(--preview-size);
+            height: var(--preview-size);
+
+            overflow: hidden;
+
+            background: var(--darkgray);
+            border-radius: 2px;
+
+            .image {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                image-rendering: pixelated;
+                pointer-events: none;
+            }
+        }
+    }
+    .layer-buttons {
+        padding: var(--gap);
+        padding-left: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        .button:not(.active):not(:hover) {
+            opacity: 0;
+        }
+    }
+
+    // States
+    &.current {
+        background: var(--darkgray);
+
+        .layer-name {
+            color: var(--normal-text-color);
+        }
+    }
+    &:hover, &:focus-within {
+        .layer-buttons .button:not(:hover) {
+            opacity: 1;
+        }
+    }
+    &.selected {
+        outline: 2px solid var(--selected-color);
+    }
+    &.layer-hidden {
+        .layer-preview {
+            opacity: .5;
+        }
+    }
+}

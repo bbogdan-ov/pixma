@@ -1,0 +1,78 @@
+.panel {
+    --gap: var(--unit-1);
+    --background: var(--black);
+
+    display: flex;
+
+    background: var(--background);
+    border-color: var(--dark-gray);
+    border-radius: var(--base-border-radius);
+
+    // Children
+    .panel-header {
+        padding: var(--gap);
+
+        display: flex;
+        align-items: center;
+
+        .panel-header-title {
+            font-weight: 500;
+            color: var(--light-gray);
+        }
+    }
+    .panel-content {
+        display: flex;
+        padding: var(--gap);
+    }
+    .panel-footer {
+        padding: var(--gap);
+
+        display: flex;
+        align-items: center;
+    }
+    .panel-drag-trigger {
+        cursor: grab;
+    }
+
+    // States
+    &.orientation-vertical {
+        height: 100%;
+        flex-direction: column;
+
+        .panel-content {
+            height: 100%;
+            flex-direction: column;
+
+            &.scrollable {
+                overflow-x: hidden;
+                overflow-y: scroll;
+                contain: size;
+                scroll-behavior: smooth;
+            }
+        }
+    }
+    &.orientation-horizontal {
+        width: 100%;
+
+        .panel-content {
+            width: 100%;
+            flex-direction: row;
+        }
+    }
+}
+
+.panel-slot {
+    --gap: var(--unit-1);
+
+    padding: var(--gap);
+
+    display: flex;
+
+    &.orientation-horizontal {
+        width: 100%;
+    }
+    &.orientation-vertical {
+        flex-direction: column;
+        height: 100%;
+    }
+}

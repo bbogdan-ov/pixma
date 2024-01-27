@@ -1,0 +1,131 @@
+.button {
+    --color: var(--secondary);
+    --hover-color: var(--focused-secondary);
+    --gap: 8px;
+
+    --tiny-size: 1.5em;
+    --tiny-padding: .4em;
+
+    --small-size: 1.8em;
+    --small-padding: .9em;
+
+    --normal-size: 2.4em;
+    --normal-padding: 1.2em;
+
+    --medium-size: 2.8em;
+    --medium-padding: 1.5em;
+
+    --large-size: 3.6em;
+    --large-padding: 2.4em;
+
+    width: fit-content;
+    height: var(--normal-size);
+    padding: 0 var(--normal-padding);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1em;
+    
+    background: var(--color);
+    border-radius: var(--base-border-radius);
+    text-decoration: none;
+    border: none;
+    font-weight: 500;
+    
+    transition: .1s translate;
+    cursor: pointer;
+
+    @include normal-text-style;
+    
+    // Children
+    .button-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--gap);
+
+        transition: .1s translate;
+    }
+    
+    // Colors
+    @each $name in $color-names {
+        &.color-#{ $name } {
+            --color: var(--#{ $name });
+            --hover-color: var(--focused-#{ $name });
+        }
+    }
+    &.color-white, &.color-warning, &.color-yellow {
+        color: var(--black);
+    }
+    
+    // Sizes
+    &.size-tiny {
+        padding: 0 var(--tiny-padding);
+        height: var(--tiny-size);
+    }
+    &.size-small {
+        padding: 0 var(--small-padding);
+        height: var(--small-size);
+    }
+    &.size-medium {
+        padding: 0 var(--medium-padding);
+        height: var(--medium-size);
+    }
+    &.size-large {
+        padding: 0 var(--large-padding);
+        height: var(--large-size);
+    }
+    
+    // States
+    &.compact {
+        padding: 0;
+        @include fixed-size(var(--normal-size));
+
+        &.size-tiny {
+            @include fixed-size(var(--tiny-size));
+        }
+        &.size-small {
+            @include fixed-size(var(--small-size));
+        }
+        &.size-medium {
+            @include fixed-size(var(--medium-size));
+        }
+        &.size-large {
+            @include fixed-size(var(--large-size));
+        }
+    }
+    &.ghost {
+        &.color-gray, &.color-secondary {
+            --color: var(--lightgray);
+        }
+
+        color: var(--color);
+        background: transparent;
+    }
+    &.disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    // Actions
+    &:hover {
+        &:not(.ghost) {
+            background: var(--hover-color);
+        }
+        &.ghost {
+            opacity: .7;
+        }
+    }
+    
+    &:active {
+        &:not(.no-anim) {
+            translate: 0 2px;
+        }
+        &.no-anim {
+            .button-inner {
+                translate: 0 2px;
+            }
+        }
+    }
+}

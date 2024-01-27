@@ -1,0 +1,17 @@
+@import "../base/styles/base.scss";
+
+@import "./variables.scss";
+
+@import "./elements/panels.scss";
+@import "./elements/tab-views.scss";
+@import "./elements/layers.scss";
+@import "./elements/canvas.scss";
+
+.app {
+    width: 100vw;
+    height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}

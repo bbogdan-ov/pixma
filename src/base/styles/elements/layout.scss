@@ -1,0 +1,10 @@
+.zoomable {
+    overflow: hidden;
+    display: block;
+
+    .zoomable-target {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}

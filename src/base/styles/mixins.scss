@@ -1,0 +1,70 @@
+@use "./variables.scss";
+@use "sass:meta";
+
+@mixin normal-font {
+    font-family: var(--normal-font-family);
+}
+@mixin fancy-font {
+    font-family: var(--fancy-font-family);
+}
+@mixin mono-font {
+    font-family: var(--mono-font-family);
+}
+
+@mixin normal-text-style {
+    @include normal-font;
+    font-size: var(--normal-font-size);
+    color: var(--normal-text-color);
+}
+
+@mixin fixed-size($size) {
+    width: $size;
+    height: $size;
+    min-width: $size;
+    min-height: $size;
+}
+
+@mixin hidden-scrollbar {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@mixin focusable {
+    &:focus {
+        outline: 2px solid #f00;
+    }
+}
+
+@mixin top-border-radius($radius) {
+    border-top-left-radius: $radius;
+    border-top-right-radius: $radius;
+}
+@mixin bottom-border-radius($radius) {
+    border-bottom-left-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+@mixin right-border-radius($radius) {
+    border-top-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+@mixin left-border-radius($radius) {
+    border-top-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+@function rainbow-gradient($dir: to right) {
+    @return linear-gradient(
+        $dir,
+        hsl(0, 100%, 50%),
+        hsl(45, 100%, 50%),
+        hsl(90, 100%, 50%),
+        hsl(135, 100%, 50%),
+        hsl(180, 100%, 50%),
+        hsl(225, 100%, 50%),
+        hsl(270, 100%, 50%),
+        hsl(315, 100%, 50%),
+        hsl(360, 100%, 50%),
+    );
+}

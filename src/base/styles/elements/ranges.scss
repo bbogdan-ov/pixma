@@ -1,0 +1,144 @@
+.progress-range {
+    --height: 2em;
+    --background: var(--gray);
+    // TODO: add color-NAME class
+    --color: var(--primary);
+
+    width: 100%;
+    height: var(--height);
+    padding: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    
+    background: var(--background);
+    border-radius: var(--base-border-radius);
+    
+    // Children
+    .range-draggable {
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        border-radius: inherit;
+
+        cursor: ew-resize;
+
+        .range-progress {
+            max-width: 100%;
+            min-width: 0px;
+            height: 100%;
+            
+            position: absolute;
+            left: 0;
+            top: 0;
+            border-radius: inherit;
+            background: var(--color);
+        }
+    }
+    .number-input {
+        width: fit-content;
+        height: 100%;
+
+        .content-editable {
+            height: 100%;
+            padding: 0 4px;
+            
+            line-height: 1.5em;
+            text-align: right;
+            border-radius: 4px;
+        }
+    }
+
+    // States
+    @each $name in $color-names {
+        &.color-#{ $name } {
+            --color: var(--#{ $name });
+        }
+    }
+
+    // Actions
+    .range-draggable:active ~ .number-input {
+        pointer-events: none;
+    }
+}
+
+.thumb-range {
+    --height: 2em;
+    --track-height: 8px;
+    --background: var(--gray);
+    // TODO: add color-NAME class
+    --color: var(--primary);
+    
+    width: 100%;
+    height: var(--height);
+
+    // Children
+    .range-draggable {
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        cursor: ew-resize;
+
+        .range-track {
+            width: 100%;
+            height: var(--track-height);
+
+            position: absolute;
+            translate: 0 -50%;
+            top: 50%;
+
+            background: var(--background);
+            border-radius: var(--base-border-radius);
+        }
+    }
+    .range-thumb {
+        width: 8px;
+        height: var(--height);
+
+        position: absolute;
+        translate: -50% -50%;
+        top: 50%;
+
+        background: var(--lightgray);
+        border-radius: var(--base-border-radius);
+
+        pointer-events: none;
+    }
+
+    // States
+    &:focus {
+        .range-thumb {
+            background: var(--color);
+        }
+    }
+}
+
+//
+.hue-range, .saturation-range, .color-value-range {
+    --track-height: 100%;
+    height: 16px;
+
+    .range-thumb {
+        width: 6px;
+        height: 20px;
+        background: #fff !important;
+    }
+}
+.hue-range {
+    --background: #{ rainbow-gradient(to right) };
+}
+.saturation-range {
+    --background: linear-gradient(to right, #fff, var(--data-color));
+}
+.color-value-range {
+    --background: linear-gradient(to right, #000, var(--data-color));
+}

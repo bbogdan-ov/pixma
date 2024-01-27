@@ -1,0 +1,222 @@
+export enum EventName {
+    CLICK = "click",
+    CONTEXT_MENU = "contextmenu",
+
+    POINTER_DOWN = "pointerdown",
+    POINTER_UP = "pointerup",
+    POINTER_MOVE = "pointermove",
+    POINTER_ENTER = "pointerenter",
+    POINTER_LEAVE = "pointerleave",
+
+    MOUSE_DOWN = "mousedown",
+    MOUSE_UP = "mouseup",
+    MOUSE_MOVE = "mousemove",
+    MOUSE_ENTER = "mouseenter",
+    MOUSE_LEAVE = "mouseleave",
+    WHEEL = "wheel",
+
+    KEY_DOWN = "keydown",
+    KEY_UP = "keyup",
+
+    TOUCH_START = "touchstart",
+    TOUCH_END = "touchend",
+
+    DRAG = "drag",
+    DRAG_START = "dragstart",
+    DRAG_END = "dragend",
+    DRAG_ENTER = "dragenter",
+    DRAG_LEAVE = "dragleave",
+    DRAG_OVER = "dragover",
+    DROP = "drop",
+
+    INPUT = "input",
+    CHANGE = "change",
+    FOCUS = "focus",
+    BLUR = "blur",
+
+    SCROLL = "scroll",
+    RESIZE = "resize",
+
+    PASTE = "paste",
+    COPY = "copy",
+
+    DOWN = POINTER_DOWN,
+    UP = POINTER_UP,
+    MOVE = POINTER_MOVE
+}
+export enum KeyCode {
+    A = "a",
+    B = "b",
+    C = "c",
+    D = "d",
+    E = "e",
+    F = "f",
+    G = "g",
+    H = "h",
+    I = "i",
+    J = "j",
+    K = "k",
+    L = "l",
+    M = "m",
+    N = "n",
+    O = "o",
+    P = "p",
+    Q = "q",
+    R = "r",
+    S = "s",
+    T = "t",
+    U = "u",
+    V = "v",
+    W = "w",
+    X = "x",
+    Y = "y",
+    Z = "z",
+
+    F1 = "f1",
+    F2 = "f2",
+    F3 = "f3",
+    F4 = "f4",
+    F5 = "f5",
+    F6 = "f6",
+    F7 = "f7",
+    F8 = "f8",
+    F9 = "f9",
+    F10 = "f10",
+    F11 = "f11",
+    F12 = "f12",
+
+    PAGE_UP = "pageup",
+    PAGE_DOWN = "pagedown",
+    HOME = "home",
+    END = "end",
+    DELETE = "delete",
+    PAUSE = "pause",
+
+    ONE = "1",
+    TWO = "2",
+    THREE = "3",
+    FOUR = "4",
+    FIVE = "5",
+    SIX = "6",
+    SEVEN = "7",
+    EIGHT = "8",
+    NINE = "9",
+    ZERO = "0",
+
+    MINUS = "minus",
+    ADD = "add",
+    MULTIPLY = "multiply",
+    DIVIDE = "divide",
+    BACKQUOTE = "backquote",
+
+    QUOTE = "quote",
+    SLASH = "slash",
+    BACKSLASH = "backslash",
+    SEMICOLON = "semicolon",
+    BRACKET_LEFT = "bracketleft",
+    BRACKET_RIGHT = "bracketright",
+
+    CONTROL = "control",
+    SHIFT = "shift",
+    ALT = "alt",
+    TAB = "tab",
+    ENTER = "enter",
+    SPACE = "space",
+    BACKSPACE = "backspace",
+    ESCAPE = "escape",
+    CONTEXT_MENU = "contextmenu",
+
+    ARROW_LEFT = "arrowleft",
+    ARROW_RIGHT = "arrowright",
+    ARROW_UP = "arrowup",
+    ARROW_DOWN = "arrowdown",
+}
+export enum MouseButton {
+    LEFT = 0,
+    MIDDLE = 1,
+    RIGHT = 2,
+}
+
+export enum ColorName {
+    BLACK = "black",
+    GRAY = "gray",
+    WHITE = "white",
+    RED = "red",
+    YELLOW = "yellow",
+    ORANGE = "orange",
+    GREEN = "green",
+    BLUE = "blue",
+    PURPLE = "purple",
+    PINK = "pink",
+}
+export enum AccentName {
+    PRIMARY = "primary",
+    SECONDARY = "secondary",
+    DANGER = "danger",
+    SUCCESS = "success",
+    WARNING = "warning",
+    INFO = "info"
+}
+
+export enum SizeName {
+    TINY = "tiny",
+    SMALL = "small",
+    NORMAL = "normal",
+    MEDIUM = "medium",
+    LARGE = "large"
+}
+
+export enum Anchor {
+    LEFT_TOP = "left-top",
+    CENTER_TOP = "center-top",
+    RIGHT_TOP = "right-top",
+    LEFT_CENTER = "left-center",
+    CENTER = "center",
+    RIGHT_CENTER = "right-center",
+    LEFT_BOTTOM = "left-bottom",
+    CENTER_BOTTOM = "center-bottom",
+    RIGHT_BOTTOM = "right-bottom"
+}
+export enum Orientation {
+    HORIZONTAL = "horizontal",
+    VERTICAL = "vertical"
+}
+
+export enum IconName {
+    SMALL_CROSS = "small-cross",
+    CROSS = "cross",
+    SMALL_ARROW_UP = "small-arrow-up",
+    SMALL_ARROW_DOWN = "small-arrow-down",
+    EDIT_LAYER = "edit-layer",
+    ADD_LAYER = "add-layer",
+    REMOVE_LAYER = "remove-layer",
+    DUPLICATE_LAYER = "duplicate-layer",
+    ADD_COLOR = "add-color",
+    REMOVE_COLOR = "remove-color",
+    EDIT_COLOR = "edit-color",
+    DUPLICATE_COLOR = "duplicate-color",
+    CHECKMARK = "checkmark",
+    SMALL_CHECKMARK = "small-checkmark",
+    GRID_VIEW = "grid-view",
+    LIST_VIEW = "list-view",
+    SHORT_LIST_VIEW = "short-list-view",
+    VISIBLE = "visible",
+    HIDDEN = "hidden",
+    LOCKED = "locked",
+    UNLOCKED = "unlocked",
+    CLOSE_WINDOW = "close-window",
+    MAXIMIZED_WINDOW = "maximized-window",
+    UNMAXIMIZED_WINDOW = "unmaximized-window",
+    MINIMIZED_WINDOW = "minimized-window",
+    PEN_TOOL = "pen-tool",
+    ERASE_TOOL = "erase-tool",
+    LINE_TOOL = "line-tool",
+    RECT_TOOL = "rect-tool",
+    ELLIPSE_TOOL = "ellipse-tool",
+    FILL_TOOL = "fill-tool",
+    DITHERING_TOOL = "dithering-tool",
+    RECT_SELECTION_TOOL = "rect-selection-tool",
+    BRUSH_SELECTION_TOOL = "brush-selection-tool",
+    PIPETTE_TOOL = "pipette-tool",
+    FOLD = "fold",
+}

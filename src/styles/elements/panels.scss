@@ -1,0 +1,66 @@
+.panel {
+    z-index: var(--panels-z-index);
+}
+
+// Project tabs panel
+.projects-tabs-panel {
+    --projects-tabs-panel-height: 36px;
+
+    height: var(--projects-tabs-panel-height);
+    border-radius: 0;
+
+    .tabs-list {
+        .tab {
+            --padding: 8px;
+            border-radius: 0;
+        }
+    }
+}
+
+// Tools panel
+.tools-panel {
+    --buttons-size: 36px;
+
+    .panel-content {
+        .buttons-list {
+            display: flex;
+            flex-direction: column;
+        }
+        .button {
+            width: var(--buttons-size);
+            height: var(--buttons-size);
+            padding: 0;
+        }
+    }
+}
+// Tool params panel
+.tool-params-panel {
+    .tool-params {
+        display: flex;
+        align-self: center;
+
+        .tool-size-range {
+            width: 200px;
+        }
+    }
+}
+
+// Layers panel
+.layers-panel {
+    --layers-gap: 2px;    
+
+    min-width: 260px;
+
+    .panel-content {
+        padding: var(--unit-2);
+
+        .layers-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--layers-gap);
+        }
+    }
+    .panel-footer {
+        padding: var(--unit-2);
+    }
+}

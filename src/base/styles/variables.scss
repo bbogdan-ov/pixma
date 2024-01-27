@@ -1,0 +1,92 @@
+$BLACK: #161616;
+$DARKGRAY: #1f1f1f;
+$GRAY: #242424;
+$LIGHTGRAY: lighten($GRAY, 30);
+$WHITE: #e6e6e6;
+$RED: #FC2441;
+$YELLOW: #ffcc32;
+$ORANGE: #f09122;
+$GREEN: #1BBA58;
+$CYAN: #3AA6B9;
+$BLUE: #3278FA;
+$MAGENTA: #953ddd;
+$PINK: #eb406b;
+
+$color-names: (
+    "primary",
+    "secondary",
+    "danger",
+    "warning",
+    "info",
+
+    "black",
+    "gray",
+    "lightgray",
+    "white",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "cyan",
+    "blue",
+    "magenta",
+    "pink",
+);
+
+:root {
+    // Text
+    --normal-font-family: NormalFont, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --fancy-font-family: FancyFont, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    --mono-font-family: MonoFont, "Courier New", Courier, monospace;
+
+    // Colors
+    --black: #{$BLACK};
+    --darkgray: #{$DARKGRAY};
+    --gray: #{$GRAY};
+    --lightgray: #{$LIGHTGRAY};
+    --white: #{$WHITE};
+    --red: #{$RED};
+    --orange: #{$ORANGE};
+    --yellow: #{$YELLOW};
+    --green: #{$GREEN};
+    --cyan: #{$CYAN};
+    --blue: #{$BLUE};
+    --magenta: #{$MAGENTA};
+    --pink: #{$PINK};
+
+    --focused-black: #{lighten($BLACK, 4)};
+    --focused-gray: #{lighten($GRAY, 6)};
+    --focused-lightgray: #{darken($LIGHTGRAY, 8)};
+    --focused-white: #{darken($WHITE, 8)};
+    --focused-red: #{darken($RED, 8)};
+    --focused-orange: #{darken($ORANGE, 8)};
+    --focused-yellow: #{darken($YELLOW, 8)};
+    --focused-green: #{darken($GREEN, 8)};
+    --focused-cyan: #{darken($CYAN, 8)};
+    --focused-blue: #{darken($BLUE, 8)};
+    --focused-magenta: #{darken($MAGENTA, 8)};
+    --focused-pink: #{darken($PINK, 8)};
+
+    //
+    --base-border-radius: 4px;
+    --normal-font-size: 14px;
+
+    //
+    --primary: var(--blue);
+    --secondary: var(--gray);
+    --danger: var(--red);
+    --warning: var(--yellow);
+    --info: var(--green);
+    --focused-primary: var(--focused-blue);
+    --focused-secondary: var(--focused-gray);
+    --focused-danger: var(--focused-red);
+    --focused-warning: var(--focused-yellow);
+    --focused-info: var(--focused-green);
+
+    --normal-text-color: var(--white);
+    --muted-text-color: var(--lightgray);
+
+    --app-background: var(--darkgray);
+}

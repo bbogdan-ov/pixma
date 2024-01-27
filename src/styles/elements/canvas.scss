@@ -1,0 +1,17 @@
+.canvas-zoomable {
+    overflow: visible;
+
+    .layers-wrapper {
+        background-image: url(src/assets/images/checkerboard.png);
+        background-repeat: repeat;
+        background-position: 0 0;
+        background-size: 8px 8px;
+        image-rendering: pixelated;
+
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+}

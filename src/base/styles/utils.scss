@@ -1,0 +1,46 @@
+.clickable {
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+}
+.hidden {
+    display: none !important;
+}
+.pixilated {
+    image-rendering: pixelated;
+}
+.overflow-hidden {
+    overflow: hidden;
+}
+.focusable {
+    @include focusable;
+}
+
+@each $name in $color-names {
+    .fill-#{ $name } {
+        background: var(--#{ $name });
+    }
+}
+@each $name in $color-names {
+    .hover-fill-#{ $name }:hover {
+        background: var(--focused-#{ $name }, --#{ $name });
+    }
+}
+@each $name in $color-names {
+    .border-#{ $name } {
+        border-color: var(--#{ $name });
+        outline-color: var(--#{ $name });
+    }
+}
+@each $name in $color-names {
+    .text-#{ $name } {
+        color: var(--#{ $name });
+    }
+}
+.text-normal {
+    color: var(--normal-text-color);
+}
+.text-muted {
+    color: var(--muted-text-color);
+    font-weight: 500;
+}

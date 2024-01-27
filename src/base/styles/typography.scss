@@ -1,0 +1,13 @@
+.weight-medium {
+    font-weight: 500;
+}
+.weight-bold {
+    font-weight: 800;
+}
+
+.mono-font {
+    @include mono-font;
+}
+.fancy-font {
+    @include fancy-font;
+}

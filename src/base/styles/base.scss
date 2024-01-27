@@ -1,0 +1,61 @@
+@import "./fonts.scss";
+@import "./variables.scss";
+@import "./mixins.scss";
+
+@import "./elements/media.scss";
+@import "./elements/panels.scss";
+@import "./elements/buttons.scss";
+@import "./elements/inputs.scss";
+@import "./elements/tabs.scss";
+@import "./elements/layout.scss";
+@import "./elements/ranges.scss";
+@import "./elements/toggles.scss";
+@import "./elements/color-picker.scss";
+
+@import "./layout.scss";
+@import "./utils.scss";
+@import "./typography.scss";
+
+* {
+    user-select: none;
+
+    &:not([draggable="true"]) {
+        -webkit-user-drag: none;
+    }
+    // &::-webkit-scrollbar {
+    //     width: 12px;
+    //     height: 12px;
+    //     background: var(--black);
+    // }
+    // &::-webkit-scrollbar-thumb {
+    //     background: var(--gray);
+    //     border-radius: 10px;
+    //     border: 4px solid var(--black);
+    // }
+}
+
+body {
+    background: var(--app-background);
+    overflow: hidden;
+    @include normal-text-style;
+}
+
+.app,
+.editor {
+    display: flex;
+    flex-direction: column;
+
+    .panels-col {
+        width: 100%;
+        // height: 100%;
+
+        display: flex;
+        flex-direction: column;
+    }
+    .panels-row {
+        // width: 100%;
+        height: 100%;
+
+        display: flex;
+    }
+}

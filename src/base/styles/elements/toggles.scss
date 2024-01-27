@@ -1,0 +1,44 @@
+// Checkbox toggle
+.checkbox-toggle {
+    --size: 18px;
+    --color: var(--primary);
+    --background: var(--gray);
+
+    width: var(--size);
+    height: var(--size);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--base-border-radius);
+    background: var(--background);
+
+    cursor: pointer;
+    transition: .1s translate;
+
+    // Children
+    .icon {
+        translate: 3px -2px;
+        opacity: 0;
+    }
+
+    // Colors
+    @each $name in $color-names {
+        &.color-#{ $name } {
+            --color: var(--#{ $name });
+        }
+    }
+
+    // States
+    &.active {
+        background: var(--color);
+
+        .icon {
+            opacity: 1;
+        }
+    }
+    &:active {
+        translate: 0 2px;
+    }
+}
