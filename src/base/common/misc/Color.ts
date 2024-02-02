@@ -1,5 +1,5 @@
 import { Random, ColorUtils, Utils } from "@base/utils";
-import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, HsvaColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
+import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
 import convert from "color-convert";
 
 export default class Color {
@@ -26,7 +26,7 @@ export default class Color {
 
     // Set
     setRgb(...rgb: RgbColor): this {
-        // TODO: clamp RGB
+        rgb = [Utils.clamp(rgb[0], 0, 255), Utils.clamp(rgb[1], 0, 255), Utils.clamp(rgb[2], 0, 255)];
 
         this._red = rgb[0];
         this._green = rgb[1];
@@ -42,7 +42,7 @@ export default class Color {
         return this;
     }
     setHsv(...hsv: HsvColor): this {
-        // TODO: clamp HSV
+        hsv = [Utils.clamp(hsv[0], 0, 360), Utils.clamp(hsv[1], 0, 100), Utils.clamp(hsv[2], 0, 100)];
 
         const rgb = ColorUtils.hsvToRgb(hsv);
         this._red = rgb[0];
@@ -58,7 +58,7 @@ export default class Color {
         return this;
     }
     setHex(hex: HexColor): this {
-        // TODO: format HEX
+        hex = Color.formatHex(hex);
 
         const rgb = ColorUtils.hexToRgb(hex);
         this._red = rgb[0];
@@ -108,7 +108,7 @@ export default class Color {
         return ColorUtils.rgbToHsv(this.rgb);
     }
 
-    /** @alias color.getRgbString() */
+    /** Alias to `color.getRgbString()` */
     getString(): RgbStringColor {
         return this.getRgbString();
     }
@@ -193,12 +193,19 @@ export default class Color {
         return this.formatHex(a) == this.formatHex(b);
     }
 
-    // TODO: do it better
     static formatHex(hex: string): HexColor {
-        if (hex.charAt(0) != "#")
-            hex = "#" + hex;
+        hex = hex.replace(/#|[^a-f|1-9|0]/gmi, "");
+
+        if (hex.length == 1) {
+            hex = hex.repeat(6);
+        } else if (hex.length == 2) {
+            hex = hex.repeat(3);
+        } else if (hex.length >= 3) {
+            hex = hex.repeat(2);
+        }
         
-        return hex.slice(0, 7).toUpperCase() as HexColor;
+        hex = hex.slice(0, 6);
+        return "#" + hex.toUpperCase() as HexColor;
     }
     static rgbToString(rgb: RgbColor): RgbStringColor;
     static rgbToString(rgb: RgbaColor): RgbaStringColor;
