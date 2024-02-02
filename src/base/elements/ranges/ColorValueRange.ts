@@ -1,6 +1,6 @@
 import { State } from "@base/common/listenable";
+import { Color } from "@base/common/misc";
 import { ThumbRange } from "@base/elements/ranges";
-import { ColorUtils } from "@base/utils";
 
 @ThumbRange.define("color-value-range")
 export default class ColorValueRange extends ThumbRange {
@@ -15,7 +15,7 @@ export default class ColorValueRange extends ThumbRange {
     }
 
     update(hue: number, saturation: number) {
-        const hsl = ColorUtils.hsvToHsl([hue, saturation, 100]);
+        const hsl = Color.convert.hsv.hsl([hue, saturation, 100]);
         this.style.setProperty("--data-color", `hsl(${ hsl[0] }, ${ hsl[1] }%, ${ hsl[2] }%)`);
     }
 }

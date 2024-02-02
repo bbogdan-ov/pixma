@@ -2,7 +2,7 @@ import { Point } from "@base/common/math";
 import { RgbaColor } from "@base/types/types";
 import { ImageDataPixelCallback, PointCallback } from "@source/types/types";
 import { ImageUtils } from ".";
-import { ColorUtils } from "@base/utils";
+import { Color } from "@base/common/misc";
 
 export default class Algorithms {
     /** 
@@ -182,7 +182,7 @@ export default class Algorithms {
             const pixelPos = Point.fromIndex(pixelIndex, fieldWidth);
             const pixelColor = ImageUtils.getColorAt(data, pixelIndex*4);
             
-            if (ColorUtils.compareRgb(pixelColor, rgbaColorToFill)) {
+            if (Color.compare(pixelColor, rgbaColorToFill)) {
                 pixel(pixelPos.x, pixelPos.y, pixelIndex*4);
             }
         }

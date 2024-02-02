@@ -1,4 +1,4 @@
-import { Random, ColorUtils, Utils } from "@base/utils";
+import { Random, Utils } from "@base/utils";
 import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
 import convert from "color-convert";
 
@@ -44,7 +44,7 @@ export default class Color {
     setHsv(...hsv: HsvColor): this {
         hsv = [Utils.clamp(hsv[0], 0, 360), Utils.clamp(hsv[1], 0, 100), Utils.clamp(hsv[2], 0, 100)];
 
-        const rgb = ColorUtils.hsvToRgb(hsv);
+        const rgb = Color.convert.hsv.rgb(hsv);
         this._red = rgb[0];
         this._green = rgb[1];
         this._blue = rgb[2];
@@ -60,7 +60,7 @@ export default class Color {
     setHex(hex: HexColor): this {
         hex = Color.formatHex(hex);
 
-        const rgb = ColorUtils.hexToRgb(hex);
+        const rgb = Color.convert.hex.rgb(hex);
         this._red = rgb[0];
         this._green = rgb[1];
         this._blue = rgb[2];
@@ -99,13 +99,13 @@ export default class Color {
 
     // Get
     getHex(): HexColor {
-        return ColorUtils.rgbToHex(this.rgb);
+        return Color.formatHex(Color.convert.rgb.hex(this.rgb));
     }
     getHsl(): HslColor {
-        return ColorUtils.rgbToHsl(this.rgb);
+        return Color.convert.rgb.hsl(this.rgb);
     }
     getHsv(): HsvColor {
-        return ColorUtils.rgbToHsv(this.rgb);
+        return Color.convert.rgb.hsv(this.rgb);
     }
 
     /** Alias to `color.getRgbString()` */
@@ -113,10 +113,10 @@ export default class Color {
         return this.getRgbString();
     }
     getRgbString(): RgbStringColor {
-        return ColorUtils.rgbToString(this.rgb);
+        return Color.rgbToString(this.rgb);
     }
     getHslString(): HslStringColor {
-        return ColorUtils.hslToString(this.getHsl());
+        return Color.hslToString(this.getHsl());
     }
 
     get rgb(): RgbColor {
