@@ -1,4 +1,4 @@
-import { HexColor, HslColor, HsvColor, RgbColor } from "@base/types/types";
+import { HexColor, HsvColor, RgbColor } from "@base/types/types";
 import { Listenable } from ".";
 import { Color } from "../misc";
 import { ListenableListener } from "./Listenable";

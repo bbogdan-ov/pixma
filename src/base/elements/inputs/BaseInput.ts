@@ -4,7 +4,7 @@ import { ContentEditableElement } from "../data";
 import { FocusableElement } from "..";
 import { KeyboardData } from "@base/common/events";
 import { KeyBind } from "@base/common/binds";
-import { State, Trigger } from "@base/common/listenable";
+import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
 
 @FocusableElement.define("base-input")

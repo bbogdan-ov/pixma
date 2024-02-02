@@ -1,6 +1,6 @@
 import { Color } from "@base/common/misc";
 import { BaseElement } from "..";
-import { ColorState, State, Trigger } from "@base/common/listenable";
+import { ColorState } from "@base/common/listenable";
 import { BaseRange, ColorValueRange, HueRange, SaturationRange } from "../ranges";
 import { EventName } from "@base/types/enums";
 import { DOM, Utils } from "@base/utils";
@@ -164,7 +164,7 @@ export default class ColorPicker extends BaseElement {
         return this;
     }
     protected _setTempColorHsv(hsv: HsvColor) {
-        this._tempColor.setHsv(hsv);
+        this._tempColor.setHsv(...hsv);
         this._updateCursor(this.saturation, this.colorValue);
     }
 
