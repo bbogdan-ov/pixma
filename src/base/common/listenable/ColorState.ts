@@ -3,7 +3,6 @@ import { Listenable } from ".";
 import { Color } from "../misc";
 import { ListenableListener } from "./Listenable";
 
-/** @deprecated */
 export default class ColorState extends Listenable<Color> {
     protected _color: Color;
     
@@ -15,15 +14,16 @@ export default class ColorState extends Listenable<Color> {
 
     listen(listener: ListenableListener<Color>, invoke?: boolean, key?: string | undefined, override?: boolean): VoidFunction {
         if (invoke)
-            listener(this._color);
-
+            listener(this.getColor());
+        
         return super.listen(listener, invoke, key, override);
     }
     notify(): this {
         return this._notify(this.getColor());
     }
 
-    /** Alias to `colorState.setColor(color)` */
+    // Set
+    /** Alias to `colorState.setColor()` */
     set(color: Color, notify=true): this {
         return this.setColor(color, notify);
     }
@@ -33,7 +33,12 @@ export default class ColorState extends Listenable<Color> {
         return this;
     }
     setRgb(rgb: RgbColor, notify=true): this {
-        this._color.setRgb(rgb);
+        this._color.setRgb(...rgb);
+        if (notify) this.notify();
+        return this;
+    }
+    setHsv(hsv: HsvColor, notify=true): this {
+        this._color.setHsv(...hsv);
         if (notify) this.notify();
         return this;
     }
@@ -42,40 +47,29 @@ export default class ColorState extends Listenable<Color> {
         if (notify) this.notify();
         return this;
     }
-    setHsl(hsl: HslColor, notify=true): this {
-        this._color.setHsl(hsl);
-        if (notify) this.notify();
-        return this;
-    }
-    setHsv(hsv: HsvColor, notify=true): this {
-        this._color.setHsv(hsv);
-        if (notify) this.notify();
-        return this;
-    }
-
+    
+    // Get
+    /** Cloned protected `._color` field, so you cant mutate it */
     getColor(): Color {
         return this._color.clone();
     }
     get rgb(): RgbColor {
         return this._color.rgb;
     }
-    get hex(): HexColor {
-        return this._color.hex;
-    }
-    get hsl(): HslColor {
-        return this._color.hsl;
-    }
     get hsv(): HsvColor {
         return this._color.hsv;
+    }
+    get hex(): HexColor {
+        return this._color.hex;
     }
     get red(): number {
         return this._color.red;
     }
-    get blue(): number {
-        return this._color.blue;
-    }
     get green(): number {
         return this._color.green;
+    }
+    get blue(): number {
+        return this._color.blue;
     }
     get hue(): number {
         return this._color.hue;
@@ -83,7 +77,8 @@ export default class ColorState extends Listenable<Color> {
     get saturation(): number {
         return this._color.saturation;
     }
-    get colorValue(): number {
+    /** HSV value */
+    get value(): number {
         return this._color.value;
     }
     get alpha(): number {
