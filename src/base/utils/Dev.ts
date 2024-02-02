@@ -3,6 +3,15 @@ import { ValueType } from "@base/types/types";
 export default class Dev {
     static readonly IS_DEV = import.meta.env.DEV;
 
+    static todo(message="") {
+        if (this.IS_DEV) {
+            if (message)
+                console.warn(`The code isnt implemented! TODO: ${ message }`);
+            else
+                console.warn("The code isnt implemented!");
+        }
+    }
+    
     static assertType(value: any, type: ValueType): boolean {
         return this.assert(typeof value == type, `typeof value (${ value }) == "${ type }"`);
     }
