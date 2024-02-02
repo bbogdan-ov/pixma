@@ -4,13 +4,12 @@ import { Utils } from "@base/utils";
 import { Color } from "@base/common/misc";
 import type App from "@source/App";
 import { CircleBrush, type Brush } from "@source/common/brushes";
-import { RgbColor } from "@base/types/types";
 
 export default class BrushesManager extends Manager {
     readonly app: App;
 
     protected _current: Brush | null = null;
-    readonly colorState = new State<RgbColor>([255, 255, 255]);
+    readonly colorState = new ColorState(Color.WHITE);
     readonly sizeState = new State<number>(1);
 
     readonly onDidChosen = new Trigger<Brush>();
