@@ -33,6 +33,7 @@ export type RgbaStringColor = `rgba(${ string })`;
 export type HslStringColor = `hsl(${ string })`;
 export type HslaStringColor = `hsla(${ string })`;
 export type AnyStringColor = `#${ string }` | RgbStringColor | RgbaStringColor | HslStringColor | HslaStringColor;
+export type ArrayColor = RgbColor | RgbaColor | HsvColor | HsvaColor | HslColor | HslaColor;
 
 export interface ISelectableItem {
 	onSelect: (key: string)=> void

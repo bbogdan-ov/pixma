@@ -1,5 +1,6 @@
 import { Random, ColorUtils, Utils } from "@base/utils";
-import { HexColor, HslColor, HslStringColor, HsvColor, RgbColor, RgbStringColor } from "@base/types/types";
+import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, HsvaColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
+import convert from "color-convert";
 
 export default class Color {
     protected _red!: number;
@@ -157,13 +158,13 @@ export default class Color {
         return new Color(Random.int(0, 255), Random.int(0, 255), Random.int(0, 255));
     }
     static fromHex(hex: HexColor): Color {
-        return new Color(...ColorUtils.hexToRgb(hex));
+        return new Color(...Color.convert.hex.rgb(hex));
     }
     static fromHsl(hsl: HslColor): Color {
-        return new Color(...ColorUtils.hslToRgb(hsl));
+        return new Color(...Color.convert.hsl.rgb(hsl));
     }
     static fromHsv(hsv: HsvColor): Color {
-        return new Color(...ColorUtils.hsvToRgb(hsv));
+        return new Color(...Color.convert.hsv.rgb(hsv));
     }
     static get BLACK(): Color {
         return new Color(0, 0, 0);
@@ -179,5 +180,46 @@ export default class Color {
     }
     static get BLUE(): Color {
         return new Color(0, 0, 255);
+    }
+
+    // Utils
+    static compare(a: ArrayColor, b: ArrayColor): boolean {
+        let alpha = true;
+        if (a[3] !== undefined && b[3] !== undefined)
+            alpha = a[3] == b[3];
+        return a[0] == b[0] && a[1] == b[1] && a[2] == b[2] && alpha;
+    }
+    static compareHex(a: HexColor, b: HexColor): boolean {
+        return this.formatHex(a) == this.formatHex(b);
+    }
+
+    // TODO: do it better
+    static formatHex(hex: string): HexColor {
+        if (hex.charAt(0) != "#")
+            hex = "#" + hex;
+        
+        return hex.slice(0, 7).toUpperCase() as HexColor;
+    }
+    static rgbToString(rgb: RgbColor): RgbStringColor;
+    static rgbToString(rgb: RgbaColor): RgbaStringColor;
+    static rgbToString(rgb: RgbColor | RgbaColor): RgbStringColor | RgbaStringColor {
+        let alpha = rgb[3];
+        if (alpha !== undefined)
+            return `rgba(${ rgb[0] }, ${ rgb[1] }, ${ rgb[2] }, ${ alpha })`;
+        else
+            return `rgb(${ rgb[0] }, ${ rgb[1] }, ${ rgb[2] })`;
+    }
+    static hslToString(hsl: HslColor): HslStringColor;
+    static hslToString(hsl: HslaColor): HslaStringColor;
+    static hslToString(hsl: HslColor | HslaColor): HslStringColor | HslaStringColor {
+        let alpha = hsl[3];
+        if (alpha !== undefined)
+            return `hsla(${ hsl[0] }, ${ hsl[1] }, ${ hsl[2] }, ${ alpha })`;
+        else
+            return `hsl(${ hsl[0] }, ${ hsl[1] }, ${ hsl[2] })`;
+    }
+    
+    static get convert() {
+        return convert;
     }
 }
