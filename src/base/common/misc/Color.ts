@@ -194,9 +194,14 @@ export default class Color {
     }
 
     static formatHex(hex: string): HexColor {
+        if (!hex || hex.length == 0)
+            return "#000000";
+
         hex = hex.replace(/#|[^a-f|1-9|0]/gmi, "");
 
-        if (hex.length == 1) {
+        if (hex.length == 0) {
+            hex = "000000";
+        } else if (hex.length == 1) {
             hex = hex.repeat(6);
         } else if (hex.length == 2) {
             hex = hex.repeat(3);
