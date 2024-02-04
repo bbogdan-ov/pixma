@@ -49,7 +49,7 @@ export default class ColorState extends Listenable<Color> {
     }
     
     // Get
-    /** Cloned protected `._color` field, so you cant mutate it */
+    /** Returs cloned protected `._color`, so you cant mutate it */
     getColor(): Color {
         return this._color.clone();
     }
