@@ -37,7 +37,7 @@ export default class TabsManager extends Manager {
         return true;
     }
     enter(tab: Tab): boolean {
-        if (!this.getIsExists(tab)) return false;
+        if (!this.getIsExists(tab) || this.getIsActive(tab)) return false;
 
         if (this.active) this.leave(this.active);
 
@@ -59,6 +59,9 @@ export default class TabsManager extends Manager {
     // Get
     getIsExists(tab: Tab): boolean {
         return this.list.includes(tab);
+    }
+    getIsActive(tab: Tab): boolean {
+        return this.active === tab;
     }
     get active(): Tab | null {
         return this._active;
