@@ -28,6 +28,11 @@ export default class ToolParamsPanel extends Panel {
         if (this.app.tools.current)
             this._onToolChoose(this.app.tools.current);
     }
+    onDismount(): void {
+        super.onDismount();
+
+        this.content.replaceChildren();
+    }
     protected _onToolChoose(tool: Tool) {
         this.content.replaceChildren(tool.createParams(this.app));
     }
