@@ -49,6 +49,8 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         this.listen(window, EventName.UP, this._onWindowUp.bind(this));
         this.listen(window, EventName.MOVE, this._onWindowMove.bind(this));
         this.listen(this, EventName.WHEEL, this._onWheel.bind(this));
+
+        this._setTempValue(this.state.value);
     }
 
     protected _onValueChange(value: number) {
