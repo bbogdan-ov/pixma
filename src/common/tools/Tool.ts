@@ -17,6 +17,9 @@ export default class Tool {
 
     protected _icon: IconName = IconName.PEN_TOOL;
 
+    /** Cache params, so we dont need to create another one */
+    paramsElement: HTMLElement | null = null;
+
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
 
@@ -28,7 +31,14 @@ export default class Tool {
         return new ToolButton(app, this).setIcon(this._icon);
     }
     createParams(app: App): HTMLElement {
-        return new ToolParams(app);
+        if (this.paramsElement) return this.paramsElement;
+        const el = new ToolParams(app);
+        return this.cacheParamsElement(el);
+    }
+
+    cacheParamsElement(element: HTMLElement): HTMLElement {
+        this.paramsElement = element;
+        return this.paramsElement;
     }
 
     // On
