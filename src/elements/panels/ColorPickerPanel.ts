@@ -1,4 +1,3 @@
-import { Color } from "@base/common/misc";
 import { ColorPicker } from "@base/elements/data";
 import { Panel, PanelContent } from "@base/elements/panels";
 import { Orientation } from "@base/types/enums";
@@ -21,13 +20,4 @@ export default class ColorPickerPanel extends Panel {
 
         this.append(new PanelContent(this.colorPicker));
     }
-
-    onMount(): void {
-        super.onMount();
-
-        // this.listen(this.colorPicker.onDidChange, this._onColorPickerChange.bind(this));
-    }
-    // protected _onColorPickerChange(color: Color) {
-    //     this.app.brushes.setColor(color);
-    // }
 }
