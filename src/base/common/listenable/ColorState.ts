@@ -47,6 +47,41 @@ export default class ColorState extends Listenable<Color> {
         if (notify) this.notify();
         return this;
     }
+    setRed(value: number, notify=true): this {
+        this._color.setRed(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setGreen(value: number, notify=true): this {
+        this._color.setGreen(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setBlue(value: number, notify=true): this {
+        this._color.setBlue(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setHue(value: number, notify=true): this {
+        this._color.setHue(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setSaturation(value: number, notify=true): this {
+        this._color.setSaturation(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setValue(value: number, notify=true): this {
+        this._color.setValue(value);
+        if (notify) this.notify();
+        return this;
+    }
+    setAlpha(value: number, notify=true): this {
+        this._color.setAlpha(value);
+        if (notify) this.notify();
+        return this;
+    }
     
     // Get
     /** Returs cloned protected `._color`, so you cant mutate it */
