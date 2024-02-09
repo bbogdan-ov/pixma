@@ -2,7 +2,7 @@ import { IconName } from "@base/types/enums";
 import DrawingTool from "./DrawingTool";
 import { IMouseData } from "@base/types/types";
 import { Layer } from "../layers";
-import { Draw } from "@source/utils";
+import { CompositeOperation } from "@source/types/enums";
 
 export default class EraseTool extends DrawingTool {
     static readonly NAME = "erase";
@@ -14,7 +14,14 @@ export default class EraseTool extends DrawingTool {
     }
     
     draw(layer: Layer, mouse: IMouseData): void {
-        const size = layer.project.app.brushes.size;
-        Draw.clear(layer.context, mouse.pos.x, mouse.pos.y, size, size);
+        layer.context.globalCompositeOperation = CompositeOperation.ERASE;
+        layer.project.app.brushes.current?.drawLine(
+            layer.context,
+            mouse.last.x,
+            mouse.last.y,
+            mouse.pos.x,
+            mouse.pos.y
+        )
+        layer.context.globalCompositeOperation = CompositeOperation.DEFAULT;
     }
 }
