@@ -60,7 +60,7 @@ export default class CanvasZoomable extends Zoomable {
             return;
         }
 
-        const pos = this.getLocalPos(event.clientX, event.clientY).floor();
+        const pos = this.getLocalPos(event.clientX, event.clientY);
 
         this.toolMouse.onDown(event, pos.x, pos.y);
         tool.onDown(layer, this.toolMouse);
@@ -80,7 +80,7 @@ export default class CanvasZoomable extends Zoomable {
             return;
         }
 
-        const pos = this.getLocalPos(event.clientX, event.clientY).floor();
+        const pos = this.getLocalPos(event.clientX, event.clientY);
 
         this.toolMouse.onMove(event, pos.x, pos.y);
         tool.onMove(layer, this.toolMouse);
@@ -103,7 +103,7 @@ export default class CanvasZoomable extends Zoomable {
             return;
         }
 
-        const pos = this.getLocalPos(event.clientX, event.clientY).floor();
+        const pos = this.getLocalPos(event.clientX, event.clientY);
 
         this.toolMouse.onUp(event, pos.x, pos.y);
         tool.onUp(layer, this.toolMouse);
