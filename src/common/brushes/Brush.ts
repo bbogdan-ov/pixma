@@ -11,11 +11,22 @@ export default class Brush {
     
     constructor() {}
 
-    drawOn(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
+    draw(context: CanvasRenderingContext2D, x: number, y: number) {
+        const size = this._size;
+        const half = Math.floor(size/2);
+        const rem = (size%2)/2;
+        
+        context.drawImage(
+            this.image,
+            Math.round(x - half - rem),
+            Math.round(y - half - rem)
+        );
+    }
+    drawLine(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
         Algorithms.line(
-            Math.floor(fromX), Math.floor(fromY),
-            Math.floor(toX), Math.floor(toY),
-            (x, y)=> context.drawImage(this.image, x - Math.floor(this._size/2), y - Math.floor(this._size/2))
+            fromX, fromY,
+            toX, toY,
+            (x, y)=> this.draw(context, x, y)
         )
     }
     
