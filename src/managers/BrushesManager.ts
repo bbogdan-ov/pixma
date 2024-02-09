@@ -28,6 +28,7 @@ export default class BrushesManager extends Manager {
             return Utils.clamp(value, 1, max);
         }
 
+        this.current?.render(this.getColor(), this.size);
         this.sizeState.listen(value=> {
             this.current?.render(this.getColor(), value);
         })
