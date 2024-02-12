@@ -51,14 +51,6 @@ export default class Layer implements ISelectableItem {
 
         //
         this.isVisibleState.listen(this.setCanvasElementVisibility.bind(this), true);
-
-        // TEMP
-        // for (let y = 0; y < this.width; y ++) {
-        //     for (let x = 0; x < this.height; x ++) {
-        //         this.context.fillStyle = Color.random().getRgbString();
-        //         this.context.fillRect(x, y, 1, 1);
-        //     }
-        // }
     }
 
     choose(): boolean {
