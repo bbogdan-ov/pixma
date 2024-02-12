@@ -1,6 +1,6 @@
 import { Trigger } from "@base/common/listenable";
 import { Utils } from "@base/utils";
-import { DrawingLayer, Layer } from "@source/common/layers";
+import { Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
 import { ProjectManager } from "..";
 
@@ -18,8 +18,6 @@ export default class LayersManager extends ProjectManager {
 
     constructor(project: Project) {
         super(project);
-
-        this.add(new DrawingLayer(project));
 
         this.choose(this.list[0]);
     }

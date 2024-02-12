@@ -1,6 +1,7 @@
 import { State, Trigger } from "@base/common/listenable";
 import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
+import { DrawingLayer } from "../layers";
 
 export default class Project {
     static readonly DEFAULT_CANVAS_WIDTH = 416;
@@ -22,6 +23,8 @@ export default class Project {
         this.title = title;
 
         this.layers = new LayersManager(this);
+
+        this.layers.add(new DrawingLayer(this));
     }
 
     // On
