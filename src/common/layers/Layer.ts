@@ -13,6 +13,9 @@ export default class Layer implements ISelectableItem {
     readonly name: string;
     readonly project: Project;
 
+    /** If `true`, will not display in the layers list */
+    protected _ghost = false;
+
     readonly canvas: Canvas;
 
     protected _isEmpty = true;
@@ -181,5 +184,8 @@ export default class Layer implements ISelectableItem {
     }
     get height(): number {
         return this.canvas.height;
+    }
+    get ghost(): boolean {
+        return this._ghost;
     }
 }
