@@ -69,6 +69,12 @@ export default class Layer implements ISelectableItem {
 
     // On
     onAdd() {
+        // FIXME: unlisten after layer was removed
+        this.canvas.style.zIndex = (this.getIndex() || 0).toString();
+        this.project.layers.onDidListChanged.listen(()=> {
+            this.canvas.style.zIndex = (this.getIndex() || 0).toString();
+        })
+
         this.onDidAdded.trigger(this);
     }
     onRemove() {
