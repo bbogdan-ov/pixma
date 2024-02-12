@@ -29,6 +29,7 @@ export default class CanvasZoomable extends Zoomable {
 
         this.appendTarget(this.layersWrapper);
 
+        this.layersWrapper.append(this.project.layers.previewLayer.canvas.element);
         for (const layer of project.layers.list) {
             this.layersWrapper.append(layer.canvas.element);
         }
@@ -56,7 +57,7 @@ export default class CanvasZoomable extends Zoomable {
         if (!tool || !layer) return;
 
         if (!layer.isEditable) {
-            layer.onToolDown(tool);
+            layer.onToolDown(tool, this.toolMouse);
             return;
         }
 
@@ -64,7 +65,7 @@ export default class CanvasZoomable extends Zoomable {
 
         this.toolMouse.onDown(event, pos.x, pos.y);
         tool.onDown(layer, this.toolMouse);
-        layer.onToolDown(tool);
+        layer.onToolDown(tool, this.toolMouse);
 
         this._isToolUsing = true;
     }
@@ -76,7 +77,7 @@ export default class CanvasZoomable extends Zoomable {
         if (!tool || !layer || !layer.isEditable) return;
 
         if (!layer.isEditable) {
-            layer.onToolDown(tool);
+            layer.onToolDown(tool, this.toolMouse);
             return;
         }
 
@@ -86,7 +87,7 @@ export default class CanvasZoomable extends Zoomable {
         tool.onMove(layer, this.toolMouse);
         if (this.isToolUsing) {
             tool.onUse(layer, this.toolMouse);
-            layer.onToolUse(tool);
+            layer.onToolUse(tool, this.toolMouse);
         }
     }
     protected _onWindowUp(event: PointerEvent): void {
@@ -99,7 +100,7 @@ export default class CanvasZoomable extends Zoomable {
         if (!tool || !layer) return;
 
         if (!layer.isEditable) {
-            layer.onToolUp(tool);
+            layer.onToolUp(tool, this.toolMouse);
             return;
         }
 
@@ -107,7 +108,7 @@ export default class CanvasZoomable extends Zoomable {
 
         this.toolMouse.onUp(event, pos.x, pos.y);
         tool.onUp(layer, this.toolMouse);
-        layer.onToolUp(tool);
+        layer.onToolUp(tool, this.toolMouse);
 
         this._isToolUsing = false;
     }

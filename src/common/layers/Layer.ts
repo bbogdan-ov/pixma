@@ -2,7 +2,7 @@ import { LayerElement } from "@source/elements/layers";
 import { State, Trigger } from "@base/common/listenable";
 import type { Tool } from "../tools";
 import type { Project } from "../project";
-import { ISelectableItem } from "@base/types/types";
+import { IMouseData, ISelectableItem } from "@base/types/types";
 import { Canvas } from "@base/common/misc";
 
 export default class Layer implements ISelectableItem {
@@ -91,14 +91,14 @@ export default class Layer implements ISelectableItem {
         this._isCurrent = false;
         this.onDidUnchosen.trigger(this);
     }
-    onToolDown(tool: Tool) {
+    onToolDown(tool: Tool, mouse: IMouseData) {
         this.onDidToolDown.trigger(tool);
     }
-    onToolUse(tool: Tool) {
+    onToolUse(tool: Tool, mouse: IMouseData) {
         this.onDidToolUse.trigger(tool);
     }
-    onToolMove(tool: Tool) {}
-    onToolUp(tool: Tool) {
+    onToolMove(tool: Tool, mouse: IMouseData) {}
+    onToolUp(tool: Tool, mouse: IMouseData) {
         this.onChanged();
         
         this.onDidToolUp.trigger(tool);
