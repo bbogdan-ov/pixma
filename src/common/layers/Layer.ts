@@ -1,11 +1,13 @@
 import { LayerElement } from "@source/elements/layers";
-import { State, Trigger } from "@base/common/listenable";
+import { Listenable, State, Trigger } from "@base/common/listenable";
 import type { Tool } from "../tools";
 import type { Project } from "../project";
-import { IMouseData, ISelectableItem } from "@base/types/types";
+import { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 import { Canvas } from "@base/common/misc";
+import { ListenableListener } from "@base/common/listenable/Listenable";
+import { DOM } from "@base/utils";
 
-export default class Layer implements ISelectableItem {
+export default class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
     static _id = 0;
 
@@ -17,6 +19,7 @@ export default class Layer implements ISelectableItem {
     protected _ghost = false;
 
     readonly canvas: Canvas;
+    readonly unlistens: VoidFunction[] = [];
 
     protected _isEmpty = true;
     protected _isCurrent = false;
@@ -62,6 +65,11 @@ export default class Layer implements ISelectableItem {
     remove(): boolean {
         return this.project.layers.remove(this);
     }
+    unlistenAll(): void {
+        for (const unlisten of this.unlistens) {
+            unlisten();
+        }
+    }
 
     clear(): this {
         this.context.clearRect(0, 0, this.width, this.height);
@@ -70,6 +78,10 @@ export default class Layer implements ISelectableItem {
 
     createElement(): HTMLElement {
         return new LayerElement(this);
+    }
+
+    listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
+        return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
     }
 
     // On
