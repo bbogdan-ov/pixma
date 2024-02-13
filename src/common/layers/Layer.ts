@@ -1,11 +1,10 @@
 import { LayerElement } from "@source/elements/layers";
-import { Listenable, State, Trigger } from "@base/common/listenable";
+import { State, Trigger } from "@base/common/listenable";
+import { Canvas } from "@base/common/misc";
+import { DOM } from "@base/utils";
 import type { Tool } from "../tools";
 import type { Project } from "../project";
-import { IListener, IMouseData, ISelectableItem } from "@base/types/types";
-import { Canvas } from "@base/common/misc";
-import { ListenableListener } from "@base/common/listenable/Listenable";
-import { DOM } from "@base/utils";
+import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 
 export default class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
