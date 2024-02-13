@@ -24,8 +24,6 @@ export default class Project {
 
         this.layers = new LayersManager(this);
         this.layers.setup();
-
-        this.layers.add(new DrawingLayer(this));
     }
 
     // On
