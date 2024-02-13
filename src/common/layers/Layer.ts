@@ -63,6 +63,11 @@ export default class Layer implements ISelectableItem {
         return this.project.layers.remove(this);
     }
 
+    clear(): this {
+        this.context.clearRect(0, 0, this.width, this.height);
+        return this;
+    }
+
     createElement(): HTMLElement {
         return new LayerElement(this);
     }
