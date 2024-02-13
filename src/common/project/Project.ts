@@ -23,6 +23,7 @@ export default class Project {
         this.title = title;
 
         this.layers = new LayersManager(this);
+        this.layers.setup();
 
         this.layers.add(new DrawingLayer(this));
     }

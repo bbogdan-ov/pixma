@@ -21,6 +21,9 @@ export default class LayersManager extends ProjectManager {
 
         this.choose(this.list[0]);
     }
+    setup() {
+        
+    }
 
     add(layer: Layer, index: number | null=null): boolean {
         if (this.getIsExists(layer)) return false;
