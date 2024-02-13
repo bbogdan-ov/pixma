@@ -1,4 +1,6 @@
-import { MouseButton } from "./enums";
+import type { ListenableListener } from "@base/common/listenable/Listenable";
+import type { Listenable } from "@base/common/listenable";
+import type { MouseButton } from "./enums";
 
 export type HTMLTagNames = keyof HTMLElementTagNameMap;
 
@@ -42,6 +44,9 @@ export interface ISelectableItem {
 export interface IListener {
     unlistens: VoidFunction[]
     unlistenAll(): void
+    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
 }
 
 export interface Clamped {
