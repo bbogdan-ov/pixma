@@ -98,6 +98,7 @@ export default class Layer implements ISelectableItem, IListener {
     onRemove() {
         this.project.app.selection.deselect(Layer.KEY, this);
         
+        this.unlistenAll();
         this.canvas.element.remove();
         this.onDidRemoved.trigger(this);
     }
