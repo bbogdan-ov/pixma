@@ -39,6 +39,10 @@ export interface ISelectableItem {
 	onSelect: (key: string)=> void
 	onUnselect: ()=> void
 }
+export interface IListener {
+    unlistens: VoidFunction[]
+    unlistenAll(): void
+}
 
 export interface Clamped {
     min: number;

@@ -1,10 +1,10 @@
 import { Listenable, State } from "@base/common/listenable";
 import { ListenableListener } from "@base/common/listenable/Listenable";
-import { HTMLTagNames } from "@base/types/types";
+import { HTMLTagNames, IListener } from "@base/types/types";
 import { Dev, DOM } from "@base/utils";
 
-export default abstract class BaseElement extends HTMLElement {
-    protected _unlistens: VoidFunction[] = [];
+export default abstract class BaseElement extends HTMLElement implements IListener {
+    readonly unlistens: VoidFunction[] = [];
     protected _isMountedOnce = false;
 
     constructor() {
@@ -40,12 +40,12 @@ export default abstract class BaseElement extends HTMLElement {
             Dev.throwError("Unable to listen listenable or element!");
         }
 
-        this._unlistens.push(unlisten);
+        this.unlistens.push(unlisten);
         return unlisten;
     }
 
     unlistenAll() {
-        for (const unlisten of this._unlistens) {
+        for (const unlisten of this.unlistens) {
             unlisten();
         }
     }
