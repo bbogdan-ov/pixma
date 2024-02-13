@@ -20,25 +20,8 @@ export default abstract class BaseElement extends HTMLElement implements IListen
         return this;
     }
 
-    listen(lisOrEl: EventTarget | Listenable<any>, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
-        let unlisten = () => {};
-
-        if (lisOrEl instanceof Listenable) {
-            // Listenable
-            unlisten = lisOrEl.listen(eventOrListener);
-            if (listenerOrInvoke) {
-                if (lisOrEl instanceof State) eventOrListener(lisOrEl.value);
-                else eventOrListener();
-            }
-        } else if (lisOrEl instanceof EventTarget) {
-            // Element
-            unlisten = DOM.addEventListener(lisOrEl, eventOrListener, listenerOrInvoke, options);
-        } else {
-            Dev.throwError("Unable to listen listenable or element!");
-        }
-
-        this.unlistens.push(unlisten);
-        return unlisten;
+    listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
+        return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
     }
 
     unlistenAll() {
