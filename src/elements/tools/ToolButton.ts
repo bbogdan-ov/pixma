@@ -1,4 +1,5 @@
 import { Button } from "@base/elements/buttons";
+import { AccentName } from "@base/types/enums";
 import type App from "@source/App";
 import type { Tool } from "@source/common/tools";
 
@@ -49,10 +50,11 @@ export default class ToolButton extends Button {
 
     // Set
     setIsActive(value: boolean=true): this {
-        // TODO: set color
         if (value) {
+            this.setColor(AccentName.PRIMARY);
             this.setIsGhost(false);
         } else {
+            this.setColor(AccentName.SECONDARY);
             this.setIsGhost(true);
         }
         return this;
