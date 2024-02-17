@@ -6,6 +6,7 @@ import { ProjectManager } from "..";
 
 export default class LayersManager extends ProjectManager {
     protected _list: Layer[] = [];
+    protected _ghostsList: Layer[] = [];
 
     protected _current: Layer | null = null;
 
@@ -103,6 +104,9 @@ export default class LayersManager extends ProjectManager {
     }
     get list(): Layer[] {
         return this._list;
+    }
+    get ghostsList(): Layer[] {
+        return this._ghostsList;
     }
     get current(): Layer | null {
         return this._current;
