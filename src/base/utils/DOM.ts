@@ -81,9 +81,7 @@ export default class DOM {
 
         return true;
     }
-    /**
-     * Replaces `token` with `newToken` if first is exists in classList, otherwise adds `newToken` to classList
-     */
+    /** Replaces `token` with `newToken` if first is exists in classList, otherwise adds `newToken` to classList */
     static replaceClassName(element: Element, token: string, newToken: string): void {
         const replaced = element.classList.replace(token, newToken);
 
