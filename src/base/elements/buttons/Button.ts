@@ -1,23 +1,17 @@
 import { FocusableElement } from "@base/elements";
-import { AccentName, EventName, IconName, SizeName } from "@base/types/enums";
+import { EventName, IconName } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { Icon } from "@base/elements/media";
-import { ColorBrick, SizeBrick } from "@base/bricks";
 
+// TODO: changing size and color 
 @FocusableElement.define("base-button")
 export default class Button extends FocusableElement {
     readonly inner = DOM.div("button-inner");
     readonly content = DOM.div("button-content");
     protected _icon: Icon | null = null;
 
-    readonly color: ColorBrick<this>;
-    readonly size: SizeBrick<this>;
-
     constructor() {
         super();
-
-        this.color = new ColorBrick(this, AccentName.SECONDARY);
-        this.size = new SizeBrick(this, SizeName.NORMAL);
 
         this.classList.add("button");
         this.content.style.display = "none";
@@ -116,9 +110,9 @@ export default class Button extends FocusableElement {
     }
 
     static action(icon: IconName | null): Button {
+        // TODO: set tiny size
         return Button.ghost()
             .setIsCompact()
-            .size.set(SizeName.TINY)
             .setIcon(icon);
     }
 }

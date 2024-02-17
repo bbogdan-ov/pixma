@@ -1,5 +1,4 @@
-import { ColorBrick, SizeBrick } from "@base/bricks";
-import { AccentName, EventName, SizeName } from "@base/types/enums";
+import { EventName } from "@base/types/enums";
 import { ContentEditableElement } from "../data";
 import { FocusableElement } from "..";
 import { KeyboardData } from "@base/common/events";
@@ -7,14 +6,12 @@ import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
 
+// TODO: changing size and color 
 @FocusableElement.define("base-input")
 export default class BaseInput<T extends string | number> extends FocusableElement {
     protected _maxLength = Infinity;
 
     readonly state: State<T>;
-
-    readonly color: ColorBrick<this>;
-    readonly size: SizeBrick<this>;
 
     protected _selectOnFocus = false;
 
@@ -24,9 +21,6 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
         super();
 
         this.state = state || new State(defaultValue);
-
-        this.color = new ColorBrick(this, AccentName.PRIMARY);
-        this.size = new SizeBrick(this, SizeName.NORMAL);
 
         this.editable.allowNewLine = false;
         this.editable.allowFormatting = false;
