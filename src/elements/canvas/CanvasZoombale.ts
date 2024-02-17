@@ -58,15 +58,11 @@ export default class CanvasZoomable extends Zoomable {
         const layer = this.project.layers.current;
         if (!tool || !layer) return;
 
-        if (!layer.isEditable) {
-            layer.onToolDown(tool, this.toolMouse);
-            return;
-        }
-
         const pos = this.getLocalPos(event.clientX, event.clientY);
-
         this.toolMouse.onDown(event, pos.x, pos.y);
-        tool.onDown(layer, this.toolMouse);
+
+        if (layer.isEditable)
+            tool.onDown(layer, this.toolMouse);
         layer.onToolDown(tool, this.toolMouse);
 
         this._isToolUsing = true;
@@ -78,17 +74,16 @@ export default class CanvasZoomable extends Zoomable {
         const layer = this.project.layers.current;
         if (!tool || !layer || !layer.isEditable) return;
 
-        if (!layer.isEditable) {
-            layer.onToolDown(tool, this.toolMouse);
-            return;
-        }
-
         const pos = this.getLocalPos(event.clientX, event.clientY);
-
         this.toolMouse.onMove(event, pos.x, pos.y);
+
         tool.onMove(layer, this.toolMouse);
+        layer.onToolMove(tool, this.toolMouse);
+
         if (this.isToolUsing) {
-            tool.onUse(layer, this.toolMouse);
+            if (layer.isEditable)
+                tool.onUse(layer, this.toolMouse);
+
             layer.onToolUse(tool, this.toolMouse);
         }
     }
@@ -101,15 +96,11 @@ export default class CanvasZoomable extends Zoomable {
         const layer = this.project.layers.current;
         if (!tool || !layer) return;
 
-        if (!layer.isEditable) {
-            layer.onToolUp(tool, this.toolMouse);
-            return;
-        }
-
         const pos = this.getLocalPos(event.clientX, event.clientY);
-
         this.toolMouse.onUp(event, pos.x, pos.y);
-        tool.onUp(layer, this.toolMouse);
+
+        if (layer.isEditable)
+            tool.onUp(layer, this.toolMouse);
         layer.onToolUp(tool, this.toolMouse);
 
         this._isToolUsing = false;
