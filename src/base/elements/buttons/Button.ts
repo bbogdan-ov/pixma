@@ -1,20 +1,25 @@
 import { FocusableElement } from "@base/elements";
-import { EventName, IconName } from "@base/types/enums";
+import { AccentName, ColorName, EventName, IconName, SizeName } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { Icon } from "@base/elements/media";
+import { IThemeColorful, IThemeResizeable } from "@base/types/types";
 
-// TODO: changing size and color 
 @FocusableElement.define("base-button")
-export default class Button extends FocusableElement {
+export default class Button extends FocusableElement implements IThemeColorful, IThemeResizeable {
     readonly inner = DOM.div("button-inner");
     readonly content = DOM.div("button-content");
     protected _icon: Icon | null = null;
+    protected _color: ColorName | AccentName = AccentName.SECONDARY;
+    protected _size: SizeName = SizeName.NORMAL;
 
     constructor() {
         super();
 
         this.classList.add("button");
         this.content.style.display = "none";
+
+        this.setColor(this._color);
+        this.setSize(this._size);
 
         this.inner.append(this.content);
         this.append(this.inner);
@@ -100,6 +105,24 @@ export default class Button extends FocusableElement {
             this.disable();
         return this;
     }
+    setColor(name: ColorName | AccentName): this {
+        this.replaceClassName(`color-${ this.color }`, `color-${ name }`);
+        this._color = name;
+        return this;
+    }
+    setSize(name: SizeName): this {
+        this.replaceClassName(`size-${ this.size }`, `size-${ name }`);
+        this._size = name;
+        return this;
+    }
+
+    // Get
+    get color(): ColorName | AccentName {
+        return this._color;
+    }
+    get size(): SizeName {
+        return this._size;
+    }
 
     // Static
     static compact(icon: IconName | null): Button {
@@ -110,9 +133,9 @@ export default class Button extends FocusableElement {
     }
 
     static action(icon: IconName | null): Button {
-        // TODO: set tiny size
         return Button.ghost()
             .setIsCompact()
+            .setSize(SizeName.TINY)
             .setIcon(icon);
     }
 }
