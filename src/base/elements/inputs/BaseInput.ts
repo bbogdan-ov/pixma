@@ -1,19 +1,21 @@
-import { EventName } from "@base/types/enums";
+import { AccentName, ColorName, EventName, SizeName } from "@base/types/enums";
 import { ContentEditableElement } from "../data";
 import { FocusableElement } from "..";
 import { KeyboardData } from "@base/common/events";
 import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
+import { IThemeColorful, IThemeResizeable } from "@base/types/types";
 
-// TODO: changing size and color 
 @FocusableElement.define("base-input")
-export default class BaseInput<T extends string | number> extends FocusableElement {
+export default class BaseInput<T extends string | number> extends FocusableElement implements IThemeColorful, IThemeResizeable {
     protected _maxLength = Infinity;
 
     readonly state: State<T>;
 
     protected _selectOnFocus = false;
+    protected _color: ColorName | AccentName = AccentName.PRIMARY;
+    protected _size: SizeName = SizeName.NORMAL;
 
     readonly editable = new ContentEditableElement();
 
@@ -130,6 +132,16 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
         this.editable.textContent = this.formatDisplayValue(this.applyToValue(value));
         return this;
     }
+    setColor(name: ColorName | AccentName): this {
+        this.replaceClassName(`color-${ this.color }`, `color-${ name }`);
+        this._color = name;
+        return this;
+    }
+    setSize(name: SizeName): this {
+        this.replaceClassName(`size-${ this.size }`, `size-${ name }`);
+        this._size = name;
+        return this;
+    }
 
     // Get
     get value(): T {
@@ -137,5 +149,11 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
     }
     get selectOnFocus(): boolean {
         return this._selectOnFocus;
+    }
+    get color(): ColorName | AccentName {
+        return this._color;
+    }
+    get size(): SizeName {
+        return this._size;
     }
 }
