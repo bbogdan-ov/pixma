@@ -13,7 +13,7 @@ export default class PenTool extends DrawingTool {
     draw(layer: Layer, mouse: IMouseData): void {
         super.draw(layer, mouse);
 
-        this.app.brushes.current?.drawLine(
+        this.brush?.drawLine(
             layer.context,
             mouse.last.x,
             mouse.last.y,
