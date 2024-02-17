@@ -17,6 +17,10 @@ export default abstract class BaseElement extends HTMLElement implements IListen
         this.classList.add(value);
         return this;
     }
+    replaceClassName(token: string, newToken: string): this {
+        DOM.replaceClassName(this, token, newToken);
+        return this;
+    }
 
     listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
         return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
