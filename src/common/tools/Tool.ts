@@ -5,6 +5,7 @@ import { IMouseData } from "@base/types/types";
 import { ToolParams } from "@source/elements/tools-params";
 import type { Layer } from "../layers";
 import type App from "@source/App";
+import type { Brush } from "../brushes";
 
 export default class Tool {
     readonly name: string;
@@ -62,6 +63,9 @@ export default class Tool {
     }
 
     // Get
+    get brush(): Brush | null {
+        return this.app.brushes.current;
+    }
     get resizable(): boolean {
         return this._resizable
     }
