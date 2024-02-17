@@ -1,7 +1,5 @@
-import { Listenable, State } from "@base/common/listenable";
-import { ListenableListener } from "@base/common/listenable/Listenable";
 import { HTMLTagNames, IListener } from "@base/types/types";
-import { Dev, DOM } from "@base/utils";
+import { DOM } from "@base/utils";
 
 export default abstract class BaseElement extends HTMLElement implements IListener {
     readonly unlistens: VoidFunction[] = [];
