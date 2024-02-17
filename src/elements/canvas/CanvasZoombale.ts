@@ -29,7 +29,9 @@ export default class CanvasZoomable extends Zoomable {
 
         this.appendTarget(this.layersWrapper);
 
-        this.layersWrapper.append(this.project.layers.previewLayer.canvas.element);
+        for (const layer of project.layers.ghostsList) {
+            this.layersWrapper.append(layer.canvas.element);
+        }
         for (const layer of project.layers.list) {
             this.layersWrapper.append(layer.canvas.element);
         }
