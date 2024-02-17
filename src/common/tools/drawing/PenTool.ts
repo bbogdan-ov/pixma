@@ -1,18 +1,19 @@
 import DrawingTool from "../DrawingTool";
 import type { IMouseData } from "@base/types/types";
+import type App from "@source/App";
 import type { Layer } from "@source/common/layers";
 
 export default class PenTool extends DrawingTool {
     static readonly NAME = "pen";
 
-    constructor() {
-        super(PenTool.NAME);
+    constructor(app: App) {
+        super(PenTool.NAME, app);
     }
 
     draw(layer: Layer, mouse: IMouseData): void {
         super.draw(layer, mouse);
 
-        layer.project.app.brushes.current?.drawLine(
+        this.app.brushes.current?.drawLine(
             layer.context,
             mouse.last.x,
             mouse.last.y,

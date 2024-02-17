@@ -13,7 +13,7 @@ export default class App {
     readonly projects: ProjectsManager;
 
     readonly registries = {
-        tools: new ToolsRegistry()
+        tools: new ToolsRegistry(this)
     }
 
     readonly element: AppElement;

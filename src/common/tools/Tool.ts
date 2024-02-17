@@ -8,6 +8,7 @@ import type App from "@source/App";
 
 export default class Tool {
     readonly name: string;
+    readonly app: App;
 
     protected _resizable = true;
     protected _colorful = true;
@@ -23,8 +24,9 @@ export default class Tool {
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
 
-    constructor(name: string) {
+    constructor(name: string, app: App) {
         this.name = name;
+        this.app = app;
     }
 
     createButton(app: App): HTMLElement {
