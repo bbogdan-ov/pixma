@@ -49,9 +49,11 @@ export interface IListener {
     listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
 }
 export interface IThemeColorful {
-    setColor(name: ColorName | AccentName): this;
+    color: ColorName | AccentName
+    setColor(name: ColorName | AccentName): this
 }
 export interface IThemeResizeable {
+    size: SizeName
     setSize(name: SizeName): this
 }
 
