@@ -17,6 +17,7 @@ export default abstract class BaseElement extends HTMLElement implements IListen
         this.classList.add(value);
         return this;
     }
+    /** Replaces `token` with `newToken` if first is exists in classList, otherwise adds `newToken` to classList */
     replaceClassName(token: string, newToken: string): this {
         DOM.replaceClassName(this, token, newToken);
         return this;
