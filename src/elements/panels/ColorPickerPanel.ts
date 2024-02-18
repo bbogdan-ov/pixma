@@ -14,7 +14,7 @@ export default class ColorPickerPanel extends Panel {
 
         this.app = app;
 
-        this.colorPicker = new ColorPicker(app.brushes.colorState);
+        this.colorPicker = new ColorPicker(app.brushes.frontColorState);
 
         this.classList.add("color-picker-panel");
 

@@ -9,7 +9,8 @@ export default class BrushesManager extends Manager {
     readonly app: App;
 
     protected _current: Brush | null = null;
-    readonly colorState = new ColorState(Color.WHITE);
+    readonly frontColorState = new ColorState(Color.WHITE);
+    readonly backColorState = new ColorState(Color.BLACK);
     readonly sizeState = new State<number>(1);
 
     readonly onDidChosen = new Trigger<Brush>();
@@ -32,7 +33,7 @@ export default class BrushesManager extends Manager {
         this.sizeState.listen(value=> {
             this.current?.render(this.getColor(), value);
         })
-        this.colorState.listen(color=> {
+        this.frontColorState.listen(color=> {
             this.current?.render(color, this.size);
         })
     }
@@ -50,13 +51,13 @@ export default class BrushesManager extends Manager {
         return true;
     }
     setColor(color: Color): boolean {
-        this.colorState.set(color);
+        this.frontColorState.set(color);
         return true;
     }
 
     // Get
     getColor(): Color {
-        return this.colorState.getColor();
+        return this.frontColorState.getColor();
     }
     get current(): Brush | null {
         return this._current;
