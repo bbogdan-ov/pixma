@@ -4,6 +4,7 @@ import { CanvasZoomable } from "../canvas";
 import ToolParamsPanel from "../panels/ToolParamsPanel";
 import type { ProjectTab } from "@source/common/tabs";
 import { TabView } from "@base/elements/tabs";
+import PalettePanel from "../panels/PalettePanel";
 
 @TabView.define("project-tab-view")
 export default class ProjectTabView extends TabView {
@@ -24,12 +25,17 @@ export default class ProjectTabView extends TabView {
                 ),
                 new CanvasZoomable(project)
             ),
-            DOM.div("col",
-                DOM.div("panel-slot orientation-vertical pb-0",
-                    new LayersPanel(project),
+            DOM.div("row",
+                DOM.div("panel-slot orientation-vertical pr-0",
+                    new PalettePanel(project),
                 ),
-                DOM.div("panel-slot orientation-vertical",
-                    new ColorPickerPanel(project.app)
+                DOM.div("col",
+                    DOM.div("panel-slot orientation-vertical pb-0",
+                        new LayersPanel(project),
+                    ),
+                    DOM.div("panel-slot orientation-vertical",
+                        new ColorPickerPanel(project.app)
+                    )
                 )
             )
         )
