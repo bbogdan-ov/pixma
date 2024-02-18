@@ -1,10 +1,11 @@
 import { LayerElement } from "@source/elements/layers";
-import { State, Trigger } from "@base/common/listenable";
+import { Listenable, State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { DOM } from "@base/utils";
 import type { Tool } from "../tools";
 import type { Project } from "../project";
 import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
+import type { ListenableListener } from "@base/common/listenable/Listenable";
 
 export default class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
@@ -82,6 +83,9 @@ export default class Layer implements ISelectableItem, IListener {
         return new LayerElement(this);
     }
 
+    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
     listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
         return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
     }

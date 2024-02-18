@@ -1,3 +1,5 @@
+import type { ListenableListener } from "@base/common/listenable/Listenable";
+import type { Listenable } from "@base/common/listenable";
 import { HTMLTagNames, IListener } from "@base/types/types";
 import { DOM } from "@base/utils";
 
@@ -23,6 +25,9 @@ export default abstract class BaseElement extends HTMLElement implements IListen
         return this;
     }
 
+    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
     listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
         return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
     }
