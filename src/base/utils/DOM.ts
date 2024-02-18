@@ -1,5 +1,5 @@
 import type { HTMLTagNames, IListener } from "@base/types/types";
-import { Listenable, State } from "@base/common/listenable";
+import { ColorState, Listenable, State } from "@base/common/listenable";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import Dev from "./Dev";
 import test_img from "../assets/images/test.png";
@@ -23,6 +23,7 @@ export default class DOM {
             unlisten = lisOrEl.listen(eventOrListener);
             if (listenerOrInvoke) {
                 if (lisOrEl instanceof State) eventOrListener(lisOrEl.value);
+                else if (lisOrEl instanceof ColorState) eventOrListener(lisOrEl.getColor());
                 else eventOrListener();
             }
         } else if (lisOrEl instanceof EventTarget) {
