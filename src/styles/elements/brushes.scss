@@ -1,0 +1,29 @@
+.brush-colors-bubble {
+    --default-background: var(--gray);
+
+    width: 28px;
+    height: 28px;
+
+    .front, .back {
+        width: 20px;
+        height: 20px;
+
+        position: absolute;
+
+        border-radius: 50%;
+        background: var(--default-background);
+        border: 2px solid var(--black);
+    }
+    .front {
+        left: 0;
+        top: 0;
+
+        background: var(--front-color, --default-background);
+    }
+    .back {
+        right: 0;
+        bottom: 0;
+
+        background: var(--back-color, --default-background);
+    }
+}

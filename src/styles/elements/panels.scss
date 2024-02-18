@@ -38,6 +38,7 @@
     .tool-params {
         display: flex;
         align-self: center;
+        gap: var(--unit-1);
 
         .tool-size-range {
             width: 200px;
