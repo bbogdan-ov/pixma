@@ -2,6 +2,7 @@ import { State, Trigger } from "@base/common/listenable";
 import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
 import { DrawingLayer } from "../layers";
+import PaletteManager from "@source/managers/project/PaletteManager";
 
 export default class Project {
     static readonly DEFAULT_CANVAS_WIDTH = 416;
@@ -11,6 +12,7 @@ export default class Project {
     readonly title: string;
 
     readonly layers: LayersManager;
+    readonly palette: PaletteManager;
 
     readonly canvasWidthState = new State<number>(Project.DEFAULT_CANVAS_WIDTH);
     readonly canvasHeightState = new State<number>(Project.DEFAULT_CANVAS_HEIGHT);
@@ -24,6 +26,7 @@ export default class Project {
 
         this.layers = new LayersManager(this);
         this.layers.setup();
+        this.palette = new PaletteManager(this);
     }
 
     // On
