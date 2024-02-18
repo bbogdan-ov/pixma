@@ -1,4 +1,4 @@
-import { HexColor, HsvColor, RgbColor } from "@base/types/types";
+import { HexColor, HslStringColor, HsvColor, RgbColor, RgbStringColor } from "@base/types/types";
 import { Listenable } from ".";
 import { Color } from "../misc";
 import { ListenableListener } from "./Listenable";
@@ -87,6 +87,15 @@ export default class ColorState extends Listenable<Color> {
     /** Returs cloned protected `._color`, so you cant mutate it */
     getColor(): Color {
         return this._color.clone();
+    }
+    getHexString(): HexColor {
+        return this._color.getHex();
+    }
+    getRgbString(): RgbStringColor {
+        return this._color.getRgbString();
+    }
+    getHslString(): HslStringColor {
+        return this._color.getHslString();
     }
     get rgb(): RgbColor {
         return this._color.rgb;
