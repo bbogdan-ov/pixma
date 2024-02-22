@@ -19,14 +19,12 @@ export default class ProjectsManager extends Manager {
 		if (this.getIsExists(project)) return false;
 		
 		this.app.tabs.open(new ProjectTab(this.app.tabs, project));
-		project.onOpen();
 		return true;
 	}
 	close(project: Project): boolean {
 		if (this.getIsExists(project)) return false;
 
 		Utils.removeItem(this._list, project);
-		project.onClose();
 		return true;
 	}
 	

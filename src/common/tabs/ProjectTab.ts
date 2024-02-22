@@ -19,4 +19,12 @@ export default class ProjectTab extends Tab {
     createElement(): HTMLElement {
         return new ProjectTabElement(this);
     }
+
+    // On
+    onOpen(): void {
+        this.project.onOpen();
+    }
+    onClose(): void {
+        this.project.onClose();
+    }
 }
