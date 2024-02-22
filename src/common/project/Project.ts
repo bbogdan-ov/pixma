@@ -9,7 +9,7 @@ export default class Project {
     static readonly DEFAULT_CANVAS_HEIGHT = 240;
     
     readonly app: App;
-    readonly title: string;
+    readonly titleState: State<string>;
     protected _tab: ProjectTab | null = null;
 
     readonly layers: LayersManager;
@@ -23,7 +23,7 @@ export default class Project {
 
     constructor(app: App, title: string) {
         this.app = app;
-        this.title = title;
+        this.titleState = new State(title);
 
         this.layers = new LayersManager(this);
         this.layers.setup();
@@ -51,6 +51,9 @@ export default class Project {
     }
 
     // Get
+    get title(): string {
+        return this.titleState.value;
+    }
     get canvasWidth() {
         return this.canvasWidthState.value;
     }
