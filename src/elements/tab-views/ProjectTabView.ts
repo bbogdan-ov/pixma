@@ -8,12 +8,16 @@ import PalettePanel from "../panels/PalettePanel";
 
 @TabView.define("project-tab-view")
 export default class ProjectTabView extends TabView {
+    readonly canvasZoomable: CanvasZoomable;
+    
     constructor(tab: ProjectTab) {
         super(tab);
 
         const project = tab.project;
 
         this.classList.add("project-tab-view");
+
+        this.canvasZoomable = new CanvasZoomable(project);
 
         this.append(
             DOM.div("panel-slot orientation-vertical",
@@ -23,7 +27,7 @@ export default class ProjectTabView extends TabView {
                 DOM.div("panel-slot orientation-horizontal ph-0",
                     new ToolParamsPanel(project.app),
                 ),
-                new CanvasZoomable(project)
+                this.canvasZoomable
             ),
             DOM.div("row",
                 DOM.div("panel-slot orientation-vertical pr-0",
