@@ -1,7 +1,6 @@
 import { State, Trigger } from "@base/common/listenable";
 import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
-import { DrawingLayer } from "../layers";
 import PaletteManager from "@source/managers/project/PaletteManager";
 
 export default class Project {
