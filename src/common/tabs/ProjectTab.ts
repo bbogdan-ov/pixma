@@ -11,6 +11,7 @@ export default class ProjectTab extends Tab {
         super(manager);
     
         this.project = project;
+        this.project.attachTab(this);
         this.attachView(new ProjectTabView(this));
 
         this.setTitle(project.title);

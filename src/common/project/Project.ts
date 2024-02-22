@@ -2,6 +2,7 @@ import { State, Trigger } from "@base/common/listenable";
 import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
 import PaletteManager from "@source/managers/project/PaletteManager";
+import type { ProjectTab } from "../tabs";
 
 export default class Project {
     static readonly DEFAULT_CANVAS_WIDTH = 416;
@@ -9,6 +10,7 @@ export default class Project {
     
     readonly app: App;
     readonly title: string;
+    protected _tab: ProjectTab | null = null;
 
     readonly layers: LayersManager;
     readonly palette: PaletteManager;
@@ -26,6 +28,11 @@ export default class Project {
         this.layers = new LayersManager(this);
         this.layers.setup();
         this.palette = new PaletteManager(this);
+    }
+
+    attachTab(tab: ProjectTab): this {
+        this._tab = tab;
+        return this;
     }
 
     // On
@@ -49,5 +56,8 @@ export default class Project {
     }
     get canvasHeight() {
         return this.canvasHeightState.value;
+    }
+    get tab(): ProjectTab | null {
+        return this._tab;
     }
 }
