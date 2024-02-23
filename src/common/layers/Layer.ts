@@ -3,7 +3,6 @@ import { Listenable, State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { DOM } from "@base/utils";
 import type { Tool } from "../tools";
-import type { Project } from "../project";
 import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { LayersManager } from "@source/managers";
