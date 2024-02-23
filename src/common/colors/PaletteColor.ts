@@ -1,4 +1,4 @@
-import { ColorState } from "@base/common/listenable";
+import { ColorState, Trigger } from "@base/common/listenable";
 import { Color } from "@base/common/misc";
 import { PaletteColorElement } from "@source/elements/colors";
 import type { HexColor, HslColor, HsvColor } from "@base/types/types";
@@ -7,6 +7,9 @@ import type PaletteManager from "@source/managers/project/PaletteManager";
 export default class PaletteColor {
     readonly manager: PaletteManager;
     readonly state: ColorState;
+
+    readonly onDidAdded = new Trigger<PaletteColor>();
+    readonly onDidRemoved = new Trigger<PaletteColor>();
     
     constructor(manager: PaletteManager, color: Color) {
         this.manager = manager;
@@ -20,6 +23,14 @@ export default class PaletteColor {
 
     createElement(): HTMLElement {
         return new PaletteColorElement(this);
+    }
+
+    // On
+    onAdd() {
+        this.onDidAdded.trigger(this);
+    }
+    onRemove() {
+        this.onDidRemoved.trigger(this);
     }
 
     // Set

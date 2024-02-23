@@ -30,6 +30,7 @@ export default class PaletteManager extends ProjectManager {
         else
             Utils.insertItem(this._list, color, index);
 
+        color.onAdd();
         this.onDidAdded.trigger(color);
         return true;
     }
@@ -37,6 +38,7 @@ export default class PaletteManager extends ProjectManager {
         const removedIndex = Utils.removeItem(this._list, color);
         if (!Utils.exists(removedIndex) || removedIndex < 0) return false;
 
+        color.onRemove();
         this.onDidRemoved.trigger(color);
         return true;
     }
