@@ -26,6 +26,7 @@ export default class PreviewLayer extends Layer {
         super.onToolMove(tool, mouse);
 
         this.clear();
-        this.drawBrush(mouse);
+        if (this.manager.project.canvasZoomable?.isMouseOver)
+            this.drawBrush(mouse);
     }
 }
