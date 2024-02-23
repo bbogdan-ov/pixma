@@ -1,3 +1,5 @@
+import { Dev } from "@base/utils";
+
 export type RegistryRegistered<T> = { [name: string]: T }
 
 export default class Registry<T> {
@@ -5,11 +7,18 @@ export default class Registry<T> {
 
     constructor() {}
 
-    register(name: string, item: T): boolean {
-        const exists = !!this.registered[name]
+    /**
+     * Returns whether the item is registered or not\
+     * Warns if item with `name` is already registered && `override` is `false`
+     */
+    register(name: string, item: T, override=false): boolean {
+        if (!override && this.registered[name]) {
+            Dev.warn(`Registry: cannot override existing item "${ name }"`);
+            return false;
+        }
 
         this.registered[name] = item;
-        return exists;
+        return true;
     }
     get(name: string): T | null {
         return this.registered[name] || null;
@@ -21,6 +30,7 @@ export default class Registry<T> {
     getItems(): T[] {
         return Object.values(this.registered);
     }
+    /** Returns a list of names of registered items */
     getNames(): string[] {
         return Object.keys(this.registered);
     }
