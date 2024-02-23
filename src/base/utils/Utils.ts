@@ -1,5 +1,6 @@
 export default class Utils {
     // Value
+    /** Asserts that value isn't equal to `undefined` or `null` */
     static exists<T>(value: T | undefined | null): value is T {
         return value !== undefined && value !== null;
     }
@@ -8,6 +9,7 @@ export default class Utils {
             return safe;
         return value;
     }
+    /** Parses a number from a string using regular expressions *(smarter than `parseFloat()` :) )* */
     static safeParseNumber(string: string, safe=0, int=true): number {
         string = string.trim();
         if (!string)
@@ -20,6 +22,15 @@ export default class Utils {
             return safe;
         return num;
     }
+    /**
+     * Calculates a math expression from a string
+     * 
+     * Examples:
+     * - `"2+2"` -> `4`
+     * - `"3 asoicjaosicj* 2"` -> `6`
+     * - `""` -> `0`
+     * - `"Math.sin(Math.PI)"` -> `0` because it's removes all symbols except numbers, `+-*.` and `slash`
+     */
     static safeEvalNumber(expr: string, safe=0): number {
         expr = expr.trim();
         if (!expr)
@@ -35,6 +46,7 @@ export default class Utils {
     }
 
     // String
+    /** Makes only first letter in a string UPPERCASE */
     static capitalize(string: string): string {
         return string[0].toUpperCase() + string.slice(1);
     }
@@ -46,9 +58,14 @@ export default class Utils {
         array.splice(index, 1);
         return index;
     }
+    /** Inserts an item at specific index into an array */
     static insertItem<T>(array: T[], item: T, index: number) {
         array.splice(index, 0, item);
     }
+    /**
+     * Clears the array without creating a new one
+     * Useful when need to save a ref to this array
+     */
     static clearArray<T>(array: T[]) {
         array.splice(0, array.length);
     }
@@ -61,6 +78,7 @@ export default class Utils {
 
         return false;
     }
+    /** Returns index of `item` in `array` if exists, otherwise returns `null` */
     static indexOf<T>(array: T[], item: T): number | null {
         const index = array.indexOf(item);
         if (index >= 0)
@@ -69,6 +87,7 @@ export default class Utils {
     }
 
     // Math
+    /** Keeps `value` between `min` and `max` */
     static clamp(value: number, min: number, max: number): number {
         if (value < min)
             return min;
@@ -78,6 +97,15 @@ export default class Utils {
     }
 
     // Key
+    /**
+     * Makes key code a little shorter
+     *
+     * Examples:
+     * - `"KeyA"` -> `"a"`
+     * - `"Digit5"` -> `"5"`
+     * - `"Numpad1"` -> `"1"`
+     * - `"Space"` -> `"space"`
+     */
     static formatKeyCode(code: string): string {
         return code.toLowerCase().replace(/key|digit|numpad/gmi, "");
     }
