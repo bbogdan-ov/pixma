@@ -1,7 +1,7 @@
 import { Layer } from ".";
 import { IMouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
-import { Tool } from "../tools";
+import type { Tool } from "../tools";
 
 export default class PreviewLayer extends Layer {
     static readonly NAME = "preview";
@@ -10,8 +10,6 @@ export default class PreviewLayer extends Layer {
         super(PreviewLayer.NAME, manager);
 
         this._ghost = true;
-
-        this.context.fillRect(10, 10, 10, 10);
 
         manager.onDidChosen.listen(layer=> {
             this.canvas.style.zIndex = ((layer.getIndex() || 0) + 1).toString();
