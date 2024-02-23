@@ -1,6 +1,6 @@
 import { Dev } from "@base/utils";
 
-export type RegistryRegistered<T> = { [name: string]: T }
+export type RegistryRegistered<T> = Record<string, T>;
 
 export default class Registry<T> {
     readonly registered: RegistryRegistered<T> = {};
