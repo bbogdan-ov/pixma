@@ -20,6 +20,9 @@ export default class PaletteColor {
         this.manager.project.app.brushes.setFrontColor(this.getColor());
         return this;
     }
+    remove(): boolean {
+        return this.manager.remove(this);
+    }
 
     createElement(): HTMLElement {
         return new PaletteColorElement(this);
