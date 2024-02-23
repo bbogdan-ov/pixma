@@ -3,11 +3,13 @@ import { Utils } from "@base/utils";
 import { DrawingLayer, Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
 import { ProjectManager } from "..";
+import PreviewLayer from "@source/common/layers/PreviewLayer";
 
 export default class LayersManager extends ProjectManager {
     protected _list: Layer[] = [];
 
     protected _current: Layer | null = null;
+    readonly previewLayer: PreviewLayer;
 
     readonly onDidAdded = new Trigger<Layer>();
     readonly onDidRemoved = new Trigger<Layer>();
@@ -18,6 +20,8 @@ export default class LayersManager extends ProjectManager {
 
     constructor(project: Project) {
         super(project);
+
+        this.previewLayer = new PreviewLayer(this);
 
         this.add(new DrawingLayer(this));
     }
