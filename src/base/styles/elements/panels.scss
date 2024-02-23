@@ -23,6 +23,7 @@
     .panel-content {
         display: flex;
         padding: var(--gap);
+        gap: var(--gap);
     }
     .panel-footer {
         padding: var(--gap);
