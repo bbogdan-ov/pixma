@@ -68,6 +68,25 @@
 
 // Palette panel
 .palette-panel {
-    // TEMP:
-    padding: 6px;
+    --gap: 4px;
+
+    .colors-list {
+        width: 32px;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        // TODO: different views
+        .palette-color {
+            flex: 1;
+
+            &:not(:last-child) {
+                @include bottom-border-radius(0);
+            }
+            &:not(:first-child) {
+                @include top-border-radius(0);
+            }
+        }
+    }
 }

@@ -1,0 +1,14 @@
+.palette-color {
+    background: #000;
+    border-radius: var(--base-border-radius);
+    outline: 0 solid #fff;
+
+    cursor: pointer;
+
+    // States
+    &:hover {
+        z-index: 1;
+        outline: 3px solid #fff;
+        border-radius: var(--base-border-radius) !important;
+    }
+}
