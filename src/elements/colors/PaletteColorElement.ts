@@ -20,8 +20,13 @@ export default class PaletteColorElement extends BaseElement {
         super.onMount();
 
         this.listen(this, EventName.DOWN, this._onDown.bind(this));
+
+        this.listen(this.paletteColor.onDidRemoved, this._onRemove.bind(this));
     }
     protected _onDown() {
         this.paletteColor.pick();
+    }
+    protected _onRemove() {
+        this.remove();
     }
 }
