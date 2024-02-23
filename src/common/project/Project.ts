@@ -26,7 +26,6 @@ export default class Project {
         this.titleState = new State(title);
 
         this.layers = new LayersManager(this);
-        this.layers.setup();
         this.palette = new PaletteManager(this);
     }
 

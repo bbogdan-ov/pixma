@@ -20,9 +20,6 @@ export default class LayersManager extends ProjectManager {
     constructor(project: Project) {
         super(project);
 
-        this.choose(this.list[0]);
-    }
-    setup() {
         this.add(new DrawingLayer(this));
     }
 
