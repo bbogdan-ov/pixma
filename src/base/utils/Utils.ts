@@ -4,11 +4,6 @@ export default class Utils {
     static exists<T>(value: T | undefined | null): value is T {
         return value !== undefined && value !== null;
     }
-    static safe<T>(value: T | undefined | null, safe: T): T {
-        if (!this.exists(value))
-            return safe;
-        return value;
-    }
     /** Parses a number from a string using regular expressions *(smarter than `parseFloat()` :) )* */
     static safeParseNumber(string: string, safe=0, int=true): number {
         string = string.trim();
@@ -39,7 +34,7 @@ export default class Utils {
         expr = expr.replace(/(?!\.|-|\+|\/|\*)\D|(?<=\D)\.(?=\D)/gmi, "");
 
         try {
-            return this.safe(eval(expr), safe);
+            return eval(expr) ?? safe;
         } catch {
             return safe;
         }

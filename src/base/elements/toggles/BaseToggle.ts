@@ -1,6 +1,5 @@
 import { State } from "@base/common/listenable";
 import { FocusableElement } from "..";
-import { Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 
 @FocusableElement.define("base-toggle")
@@ -10,7 +9,7 @@ export default class BaseToggle extends FocusableElement {
     constructor(state?: State<boolean>) {
         super();
 
-        this.state = Utils.safe(state, new State(false));
+        this.state = state ?? new State(false);
 
         this.classList.add("toggle");
     }

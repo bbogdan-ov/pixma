@@ -3,7 +3,6 @@ import { Manager } from ".";
 import { MouseButton } from "@base/types/enums";
 import { MouseBind } from "@base/common/binds";
 import { IMouseData } from "@base/types/types";
-import { Utils } from "@base/utils";
 
 export default class MouseManager extends Manager implements IMouseData {
     /** Pressed and move pos */
@@ -57,8 +56,8 @@ export default class MouseManager extends Manager implements IMouseData {
     onDown(event: MouseEvent, x?: number, y?: number) {
         this._downEvent = event;
 
-        x = Utils.safe(x, event.clientX);
-        y = Utils.safe(y, event.clientY);
+        x = x ?? event.clientX;
+        y = y ?? event.clientY;
 
         this.start.set(x, y);
         this.last.set(x, y);
@@ -69,8 +68,8 @@ export default class MouseManager extends Manager implements IMouseData {
         this._updateKeys(event);
     }
     onMove(event: MouseEvent, x?: number, y?: number) {
-        x = Utils.safe(x, event.clientX);
-        y = Utils.safe(y, event.clientY);
+        x = x ?? event.clientX;
+        y = y ?? event.clientY;
 
         this._updateKeys(event);
 
@@ -82,8 +81,8 @@ export default class MouseManager extends Manager implements IMouseData {
     onUp(event: MouseEvent, x?: number, y?: number) {
         this._upEvent = event;
 
-        x = Utils.safe(x, event.clientX);
-        y = Utils.safe(y, event.clientY);
+        x = x ?? event.clientX;
+        y = y ?? event.clientY;
 
         this.end.set(x, y);
 
