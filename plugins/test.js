@@ -1,29 +1,50 @@
-(function() {
-    class TestPlugin extends pixma.Plugin {
-        constructor(app) {
-            super(app, {
-                title: "Test plugin!",
-                author: "bogdanov",
-                date: "2024",
-                tags: ["test", "hey"]
-            })
-        }
+(function(pixma) {
 
-        load() {
-            super.load()
+    class CustomTab extends pixma.Tab {
+        constructor(manager) {
+            super(manager)
 
-            pixma.Dev.log("hey!!");
-
-            const b = new pixma.Project(this.app, "Plugin project!");
-            const l = new pixma.DrawingLayer(b.layers).setDisplayName("plugin layer");
-            b.layers.add(l);
-
-            this.app.projects.open(b);
-        }
-        unload() {
-            super.unload()
+            this.attachView(new CustomTabView(this));
+            this.setTitle("plugin tab!")
         }
     }
+    class CustomTabView extends pixma.TabView {
+        constructor(tab) {
+            super(tab);
+
+            this.num = 0;
+            this.counter = pixma.DOM.span("0");
+            this.button = new pixma.Button().setContent("click me!").setColor("primary");
+
+            this.append(this.counter, this.button);
+        }
+
+        _updateCounter() {
+            this.counter.textContent = this.num.toString()
+        }
+        
+        // On
+        onMount() {
+            super.onMount();
+
+            this.listen(this.button, "click", ()=> {
+                this.num ++;
+                this._updateCounter();
+            })
+        }
+    }
+    pixma.DOM.define("custom-tab-view", CustomTabView);
     
-    return TestPlugin;
-})()
+    return {
+        title: "test plugin",
+        author: "bogdanov",
+
+        load() {
+            pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
+        },
+        unload() {
+
+        }
+    }
+
+})
