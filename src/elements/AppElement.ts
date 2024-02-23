@@ -29,7 +29,7 @@ export default class AppElement extends BaseElement {
         // TEMP {
         const a = new Project(this.app, "Project A");
         const b = new Project(this.app, "Project B");
-        const l = new DrawingLayer(a).setDisplayName("Hey yo");
+        const l = new DrawingLayer(a.layers).setDisplayName("Hey yo");
         a.layers.add(l);
 
         this.app.projects.open(a);

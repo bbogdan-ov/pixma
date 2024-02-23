@@ -23,7 +23,7 @@ export default class LayersManager extends ProjectManager {
         this.choose(this.list[0]);
     }
     setup() {
-        this.add(new DrawingLayer(this.project));
+        this.add(new DrawingLayer(this));
     }
 
     add(layer: Layer, index: number | null=null): boolean {

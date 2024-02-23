@@ -6,6 +6,7 @@ import type { Tool } from "../tools";
 import type { Project } from "../project";
 import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
+import type { LayersManager } from "@source/managers";
 
 export default class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
@@ -13,7 +14,7 @@ export default class Layer implements ISelectableItem, IListener {
 
     readonly id: number;
     readonly name: string;
-    readonly project: Project;
+    readonly manager: LayersManager;
 
     /** If `true`, will not display in the layers list */
     protected _ghost = false;
@@ -41,12 +42,12 @@ export default class Layer implements ISelectableItem, IListener {
     readonly onDidUnselected = new Trigger<Layer>();
     readonly onDidReordered = new Trigger<number>();
 
-    constructor(name: string, project: Project) {
+    constructor(name: string, manager: LayersManager) {
         this.id = ++ Layer._id;
         this.name = name;
-        this.project = project;
+        this.manager = manager;
 
-        this.canvas = Canvas.sized(project.canvasWidth, project.canvasHeight);
+        this.canvas = Canvas.sized(manager.project.canvasWidth, manager.project.canvasHeight);
         this.canvas.element.id = "layer-" + this.id;
         this.canvas.element.classList.add("layer-canvas");
 
@@ -57,13 +58,13 @@ export default class Layer implements ISelectableItem, IListener {
     }
 
     choose(): boolean {
-        return this.project.layers.choose(this);
+        return this.manager.choose(this);
     }
     unchoose(): boolean {
-        return this.project.layers.unchoose(this);
+        return this.manager.unchoose(this);
     }
     remove(): boolean {
-        return this.project.layers.remove(this);
+        return this.manager.remove(this);
     }
     unlistenAll(): void {
         for (const unlisten of this.unlistens) {
@@ -93,14 +94,14 @@ export default class Layer implements ISelectableItem, IListener {
     // On
     onAdd() {
         this.updateCanvasElementIndex();
-        this.listen(this.project.layers.onDidListChanged, ()=> {
+        this.listen(this.manager.onDidListChanged, ()=> {
             this.updateCanvasElementIndex();
         })
 
         this.onDidAdded.trigger(this);
     }
     onRemove() {
-        this.project.app.selection.deselect(Layer.KEY, this);
+        this.manager.project.app.selection.deselect(Layer.KEY, this);
         
         this.unlistenAll();
         this.canvas.element.remove();
@@ -174,7 +175,7 @@ export default class Layer implements ISelectableItem, IListener {
      * @alias layersManager.getIndexOf
      */
     getIndex(): number | null {
-        return this.project.layers.getIndexOf(this);
+        return this.manager.getIndexOf(this);
     }
     get context(): CanvasRenderingContext2D {
         return this.canvas.context;

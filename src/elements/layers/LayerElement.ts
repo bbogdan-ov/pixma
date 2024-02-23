@@ -71,7 +71,7 @@ export default class LayerElement extends FocusableElement {
         this.listen(this.layer.onDidEdited, this._onEdit.bind(this));
         this.listen(this.layer.onDidSelected, this._onSelect.bind(this));
         this.listen(this.layer.onDidUnselected, this._onUnselect.bind(this));
-        this.listen(this.layer.project.layers.onDidListChanged, this._onLayersListChanged.bind(this));
+        this.listen(this.layer.manager.onDidListChanged, this._onLayersListChanged.bind(this));
 
         this.listen(this.layer.displayNameState, this._onNameChange.bind(this), true);
         this.listen(this.layer.isVisibleState, this._onVisibilityChange.bind(this), true);

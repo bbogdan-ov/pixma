@@ -78,7 +78,7 @@ class LayersPanelFooter extends PanelFooter {
         const index = layers.current?.getIndex();
 
         layers.add(
-            new DrawingLayer(this.project),
+            new DrawingLayer(this.project.layers),
             Utils.exists(index) ? index + 1 : null
         );
     }
