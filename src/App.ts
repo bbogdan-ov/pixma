@@ -1,8 +1,10 @@
-import { SelectionManager, TabsManager } from "@base/managers";
 import AppElement from "@source/elements/AppElement";
+import DragManager from "@base/managers/DragManager";
+import { SelectionManager, TabsManager } from "@base/managers";
 import { LayersRegistry, ToolsRegistry } from "@source/registries";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
-import DragManager from "@base/managers/DragManager";
+import type { Tool } from "./common/tools";
+import type { RegisteredLayerCallback } from "./registries/LayersRegistry";
 
 export default class App {
     readonly tabs: TabsManager;
@@ -30,5 +32,14 @@ export default class App {
         this.plugins = new PluginsManager(this);
 
         this.element = new AppElement(this);
+    }
+
+    /** Alias to `app.registries.tools.register()` */
+    registerTool(name: string, tool: Tool, override?: boolean): boolean {
+        return this.registries.tools.register(name, tool, override);
+    }
+    /** Alias to `app.registries.layers.register()` */
+    registerLayer(name: string, layerCallback: RegisteredLayerCallback, override?: boolean): boolean {
+        return this.registries.layers.register(name, layerCallback, override);
     }
 }

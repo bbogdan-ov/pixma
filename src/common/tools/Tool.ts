@@ -6,7 +6,7 @@ import { ToolParams } from "@source/elements/tools-params";
 import type { Layer } from "../layers";
 import type App from "@source/App";
 import type { Brush } from "../brushes";
-import PreviewLayer from "../layers/PreviewLayer";
+import type PreviewLayer from "../layers/PreviewLayer";
 
 export default class Tool {
     readonly name: string;
