@@ -1,5 +1,5 @@
 import { BaseElement } from "@base/elements";
-import { EventName } from "@base/types/enums";
+import { EventName, MouseButton } from "@base/types/enums";
 import { PaletteColor } from "@source/common/colors";
 
 @BaseElement.define("palette-color")
@@ -23,8 +23,11 @@ export default class PaletteColorElement extends BaseElement {
 
         this.listen(this.paletteColor.onDidRemoved, this._onRemove.bind(this));
     }
-    protected _onDown() {
-        this.paletteColor.pick();
+    protected _onDown(event: MouseEvent) {
+        if (event.button == MouseButton.LEFT)
+            this.paletteColor.pick();
+        else if (event.button == MouseButton.MIDDLE)
+            this.paletteColor.remove();
     }
     protected _onRemove() {
         this.remove();
