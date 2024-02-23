@@ -154,6 +154,7 @@ export default class Color {
     static from(color: Color): Color {
         return new Color(...color.rgb);
     }
+    /** Generates random RGB color */
     static random(): Color {
         return new Color(Random.int(0, 255), Random.int(0, 255), Random.int(0, 255));
     }
