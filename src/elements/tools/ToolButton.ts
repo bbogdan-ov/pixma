@@ -31,7 +31,7 @@ export default class ToolButton extends Button {
     protected _onInteract(event: KeyboardEvent): void {
         super._onInteract(event);
 
-        this.tool.app.tools.choose(this.tool);
+        this.tool.choose();
     }
     protected _onToolChoose() {
         this._updateState();
@@ -42,7 +42,7 @@ export default class ToolButton extends Button {
     protected _onDown(event: MouseEvent): void {
         super._onDown(event);
 
-        this.tool.app.tools.choose(this.tool);
+        this.tool.choose();
     }
 
     // Set

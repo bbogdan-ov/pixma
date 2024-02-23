@@ -31,6 +31,13 @@ export default class Tool {
         this.app = app;
     }
 
+    choose(): boolean {
+        return this.app.tools.choose(this);
+    }
+    unchoose(): boolean {
+        return this.app.tools.unchoose();
+    }
+
     createButton(): HTMLElement {
         return new ToolButton(this).setIcon(this._icon);
     }
