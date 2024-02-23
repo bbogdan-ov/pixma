@@ -27,9 +27,8 @@ export default class TabsManager extends Manager {
         return true;
     }
     close(tab: Tab): boolean {
-        if (!this.getIsExists(tab)) return false;
-
-        Utils.removeItem(this._list, tab);
+        const removedIndex = Utils.removeItem(this._list, tab);
+        if (!Utils.exists(removedIndex) || removedIndex < 0) return false;
 
         this.leave(tab);
         tab.onClose();

@@ -47,9 +47,11 @@ export default class Utils {
     }
 
     // Array
-    /** Removes `item` from `array` and return its index */
-    static removeItem<T>(array: T[], item: T): number {
-        const index = array.indexOf(item);
+    /** Removes an item from the array and returns its index if exists, otherwise returns `null` */
+    static removeItem<T>(array: T[], item: T): number | null {
+        const index = this.indexOf(array, item);
+        if (!this.exists(index) || index < 0) return null
+
         array.splice(index, 1);
         return index;
     }

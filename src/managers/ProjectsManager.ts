@@ -28,9 +28,9 @@ export default class ProjectsManager extends Manager {
 		return true;
 	}
 	close(project: Project): boolean {
-		if (!this.getIsExists(project)) return false;
+		const removedIndex = Utils.removeItem(this._list, project);
+		if (!Utils.exists(removedIndex) || removedIndex < 0) return false;
 
-		Utils.removeItem(this._list, project);
 		if (project.tab)
 			this.app.tabs.close(project.tab);
 		this.onDidClosed.trigger(project);

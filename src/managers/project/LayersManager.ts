@@ -43,9 +43,8 @@ export default class LayersManager extends ProjectManager {
         return true;
     }
     remove(layer: Layer): boolean {
-        if (!this.getIsExists(layer)) return false;
-
         const removedIndex = Utils.removeItem(this._list, layer);
+        if (!Utils.exists(removedIndex) || removedIndex < 0) return false;
 
         layer.onRemove();
         this.onDidRemoved.trigger(layer);
