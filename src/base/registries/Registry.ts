@@ -21,6 +21,7 @@ export default class Registry<T> {
         }
 
         this.registered[name] = item;
+        this.onDidRegistered.trigger(item);
         return true;
     }
     get(name: string): T | null {
