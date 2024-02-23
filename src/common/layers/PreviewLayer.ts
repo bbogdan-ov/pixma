@@ -9,8 +9,6 @@ export default class PreviewLayer extends Layer {
     constructor(manager: LayersManager) {
         super(PreviewLayer.NAME, manager);
 
-        this._ghost = true;
-
         manager.onDidChosen.listen(layer=> {
             this.canvas.style.zIndex = ((layer.getIndex() || 0) + 1).toString();
         })

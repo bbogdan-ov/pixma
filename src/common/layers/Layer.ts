@@ -16,9 +16,6 @@ export default class Layer implements ISelectableItem, IListener {
     readonly name: string;
     readonly manager: LayersManager;
 
-    /** If `true`, will not display in the layers list */
-    protected _ghost = false;
-
     readonly canvas: Canvas;
     readonly unlistens: VoidFunction[] = [];
 
@@ -206,8 +203,5 @@ export default class Layer implements ISelectableItem, IListener {
     }
     get height(): number {
         return this.canvas.height;
-    }
-    get ghost(): boolean {
-        return this._ghost;
     }
 }
