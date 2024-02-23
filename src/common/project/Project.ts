@@ -3,6 +3,9 @@ import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
 import PaletteManager from "@source/managers/project/PaletteManager";
 import type { ProjectTab } from "../tabs";
+import type { ProjectTabView } from "@source/elements/tab-views";
+import type { CanvasZoomable } from "@source/elements/canvas";
+import type PreviewLayer from "../layers/PreviewLayer";
 
 export default class Project {
     static readonly DEFAULT_CANVAS_WIDTH = 416;
@@ -61,5 +64,17 @@ export default class Project {
     }
     get tab(): ProjectTab | null {
         return this._tab;
+    }
+    /** Alias to `project.tab.viewElement` */
+    get tabView(): ProjectTabView | null {
+        return this.tab?.viewElement ?? null;
+    }
+    /** Alias to `project.tab.viewElement.canvasZoomable` */
+    get canvasZoomable(): CanvasZoomable | null {
+        return this.tabView?.canvasZoomable ?? null;
+    }
+    /** Alias to `project.layers.previewLayer` */
+    get previewLayer(): PreviewLayer {
+        return this.layers.previewLayer;
     }
 }
