@@ -1,3 +1,4 @@
+import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
 import type App from "@source/App";
@@ -8,6 +9,9 @@ export default class ProjectsManager extends Manager {
 	readonly app: App;
 
 	protected readonly _list: Project[] = []
+
+	readonly onDidOpened = new Trigger<Project>();
+	readonly onDidClosed = new Trigger<Project>();
 		
 	constructor(app: App) {
 		super();
@@ -20,6 +24,7 @@ export default class ProjectsManager extends Manager {
 		
 		this._list.push(project);
 		this.app.tabs.open(new ProjectTab(this.app.tabs, project));
+		this.onDidOpened.trigger(project);
 		return true;
 	}
 	close(project: Project): boolean {
@@ -28,6 +33,7 @@ export default class ProjectsManager extends Manager {
 		Utils.removeItem(this._list, project);
 		if (project.tab)
 			this.app.tabs.close(project.tab);
+		this.onDidClosed.trigger(project);
 		return true;
 	}
 	
