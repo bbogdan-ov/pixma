@@ -65,6 +65,8 @@ export default class CanvasZoomable extends Zoomable {
         const pos = this.getLocalPos(event.clientX, event.clientY);
         this.toolMouse.onDown(event, pos.x, pos.y);
 
+        this.project.layers.previewLayer.onToolDown(tool, this.toolMouse);
+        
         if (layer.isEditable)
             tool.onDown(layer, this.toolMouse);
         layer.onToolDown(tool, this.toolMouse);
@@ -82,11 +84,15 @@ export default class CanvasZoomable extends Zoomable {
         const pos = this.getLocalPos(event.clientX, event.clientY);
         this.toolMouse.onMove(event, pos.x, pos.y);
 
+        this.project.layers.previewLayer.onToolMove(tool, this.toolMouse);
+
         tool.onMove(layer, this.toolMouse);
         layer.onToolMove(tool, this.toolMouse);
         this.onDidToolMove.trigger(this.toolMouse);
 
         if (this.isToolUsing) {
+            this.project.layers.previewLayer.onToolUse(tool, this.toolMouse);
+
             if (layer.isEditable)
                 tool.onUse(layer, this.toolMouse);
 
@@ -105,6 +111,8 @@ export default class CanvasZoomable extends Zoomable {
 
         const pos = this.getLocalPos(event.clientX, event.clientY);
         this.toolMouse.onUp(event, pos.x, pos.y);
+
+        this.project.layers.previewLayer.onToolUp(tool, this.toolMouse);
 
         if (layer.isEditable)
             tool.onUp(layer, this.toolMouse);
