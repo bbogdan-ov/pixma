@@ -39,7 +39,7 @@ export default class PluginsManager extends Manager {
             .then(data=> data.text())
             .then(text=> {
                 try {
-                    const plugin = eval(text)(pixma);
+                    const plugin = new Function("pixma", text)(pixma);
                     console.log(`Plugin "${ plugin.title }" loaded!`)
                     if (plugin.load)
                         plugin.load()
