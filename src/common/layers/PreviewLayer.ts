@@ -1,6 +1,7 @@
 import { Layer } from ".";
 import { IMouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
+import { Tool } from "../tools";
 
 export default class PreviewLayer extends Layer {
     static readonly NAME = "preview";
@@ -22,5 +23,13 @@ export default class PreviewLayer extends Layer {
         if (!current) return;
 
         current.draw(this.context, mouse.pos.x, mouse.pos.y);
+    }
+
+    // On
+    onToolMove(tool: Tool, mouse: IMouseData): void {
+        super.onToolMove(tool, mouse);
+
+        this.clear();
+        this.drawBrush(mouse);
     }
 }
