@@ -33,12 +33,34 @@ class CustomTabView extends pixma.TabView {
 }
 pixma.DOM.define("custom-tab-view", CustomTabView);
 
+class LineTool extends pixma.Tool {
+    constructor(app) {
+        super("line", app);
+
+        this._icon = "line-tool";
+    }
+
+    onUp(layer, mouse) {
+        super.onUp(layer, mouse);
+        if (!this.brush) return;
+
+        this.brush.drawLine(
+            layer.context,
+            mouse.start.x,
+            mouse.start.y,
+            mouse.pos.x,
+            mouse.pos.y,
+        )
+    }
+}
+
 return {
     title: "test plugin",
     author: "bogdanov",
 
     load() {
         pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
+        pixma.app.registerTool("line", new LineTool(pixma.app));
     },
     unload() {
 

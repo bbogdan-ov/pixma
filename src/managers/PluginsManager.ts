@@ -2,10 +2,11 @@ import { Tab } from "@base/common/tabs";
 import { TabElement, TabView } from "@base/elements/tabs";
 import { Manager } from "@base/managers";
 import { DOM, Dev } from "@base/utils";
-import type App from "@source/App";
 import { DrawingLayer } from "@source/common/layers";
 import { Project } from "@source/common/project";
 import { Button } from "@base/elements/buttons";
+import { Tool } from "@source/common/tools";
+import type App from "@source/App";
 
 export default class PluginsManager extends Manager {
     readonly app: App;
@@ -21,14 +22,15 @@ export default class PluginsManager extends Manager {
     load(path: string) {
         const pixma = {
             app: this.app,
-            Project: Project,
-            Tab: Tab,
-            TabElement: TabElement,
-            TabView: TabView,
-            DrawingLayer: DrawingLayer,
-            Button: Button,
-            Dev: Dev,
-            DOM: DOM,
+            Project,
+            Tab,
+            TabElement,
+            TabView,
+            DrawingLayer,
+            Button,
+            Tool,
+            Dev,
+            DOM,
         }
         
         fetch(path, {
