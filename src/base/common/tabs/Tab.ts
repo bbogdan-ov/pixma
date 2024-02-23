@@ -10,7 +10,7 @@ export default class Tab {
 
     protected _viewElement: HTMLElement | null = null;
 
-    readonly titleState = new State<string>("Tab");
+    readonly titleState: State<string>;
 
     protected _isOpened = false;
     protected _isActive = false;
@@ -20,9 +20,10 @@ export default class Tab {
     readonly onDidEntered = new Trigger<Tab>();
     readonly onDidLeaved = new Trigger<Tab>();
 
-    constructor(manager: TabsManager) {
+    constructor(manager: TabsManager, titleState?: State<string>) {
         this.id = ++ Tab._id;
         this.manager = manager;
+        this.titleState = titleState ?? new State<string>("Tab");
     }
 
     enter(): boolean {
