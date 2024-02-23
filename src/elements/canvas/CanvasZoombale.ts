@@ -1,6 +1,8 @@
+import { Trigger } from "@base/common/listenable";
 import { Zoomable } from "@base/elements/layout";
 import { MouseManager } from "@base/managers";
 import { MouseButton } from "@base/types/enums";
+import { IMouseData } from "@base/types/types";
 import { DOM } from "@base/utils";
 import type { Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
@@ -14,6 +16,11 @@ export default class CanvasZoomable extends Zoomable {
     protected _isToolUsing = false;
 
     readonly layersWrapper = DOM.div("layers-wrapper");
+
+    readonly onDidToolDown = new Trigger<IMouseData>();
+    readonly onDidToolMove = new Trigger<IMouseData>();
+    readonly onDidToolUse = new Trigger<IMouseData>();
+    readonly onDidToolUp = new Trigger<IMouseData>();
 
     constructor(project: Project) {
         super();
@@ -66,6 +73,7 @@ export default class CanvasZoomable extends Zoomable {
         layer.onToolDown(tool, this.toolMouse);
 
         this._isToolUsing = true;
+        this.onDidToolDown.trigger(this.toolMouse);
     }
     protected _onWindowMove(event: PointerEvent): void {
         super._onWindowMove(event);
@@ -79,12 +87,14 @@ export default class CanvasZoomable extends Zoomable {
 
         tool.onMove(layer, this.toolMouse);
         layer.onToolMove(tool, this.toolMouse);
+        this.onDidToolMove.trigger(this.toolMouse);
 
         if (this.isToolUsing) {
             if (layer.isEditable)
                 tool.onUse(layer, this.toolMouse);
 
             layer.onToolUse(tool, this.toolMouse);
+            this.onDidToolUse.trigger(this.toolMouse);
         }
     }
     protected _onWindowUp(event: PointerEvent): void {
@@ -104,6 +114,7 @@ export default class CanvasZoomable extends Zoomable {
         layer.onToolUp(tool, this.toolMouse);
 
         this._isToolUsing = false;
+        this.onDidToolUp.trigger(this.toolMouse);
     }
     
     protected _onLayerAdd(layer: Layer) {
