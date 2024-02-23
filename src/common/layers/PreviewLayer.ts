@@ -14,19 +14,12 @@ export default class PreviewLayer extends Layer {
         })
     }
 
-    drawBrush(mouse: IMouseData) {
-        const current = this.manager.project.app.brushes.current;
-        if (!current) return;
-
-        current.draw(this.context, mouse.pos.x, mouse.pos.y);
-    }
-
     // On
     onToolMove(tool: Tool, mouse: IMouseData): void {
         super.onToolMove(tool, mouse);
 
         this.clear();
         if (this.manager.project.canvasZoomable?.isMouseOver)
-            this.drawBrush(mouse);
+            tool.drawPreview(this, mouse);
     }
 }
