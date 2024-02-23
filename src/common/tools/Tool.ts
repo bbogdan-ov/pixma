@@ -6,6 +6,7 @@ import { ToolParams } from "@source/elements/tools-params";
 import type { Layer } from "../layers";
 import type App from "@source/App";
 import type { Brush } from "../brushes";
+import PreviewLayer from "../layers/PreviewLayer";
 
 export default class Tool {
     readonly name: string;
@@ -42,6 +43,10 @@ export default class Tool {
     cacheParamsElement(element: HTMLElement): HTMLElement {
         this.paramsElement = element;
         return this.paramsElement;
+    }
+
+    drawPreview(previewLayer: PreviewLayer, mouse: IMouseData) {
+        this.brush?.draw(previewLayer.context, mouse.pos.x, mouse.pos.y);
     }
 
     // On
