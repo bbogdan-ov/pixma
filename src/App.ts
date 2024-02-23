@@ -1,6 +1,6 @@
 import { SelectionManager, TabsManager } from "@base/managers";
 import AppElement from "@source/elements/AppElement";
-import { ToolsRegistry } from "@source/registries";
+import { LayersRegistry, ToolsRegistry } from "@source/registries";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import DragManager from "@base/managers/DragManager";
 
@@ -14,7 +14,8 @@ export default class App {
     readonly plugins: PluginsManager;
 
     readonly registries = {
-        tools: new ToolsRegistry(this)
+        tools: new ToolsRegistry(this),
+        layers: new LayersRegistry()
     }
 
     readonly element: AppElement;
