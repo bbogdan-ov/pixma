@@ -125,6 +125,9 @@ export default class Button extends FocusableElement implements IThemeColorful, 
     }
 
     // Static
+    static icon(icon: IconName): Button {
+        return new Button().setIcon(icon);
+    }
     static compact(icon: IconName | null): Button {
         return new Button().setIsCompact().setIcon(icon);
     }
