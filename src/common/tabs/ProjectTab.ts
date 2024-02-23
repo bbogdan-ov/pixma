@@ -8,13 +8,11 @@ export default class ProjectTab extends Tab {
     readonly project: Project;
 
     constructor(manager: TabsManager, project: Project) {
-        super(manager);
+        super(manager, project.titleState);
     
         this.project = project;
         this.project.attachTab(this);
         this.attachView(new ProjectTabView(this));
-
-        this.setTitle(project.title);
     }
 
     createElement(): HTMLElement {
