@@ -2,13 +2,13 @@ import { State, Trigger } from "../listenable";
 import { TabElement } from "@base/elements/tabs";
 import type { TabsManager } from "@base/managers";
 
-export default class Tab {
+export default class Tab<V extends HTMLElement=HTMLElement> {
     static _id: number = 0;
 
     readonly id: number;
     readonly manager: TabsManager;
 
-    protected _viewElement: HTMLElement | null = null;
+    protected _viewElement: V | null = null;
 
     readonly titleState: State<string>;
 
@@ -39,7 +39,7 @@ export default class Tab {
     createElement(): HTMLElement {
         return new TabElement(this);
     }
-    attachView(element: HTMLElement): this {
+    attachView(element: V): this {
         this._viewElement = element;
         return this;
     }
