@@ -1,17 +1,14 @@
 import { Button } from "@base/elements/buttons";
 import { AccentName } from "@base/types/enums";
-import type App from "@source/App";
 import type { Tool } from "@source/common/tools";
 
 @Button.define("tool-button")
 export default class ToolButton extends Button {
-    readonly app: App;
     readonly tool: Tool;
 
-    constructor(app: App, tool: Tool) {
+    constructor(tool: Tool) {
         super();
 
-        this.app = app;
         this.tool = tool;
 
         this.classList.add("tool-button", "no-anim", tool.name + "-tool-button");
@@ -34,7 +31,7 @@ export default class ToolButton extends Button {
     protected _onInteract(event: KeyboardEvent): void {
         super._onInteract(event);
 
-        this.app.tools.choose(this.tool);
+        this.tool.app.tools.choose(this.tool);
     }
     protected _onToolChoose() {
         this._updateState();
@@ -45,7 +42,7 @@ export default class ToolButton extends Button {
     protected _onDown(event: MouseEvent): void {
         super._onDown(event);
 
-        this.app.tools.choose(this.tool);
+        this.tool.app.tools.choose(this.tool);
     }
 
     // Set
