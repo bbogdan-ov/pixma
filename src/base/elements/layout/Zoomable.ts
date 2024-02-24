@@ -16,6 +16,7 @@ export default class Zoomable extends BaseElement {
     protected _zoom: number = 1;
 
     protected _isMouseOver = false;
+    protected _isMouseDown = false;
     protected _isSpacePressed = false;
 
     panEnabled = true;
@@ -132,6 +133,7 @@ export default class Zoomable extends BaseElement {
     }
     protected _onWindowUp(event: PointerEvent) {
         this.mouse.onUp(event);
+        this._isMouseDown = false;
 
         if (!this._isPanning) return;
 
@@ -146,6 +148,7 @@ export default class Zoomable extends BaseElement {
     }
     protected _onDown(event: PointerEvent) {
         this.mouse.onDown(event);
+        this._isMouseDown = true;
 
         if (event.ctrlKey || !(this.useMiddleMouseToPan ? this.mouse.getIsPressed(MouseBind.MIDDLE) : true))
             return;
@@ -227,5 +230,8 @@ export default class Zoomable extends BaseElement {
     }
     get isMouseOver() {
         return this._isMouseOver;
+    }
+    get isMouseDown() {
+        return this._isMouseDown;
     }
 }
