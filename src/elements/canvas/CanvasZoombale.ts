@@ -1,4 +1,5 @@
 import { Trigger } from "@base/common/listenable";
+import { Canvas } from "@base/common/misc";
 import { Zoomable } from "@base/elements/layout";
 import { MouseManager } from "@base/managers";
 import { MouseButton } from "@base/types/enums";
@@ -15,6 +16,9 @@ export default class CanvasZoomable extends Zoomable {
 
     protected _isToolUsing = false;
 
+    protected _currentCanvas: Canvas | null = null;
+    readonly backCanvas = new Canvas();
+    readonly frontCanvas = new Canvas();
     readonly canvasesWrapper = DOM.div("canvases-wrapper");
 
     readonly onDidToolDown = new Trigger<IMouseData>();
@@ -36,24 +40,62 @@ export default class CanvasZoomable extends Zoomable {
 
         this.appendTarget(this.canvasesWrapper);
 
-        // Append preview layer
-        this.canvasesWrapper.append(project.layers.previewLayer.canvas.element);
-        // Append layers
-        for (const layer of project.layers.list) {
-            this.canvasesWrapper.append(layer.canvas.element);
-        }
+        this.canvasesWrapper.append(
+            this.backCanvas.element,
+            project.layers.previewLayer.canvas.element,
+            this.frontCanvas.element,
+        );
     }
 
+    updateCanvases() {
+        const currentLayer = this.project.layers.current;
+
+        // Resize and clear canvases
+        this.backCanvas.setSize(this.project.canvasWidth, this.project.canvasHeight);
+        this.frontCanvas.setSize(this.project.canvasWidth, this.project.canvasHeight);
+
+        // Remove previously current canvas
+        if (this.currentCanvas)
+            this.currentCanvas.element.remove();
+
+        // Put new current canvas after back canvas
+        if (currentLayer) {
+            this.backCanvas.element.after(this.project.layers.current.canvas.element);
+            this._currentCanvas = this.project.layers.current.canvas;
+        }
+
+        // Draw layers that below the current layer on back canvas
+        for (let i = 0; i < this.project.layers.currentIndex; i ++) {
+            const layer = this.project.layers.list[i];
+            // Dont draw invisible layers
+            if (!layer.isVisible) continue;
+
+            this.backCanvas.context.drawImage(layer.canvas.element, 0, 0);
+        }
+
+        // Draw layers that above the current layer on front canvas
+        for (let i = this.project.layers.currentIndex+1; i < this.project.layers.count; i ++) {
+            const layer = this.project.layers.list[i];
+            if (!layer.isVisible) continue;
+
+            this.frontCanvas.context.drawImage(layer.canvas.element, 0, 0);
+        }
+    }
+    
+    // On
     onMount(): void {
         super.onMount();
 
         if (!this.isMountedOnce)
             this.centerTarget();
 
-        this.listen(this.project.layers.onDidAdded, this._onLayerAdd.bind(this));
+        this.listen(this.project.layers.onDidListChanged, this._onLayersListChange.bind(this));
+        this.listen(this.project.layers.onDidChosen, this._onLayerChoose.bind(this));
 
         this.listen(this.project.canvasWidthState, this._onCanvasWidthChanged.bind(this), true);
         this.listen(this.project.canvasHeightState, this._onCanvasHeightChanged.bind(this), true);
+
+        this.updateCanvases();
     }
 
     protected _onDown(event: PointerEvent): void {
@@ -125,8 +167,11 @@ export default class CanvasZoomable extends Zoomable {
         this.onDidToolUp.trigger(this.toolMouse);
     }
     
-    protected _onLayerAdd(layer: Layer) {
-        this.canvasesWrapper.append(layer.canvas.element);
+    protected _onLayersListChange(list: Layer[]) {
+        this.updateCanvases();
+    }
+    protected _onLayerChoose(layer: Layer) {
+        this.updateCanvases();
     }
 
     protected _onCanvasWidthChanged(width: number) {
@@ -137,6 +182,9 @@ export default class CanvasZoomable extends Zoomable {
     }
 
     // Get
+    get currentCanvas(): Canvas | null {
+        return this._currentCanvas;
+    }
     get isToolUsing() {
         return this._isToolUsing;
     }

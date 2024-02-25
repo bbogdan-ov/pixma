@@ -8,10 +8,6 @@ export default class PreviewLayer extends Layer {
     
     constructor(manager: LayersManager) {
         super(PreviewLayer.NAME, manager);
-
-        manager.onDidChosen.listen(layer=> {
-            this.canvas.style.zIndex = ((layer.getIndex() || 0) + 1).toString();
-        })
     }
 
     // On
