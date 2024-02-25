@@ -15,7 +15,7 @@ export default class CanvasZoomable extends Zoomable {
 
     protected _isToolUsing = false;
 
-    readonly layersWrapper = DOM.div("layers-wrapper");
+    readonly canvasesWrapper = DOM.div("canvases-wrapper");
 
     readonly onDidToolDown = new Trigger<IMouseData>();
     readonly onDidToolMove = new Trigger<IMouseData>();
@@ -34,13 +34,13 @@ export default class CanvasZoomable extends Zoomable {
 
         this.classList.add("canvas-zoomable", "size-fill");
 
-        this.appendTarget(this.layersWrapper);
+        this.appendTarget(this.canvasesWrapper);
 
         // Append preview layer
-        this.layersWrapper.append(project.layers.previewLayer.canvas.element);
+        this.canvasesWrapper.append(project.layers.previewLayer.canvas.element);
         // Append layers
         for (const layer of project.layers.list) {
-            this.layersWrapper.append(layer.canvas.element);
+            this.canvasesWrapper.append(layer.canvas.element);
         }
     }
 
@@ -126,14 +126,14 @@ export default class CanvasZoomable extends Zoomable {
     }
     
     protected _onLayerAdd(layer: Layer) {
-        this.layersWrapper.append(layer.canvas.element);
+        this.canvasesWrapper.append(layer.canvas.element);
     }
 
     protected _onCanvasWidthChanged(width: number) {
-        this.layersWrapper.style.width = width + "px";
+        this.canvasesWrapper.style.width = width + "px";
     }
     protected _onCanvasHeightChanged(height: number) {
-        this.layersWrapper.style.height = height + "px";
+        this.canvasesWrapper.style.height = height + "px";
     }
 
     // Get
