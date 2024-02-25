@@ -10,6 +10,7 @@ export default class Canvas {
     }
 
     // Set
+    /** Resize and clear canvas */
     setSize(width: number, height: number): this {
         this.element.width = Math.floor(width);
         this.element.height = Math.floor(height);

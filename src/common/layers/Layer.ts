@@ -133,10 +133,12 @@ export default class Layer implements ISelectableItem, IListener {
     }
     
     // Set
+    /** Resize and clear layer's canvas */
     setSize(width: number, height: number): this {
         this.canvas.setSize(width, height);
         return this;
     }
+    /** Set name that displays in layer element */
     setDisplayName(value: string): this {
         this.displayNameState.set(value);
         return this;
@@ -149,6 +151,7 @@ export default class Layer implements ISelectableItem, IListener {
         this.isLockedState.set(value);
         return this;
     }
+    /** Set canvas element CSS `visibility` property (`"visible"` if `true` else `"hidden"`) */
     setCanvasElementVisibility(value: boolean): this {
         this.canvas.element.style.visibility = value ? "visible" : "hidden";
         return this;
@@ -160,7 +163,7 @@ export default class Layer implements ISelectableItem, IListener {
     }
     /**
      * Returns index of `layer` in the list if exists, otherwise returns `null`
-     * @alias layersManager.getIndexOf
+     * Alias to `layersManager.getIndexOf`
      */
     getIndex(): number | null {
         return this.manager.getIndexOf(this);
