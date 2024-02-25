@@ -15,13 +15,12 @@ export default class ToolParams extends BaseElement {
 
         this.tool = tool;
 
-        this.toolSizeRange = new ProgressRange(tool.app.brushes.sizeState).setIsInt();
+        this.toolSizeRange = new ProgressRange(tool.sizeState).setIsInt();
         this.toolSizeRange.classList.add("tool-size-range");
         this.toolSizeRange.setClamp(1, 32);
-        // TODO:
-        // this.toolSizeRange.input.limit.setMax(Brush.MAX_SIZE);
+        this.toolSizeRange.input?.setMax(tool.brush?.maxSize ?? 32);
 
-        this.colorsBubble = new BrushColorsBubble(tool.app);
+        this.colorsBubble = new BrushColorsBubble(tool.frontColorState, tool.backColorState);
 
         this.classList.add("tool-params");
 

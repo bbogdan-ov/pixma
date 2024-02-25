@@ -1,3 +1,4 @@
+import { ColorState } from "@base/common/listenable";
 import { Color } from "@base/common/misc";
 import { BaseElement } from "@base/elements";
 import { EventName } from "@base/types/enums";
@@ -6,39 +7,48 @@ import App from "@source/App";
 
 @BaseElement.define("brush-colors-bubble")
 export default class BrushColorsBubble extends BaseElement {
-    readonly app: App;
+    readonly frontState: ColorState;
+    readonly backState: ColorState;
     
-    readonly front = DOM.div("front");
-    readonly back = DOM.div("back");
+    readonly frontBubble = DOM.div("front");
+    readonly backBubble = DOM.div("back");
     
-    constructor(app: App) {
+    constructor(frontState: ColorState, backState: ColorState) {
         super();
 
-        this.app = app;
+        this.frontState = frontState;
+        this.backState = backState;
 
         this.classList.add("brush-colors-bubble");
 
-        this.append(this.back);
-        this.append(this.front);
+        this.append(this.backBubble);
+        this.append(this.frontBubble);
     }
 
+    swap() {
+        const front = this.frontState.rgb;
+        this.frontState.setRgb(this.backState.rgb);
+        this.backState.setRgb(front);
+    }
+    
+    // On
     onMount(): void {
         super.onMount();
 
-        this.listen(this.app.brushes.frontColorState, this._onFrontColorChange.bind(this), true);
-        this.listen(this.app.brushes.backColorState, this._onBackColorChange.bind(this), true);
+        this.listen(this.frontState, this._onFrontChange.bind(this), true);
+        this.listen(this.backState, this._onBackChange.bind(this), true);
 
         // TEMP: click to swap colors
         this.listen(this, EventName.CLICK, this._onClick.bind(this));
     }
-    protected _onFrontColorChange(color: Color) {
+    protected _onFrontChange(color: Color) {
         this.style.setProperty("--front-color", color.getRgbString());
     }
-    protected _onBackColorChange(color: Color) {
+    protected _onBackChange(color: Color) {
         this.style.setProperty("--back-color", color.getRgbString());
     }
 
     protected _onClick() {
-        this.app.brushes.swapColors();
+        this.swap();
     }
 }
