@@ -1,8 +1,9 @@
 import { Trigger } from "@base/common/listenable";
 import { IconName } from "@base/types/enums";
 import { ToolButton } from "@source/elements/tools";
-import { IMouseData } from "@base/types/types";
+import { IMouseData, RgbStringColor } from "@base/types/types";
 import { ToolParams } from "@source/elements/tools-params";
+import type { ColorState, State } from "@base/common/listenable";
 import type { Layer } from "../layers";
 import type App from "@source/App";
 import type { Brush } from "../brushes";
@@ -13,7 +14,6 @@ export default class Tool {
     readonly app: App;
 
     protected _resizable = true;
-    protected _colorful = true;
 
     protected _isChosen = false;
     protected _isUsing = false;
@@ -78,11 +78,25 @@ export default class Tool {
     get brush(): Brush | null {
         return this.app.brushes.current;
     }
+    /** RGB string from `frontColorState` */
+    get color(): RgbStringColor {
+        return this.frontColorState.getRgbString();
+    }
+    /** Value from `sizeState` */
+    get size(): number {
+        return this.sizeState.value;
+    }
+    get frontColorState(): ColorState {
+        return this.app.brushes.frontColorState;
+    }
+    get backColorState(): ColorState {
+        return this.app.brushes.backColorState;
+    }
+    get sizeState(): State<number> {
+        return this.app.brushes.sizeState;
+    }
     get resizable(): boolean {
         return this._resizable
-    }
-    get colorful(): boolean {
-        return this._colorful;
     }
     get isChosen(): boolean {
         return this._isChosen;
