@@ -17,9 +17,11 @@ export default class PreviewLayer extends Layer {
     // On
     onToolMove(tool: Tool, mouse: IMouseData): void {
         super.onToolMove(tool, mouse);
+        const canvasZoomable = this.manager.project.canvasZoomable;
 
         this.clear();
-        if (this.manager.project.canvasZoomable?.isMouseOver)
+
+        if (canvasZoomable?.isMouseDown ? true : canvasZoomable?.isMouseOver)
             tool.drawPreview(this, mouse);
     }
 }
