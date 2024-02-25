@@ -9,6 +9,7 @@ export default class LayersManager extends ProjectManager {
     protected _list: Layer[] = [];
 
     protected _current: Layer | null = null;
+    protected _currentIndex: number = 0;
     readonly previewLayer: PreviewLayer;
 
     readonly onDidAdded = new Trigger<Layer>();
@@ -63,6 +64,7 @@ export default class LayersManager extends ProjectManager {
             this.unchoose(this.current);
 
         this._current = layer;
+        this._currentIndex = this.getIndexOf(layer) ?? 0;
         this._current.onChoose();
 
         this.onDidChosen.trigger(layer);
@@ -106,6 +108,9 @@ export default class LayersManager extends ProjectManager {
     }
     get current(): Layer | null {
         return this._current;
+    }
+    get currentIndex(): number {
+        return this._currentIndex;
     }
     get count(): number {
         return this.list.length;
