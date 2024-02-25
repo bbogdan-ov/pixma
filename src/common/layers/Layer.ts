@@ -67,9 +67,6 @@ export default class Layer implements ISelectableItem, IListener {
             unlisten();
         }
     }
-    updateCanvasElementIndex() {
-        this.canvas.style.zIndex = (this.getIndex() || 0).toString();
-    }
 
     clear(): this {
         this.context.clearRect(0, 0, this.width, this.height);
@@ -89,11 +86,6 @@ export default class Layer implements ISelectableItem, IListener {
 
     // On
     onAdd() {
-        this.updateCanvasElementIndex();
-        this.listen(this.manager.onDidListChanged, ()=> {
-            this.updateCanvasElementIndex();
-        })
-
         this.onDidAdded.trigger(this);
     }
     onRemove() {
