@@ -11,9 +11,9 @@ export default class DrawingTool extends Tool {
 
     draw(layer: Layer, mouse: IMouseData) {}
 
-    createParams(app: App): HTMLElement {
+    createParams(): HTMLElement {
         if (this.paramsElement) return this.paramsElement;
-        return this.cacheParamsElement(new DrawingToolParams(app));
+        return this.cacheParamsElement(new DrawingToolParams(this));
     }
 
     // On

@@ -41,9 +41,9 @@ export default class Tool {
     createButton(): HTMLElement {
         return new ToolButton(this).setIcon(this._icon);
     }
-    createParams(app: App): HTMLElement {
+    createParams(): HTMLElement {
         if (this.paramsElement) return this.paramsElement;
-        const el = new ToolParams(app);
+        const el = new ToolParams(this);
         return this.cacheParamsElement(el);
     }
 

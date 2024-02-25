@@ -1,9 +1,9 @@
-import type App from "@source/App";
 import { ToolParams } from ".";
+import type { Tool } from "@source/common/tools";
 
 @ToolParams.define("drawing-tool-params")
 export default class DrawingToolParams extends ToolParams {
-    constructor(app: App) {
-        super(app);
+    constructor(tool: Tool) {
+        super(tool);
     }
 }

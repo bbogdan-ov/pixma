@@ -34,6 +34,6 @@ export default class ToolParamsPanel extends Panel {
         this.content.replaceChildren();
     }
     protected _onToolChoose(tool: Tool) {
-        this.content.replaceChildren(tool.createParams(this.app));
+        this.content.replaceChildren(tool.createParams());
     }
 }
