@@ -7,6 +7,9 @@ import type { Tool } from "./common/tools";
 import type { RegisteredLayerCallback } from "./registries/LayersRegistry";
 
 export default class App {
+    readonly toolsRegistry: ToolsRegistry;
+    readonly layersRegistry: LayersRegistry;
+
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -15,14 +18,12 @@ export default class App {
     readonly projects: ProjectsManager;
     readonly plugins: PluginsManager;
 
-    readonly registries = {
-        tools: new ToolsRegistry(this),
-        layers: new LayersRegistry()
-    }
-
     readonly element: AppElement;
 
     constructor() {
+        this.toolsRegistry = new ToolsRegistry(this);
+        this.layersRegistry = new LayersRegistry();
+
         this.tabs = new TabsManager();
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -36,10 +37,10 @@ export default class App {
 
     /** Alias to `app.registries.tools.register()` */
     registerTool(name: string, tool: Tool, override?: boolean): boolean {
-        return this.registries.tools.register(name, tool, override);
+        return this.toolsRegistry.register(name, tool, override);
     }
     /** Alias to `app.registries.layers.register()` */
     registerLayer(name: string, layerCallback: RegisteredLayerCallback, override?: boolean): boolean {
-        return this.registries.layers.register(name, layerCallback, override);
+        return this.layersRegistry.register(name, layerCallback, override);
     }
 }

@@ -17,12 +17,12 @@ export default class ToolsPanel extends Panel {
         this.updateButtons();
         this.append(new PanelContent(this.buttonsList));
 
-        this.app.registries.tools.onDidRegistered.listen(this._onToolRegister.bind(this));
+        this.app.toolsRegistry.onDidRegistered.listen(this._onToolRegister.bind(this));
     }
 
     updateButtons() {
         this.buttonsList.replaceChildren();
-        for (const tool of this.app.registries.tools.getItems()) {
+        for (const tool of this.app.toolsRegistry.getItems()) {
             this.buttonsList.append(tool.createButton());
         }
     }

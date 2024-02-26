@@ -16,7 +16,7 @@ export default class ToolsManager extends Manager {
 
         this.app = app;
         
-        const tool = app.registries.tools.getFirstItem();
+        const tool = app.toolsRegistry.getFirstItem();
         if (tool)
             this.choose(tool);
     }
