@@ -23,7 +23,7 @@ export default class DOM {
             unlisten = lisOrEl.listen(eventOrListener);
             if (listenerOrInvoke) {
                 if (lisOrEl instanceof State) eventOrListener(lisOrEl.value);
-                else if (lisOrEl instanceof ColorState) eventOrListener(lisOrEl.getColor());
+                else if (lisOrEl instanceof ColorState) eventOrListener(lisOrEl.color);
                 else eventOrListener();
             }
         } else if (lisOrEl instanceof EventTarget) {

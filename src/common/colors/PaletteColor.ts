@@ -17,7 +17,7 @@ export default class PaletteColor {
     }
 
     pick(): this {
-        this.manager.project.app.brushes.setFrontColor(this.getColor());
+        this.manager.project.app.brushes.setFrontColor(this.color);
         return this;
     }
     remove(): boolean {
@@ -43,14 +43,14 @@ export default class PaletteColor {
     }
 
     // Get
-    getColor() {
-        return this.state.getColor();
-    }
     getRgbString() {
         return this.state.getRgbString();
     }
     getHslString() {
         return this.state.getHslString();
+    }
+    get color(): Color {
+        return this.state.color;
     }
     get rgb() {
         return this.state.rgb;

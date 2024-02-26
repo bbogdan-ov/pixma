@@ -27,7 +27,7 @@ export default class ColorPicker extends BaseElement {
         super();
 
         this.state = state || new ColorState(Color.WHITE);
-        this._tempColor = this.state.getColor();
+        this._tempColor = this.state.color.clone();
 
         this._hueState = new State(this._tempColor.hue);
         this._saturationState = new State(this._tempColor.saturation);

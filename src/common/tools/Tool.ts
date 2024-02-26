@@ -8,6 +8,7 @@ import type { Layer } from "../layers";
 import type App from "@source/App";
 import type { Brush } from "../brushes";
 import type PreviewLayer from "../layers/PreviewLayer";
+import { Color } from "@base/common/misc";
 
 export default class Tool {
     readonly name: string;
@@ -78,9 +79,9 @@ export default class Tool {
     get brush(): Brush | null {
         return this.app.brushes.current;
     }
-    /** RGB string from `frontColorState` */
-    get color(): RgbStringColor {
-        return this.frontColorState.getRgbString();
+    /** Color from `frontColorState` */
+    get color(): Color {
+        return this.frontColorState.color;
     }
     /** Value from `sizeState` */
     get size(): number {

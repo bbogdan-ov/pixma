@@ -4,22 +4,22 @@ import { Color } from "../misc";
 import { ListenableListener } from "./Listenable";
 
 export default class ColorState extends Listenable<Color> {
-    protected _color: Color;
+    readonly color: Color;
     
     constructor(color: Color) {
         super();
 
-        this._color = color;
+        this.color = color;
     }
 
     listen(listener: ListenableListener<Color>, invoke?: boolean, key?: string | undefined, override?: boolean): VoidFunction {
         if (invoke)
-            listener(this.getColor());
+            listener(this.color);
         
         return super.listen(listener, invoke, key, override);
     }
     notify(): this {
-        return this._notify(this.getColor());
+        return this._notify(this.color);
     }
 
     // Set
@@ -28,104 +28,100 @@ export default class ColorState extends Listenable<Color> {
         return this.setColor(color, notify);
     }
     setColor(color: Color, notify=true): this {
-        this._color.copy(color);
+        this.color.copy(color);
         if (notify) this.notify();
         return this;
     }
     setRgb(rgb: RgbColor, notify=true): this {
-        this._color.setRgb(...rgb);
+        this.color.setRgb(...rgb);
         if (notify) this.notify();
         return this;
     }
     setHsv(hsv: HsvColor, notify=true): this {
-        this._color.setHsv(...hsv);
+        this.color.setHsv(...hsv);
         if (notify) this.notify();
         return this;
     }
     setHex(hex: HexColor, notify=true): this {
-        this._color.setHex(hex);
+        this.color.setHex(hex);
         if (notify) this.notify();
         return this;
     }
     setRed(value: number, notify=true): this {
-        this._color.setRed(value);
+        this.color.setRed(value);
         if (notify) this.notify();
         return this;
     }
     setGreen(value: number, notify=true): this {
-        this._color.setGreen(value);
+        this.color.setGreen(value);
         if (notify) this.notify();
         return this;
     }
     setBlue(value: number, notify=true): this {
-        this._color.setBlue(value);
+        this.color.setBlue(value);
         if (notify) this.notify();
         return this;
     }
     setHue(value: number, notify=true): this {
-        this._color.setHue(value);
+        this.color.setHue(value);
         if (notify) this.notify();
         return this;
     }
     setSaturation(value: number, notify=true): this {
-        this._color.setSaturation(value);
+        this.color.setSaturation(value);
         if (notify) this.notify();
         return this;
     }
     setValue(value: number, notify=true): this {
-        this._color.setValue(value);
+        this.color.setValue(value);
         if (notify) this.notify();
         return this;
     }
     setAlpha(value: number, notify=true): this {
-        this._color.setAlpha(value);
+        this.color.setAlpha(value);
         if (notify) this.notify();
         return this;
     }
     
     // Get
-    /** Returs cloned protected `._color`, so you cant mutate it */
-    getColor(): Color {
-        return this._color.clone();
-    }
     getHexString(): HexColor {
-        return this._color.getHex();
+        return this.color.getHex();
     }
     getRgbString(): RgbStringColor {
-        return this._color.getRgbString();
+        return this.color.getRgbString();
     }
     getHslString(): HslStringColor {
-        return this._color.getHslString();
+        return this.color.getHslString();
     }
     get rgb(): RgbColor {
-        return this._color.rgb;
+        return this.color.rgb;
     }
     get hsv(): HsvColor {
-        return this._color.hsv;
+        return this.color.hsv;
     }
     get hex(): HexColor {
-        return this._color.hex;
+        return this.color.hex;
     }
     get red(): number {
-        return this._color.red;
+        return this.color.red;
     }
     get green(): number {
-        return this._color.green;
+        return this.color.green;
     }
     get blue(): number {
-        return this._color.blue;
+        return this.color.blue;
     }
     get hue(): number {
-        return this._color.hue;
+        return this.color.hue;
     }
     get saturation(): number {
-        return this._color.saturation;
+        return this.color.saturation;
     }
     /** HSV value */
     get value(): number {
-        return this._color.value;
+        return this.color.value;
     }
     get alpha(): number {
-        return this._color.alpha;
+        return this.color.alpha;
     }
 }

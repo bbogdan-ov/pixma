@@ -68,10 +68,10 @@ export default class BrushesManager extends Manager {
 
     // Get
     getFrontColor(): Color {
-        return this.frontColorState.getColor();
+        return this.frontColorState.color;
     }
     getBackColor(): Color {
-        return this.backColorState.getColor();
+        return this.backColorState.color;
     }
     get current(): Brush | null {
         return this._current;
