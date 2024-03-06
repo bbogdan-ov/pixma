@@ -6,7 +6,7 @@ export type RegistryRegistered<T> = Record<string, T>;
 export default class Registry<T> {
     readonly registered: RegistryRegistered<T> = {};
 
-    readonly onDidRegistered = new Trigger<T>();
+    readonly onDidRegistered = new Trigger<string>();
     
     constructor() {}
 
@@ -21,7 +21,7 @@ export default class Registry<T> {
         }
 
         this.registered[name] = item;
-        this.onDidRegistered.trigger(item);
+        this.onDidRegistered.trigger(name);
         return true;
     }
     get(name: string): T | null {
