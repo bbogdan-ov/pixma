@@ -33,6 +33,7 @@ export default class Project {
     }
 
     attachTab(tab: ProjectTab): this {
+        if (this._tab) return this;
         this._tab = tab;
         return this;
     }
