@@ -38,6 +38,7 @@ class LineTool extends pixma.Tool {
         super("line", app);
 
         this._icon = "line-tool";
+        this.customSizeState = new pixma.State(1);
     }
 
     onUp(layer, mouse) {
@@ -52,6 +53,41 @@ class LineTool extends pixma.Tool {
             mouse.pos.y,
         )
     }
+
+    get sizeState() {
+        return this.customSizeState;
+    }
+}
+
+class RainbowTool extends pixma.DrawingTool {
+    constructor(app) {
+        super("rainbow", app);
+    }
+
+    createButton() {
+        const button = new pixma.Button();
+        const image = pixma.testImage.cloneNode();
+        image.style.width = "32px";
+        
+        button.inner.append(image);
+        button.addEventListener("click", ()=> this.choose());
+        return button;
+    }
+
+    drawPreview(previewLayer, mouse) {
+        const size = previewLayer.manager.project.app.brushes.size;
+        previewLayer.context.drawImage(pixma.testImage, mouse.pos.x, mouse.pos.y, size, size);
+    }
+    draw(layer, mouse) {
+        const size = layer.manager.project.app.brushes.size;
+        layer.context.fillStyle = pixma.Color.random().getRgbString();
+
+        pixma.Algorithms.line(
+            mouse.last.x, mouse.last.y,
+            mouse.pos.x, mouse.pos.y,
+            (x, y)=> layer.context.fillRect(x, y, size, size)
+        )
+    }
 }
 
 return {
@@ -60,7 +96,8 @@ return {
 
     load() {
         pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
-        pixma.app.registerTool("line", new LineTool(pixma.app));
+        pixma.app.registerTool("line", a=> new LineTool(a));
+        pixma.app.registerTool("rainbow", a=> new RainbowTool(a));
     },
     unload() {
 

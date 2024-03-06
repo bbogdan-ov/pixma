@@ -5,6 +5,7 @@ import { LayersRegistry, ToolsRegistry } from "@source/registries";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import type { Tool } from "./common/tools";
 import type { RegisteredLayerCallback } from "./registries/LayersRegistry";
+import { RegisteredToolCallback } from "./registries/ToolsRegistry";
 
 export default class App {
     readonly toolsRegistry: ToolsRegistry;
@@ -21,7 +22,7 @@ export default class App {
     readonly element: AppElement;
 
     constructor() {
-        this.toolsRegistry = new ToolsRegistry(this);
+        this.toolsRegistry = new ToolsRegistry();
         this.layersRegistry = new LayersRegistry();
 
         this.tabs = new TabsManager();
@@ -35,11 +36,11 @@ export default class App {
         this.element = new AppElement(this);
     }
 
-    /** Alias to `app.registries.tools.register()` */
-    registerTool(name: string, tool: Tool, override?: boolean): boolean {
-        return this.toolsRegistry.register(name, tool, override);
+    /** Alias to `app.toolsRegistries.register()` */
+    registerTool(name: string, toolCallback: RegisteredToolCallback, override?: boolean): boolean {
+        return this.toolsRegistry.register(name, toolCallback, override);
     }
-    /** Alias to `app.registries.layers.register()` */
+    /** Alias to `app.layersRegistries.register()` */
     registerLayer(name: string, layerCallback: RegisteredLayerCallback, override?: boolean): boolean {
         return this.layersRegistry.register(name, layerCallback, override);
     }
