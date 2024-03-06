@@ -1,5 +1,6 @@
 import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
+import { Utils } from "@base/utils";
 import type App from "@source/App";
 import type { Tool } from "@source/common/tools";
 
@@ -24,6 +25,10 @@ export default class ToolsManager extends Manager {
             if (!toolCallback) continue;
             this.tools[name] = toolCallback(app);
         }
+
+        const firstTool = Utils.getValueAt(this.tools, 0);
+        if (firstTool)
+            this.choose(firstTool);
 
         // If a new tool is registered, add this tool to the list
         app.toolsRegistry.onDidRegistered.listen(name=> {
