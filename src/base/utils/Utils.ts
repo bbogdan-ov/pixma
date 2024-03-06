@@ -83,6 +83,12 @@ export default class Utils {
         return null;
     }
 
+    // Object
+    /** Returns a value of the object at some index if exists, otherwise returns `null` */
+    static getValueAt<T extends object>(obj: T, index: number): (T[keyof T]) | null {
+        return Object.values(obj)[index] || null;
+    }
+
     // Math
     /** Keeps `value` between `min` and `max` */
     static clamp(value: number, min: number, max: number): number {
