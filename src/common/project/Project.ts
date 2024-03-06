@@ -3,7 +3,7 @@ import App from "@source/App";
 import LayersManager from "@source/managers/project/LayersManager";
 import PaletteManager from "@source/managers/project/PaletteManager";
 import type { ProjectTab } from "../tabs";
-import type { ProjectTabView } from "@source/elements/tab-views";
+import type { ProjectTabView } from "@source/elements/tabs";
 import type { CanvasZoomable } from "@source/elements/canvas";
 import type PreviewLayer from "../layers/PreviewLayer";
 

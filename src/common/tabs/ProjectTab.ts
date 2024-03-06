@@ -1,6 +1,5 @@
 import { Tab } from "@base/common/tabs";
-import { ProjectTabView } from "@source/elements/tab-views";
-import { ProjectTabElement } from "@source/elements/tabs";
+import { ProjectTabElement, ProjectTabView } from "@source/elements/tabs";
 import type { TabsManager } from "@base/managers";
 import type { Project } from "../project";
 
