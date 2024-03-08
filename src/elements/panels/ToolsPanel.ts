@@ -14,29 +14,20 @@ export default class ToolsPanel extends Panel {
         this.app = app;
         this.classList.add("tools-panel");
 
-        this.updateButtons();
         this.append(new PanelContent(this.buttonsList));
 
-        this.app.toolsRegistry.onDidRegistered.listen(this._onToolAdded.bind(this));
+        for (const tool of Object.values(this.app.tools.tools)) {
+            this.addToolButton(tool.createButton());
+        }
     }
 
-    updateButtons() {
-        this.buttonsList.replaceChildren();
-        const tools = this.app.tools.tools;
-        for (const toolName of Object.keys(tools)) {
-            const tool = tools[toolName];
-            this.buttonsList.append(tool.createButton());
-        }
+    addToolButton(element: HTMLElement) {
+        this.buttonsList.append(element);
     }
 
     // On
     onMount(): void {
         super.onMount();
-
-        this.listen(this.app.tools.onDidAdded, this._onToolAdded.bind(this));
-    }
-    protected _onToolAdded() {
-        this.updateButtons();
     }
 }
 
