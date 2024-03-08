@@ -6,6 +6,7 @@ export default class Tab<V extends HTMLElement=HTMLElement> {
     static _id: number = 0;
 
     readonly id: number;
+    readonly name: string;
     readonly manager: TabsManager;
 
     protected _viewElement: V | null = null;
@@ -20,8 +21,9 @@ export default class Tab<V extends HTMLElement=HTMLElement> {
     readonly onDidEntered = new Trigger<Tab>();
     readonly onDidLeaved = new Trigger<Tab>();
 
-    constructor(manager: TabsManager, titleState?: State<string>) {
+    constructor(name: string, manager: TabsManager, titleState?: State<string>) {
         this.id = ++ Tab._id;
+        this.name = name;
         this.manager = manager;
         this.titleState = titleState ?? new State<string>("Tab");
     }

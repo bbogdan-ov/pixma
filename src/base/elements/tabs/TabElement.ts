@@ -18,7 +18,7 @@ export default class TabElement extends FocusableElement {
         this.tab = tab;
 
         this.id = "tab-" + tab.id;
-        this.classList.add("tab");
+        this.classList.add("tab", tab.name + "-tab");
 
         this._content.append(this._titleElement);
         this.append(

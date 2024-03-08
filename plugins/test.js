@@ -1,6 +1,6 @@
 class CustomTab extends pixma.Tab {
     constructor(manager) {
-        super(manager)
+        super("custom", manager)
 
         this.attachView(new CustomTabView(this));
         this.setTitle("plugin tab!")

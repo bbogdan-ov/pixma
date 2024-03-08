@@ -5,7 +5,5 @@ import type { Tab } from "@base/common/tabs";
 export default class ProjectTabElement extends TabElement {
     constructor(tab: Tab) {
         super(tab);
-
-        this.classList.add("project-tab");
     }
 }

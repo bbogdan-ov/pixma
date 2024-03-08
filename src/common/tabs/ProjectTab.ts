@@ -4,10 +4,12 @@ import type { TabsManager } from "@base/managers";
 import type { Project } from "../project";
 
 export default class ProjectTab extends Tab<ProjectTabView> {
+    static readonly NAME = "project";
+    
     readonly project: Project;
 
     constructor(manager: TabsManager, project: Project) {
-        super(manager, project.titleState);
+        super(ProjectTab.NAME, manager, project.titleState);
     
         this.project = project;
         this.project.attachTab(this);
