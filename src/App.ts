@@ -28,8 +28,8 @@ export default class App {
         this.tabs = new TabsManager();
         this.selection = new SelectionManager();
         this.drag = new DragManager();
-        this.tools = new ToolsManager(this);
         this.brushes = new BrushesManager(this);
+        this.tools = new ToolsManager(this);
         this.projects = new ProjectsManager(this);
         this.plugins = new PluginsManager(this);
 
