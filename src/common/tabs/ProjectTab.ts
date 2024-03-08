@@ -23,9 +23,11 @@ export default class ProjectTab extends Tab<ProjectTabView> {
 
     // On
     onOpen(): void {
+        super.onOpen();
         this.project.onOpen();
     }
     onClose(): void {
+        super.onClose();
         this.project.onClose();
     }
 }
