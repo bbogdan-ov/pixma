@@ -75,9 +75,6 @@ export default class ColorPicker extends BaseElement {
         this._hueState.set(this.hue);
         this._saturationState.set(this.saturation);
         this._valueState.set(this.colorValue);
-        // this.hueRange.setValue(this.hue);
-        // this.saturationRange.setValue(this.saturation);
-        // this.valueRange.setValue(this.colorValue);
     }
     protected _updateState() {
         this.state.setHsv(this._tempColor.hsv);
@@ -102,8 +99,6 @@ export default class ColorPicker extends BaseElement {
 
         this._setTempColorHsv(this.state.hsv);
             
-        // this._updateCss();
-        // this._updateCursor();
         this._updateRanges();
     }
     
