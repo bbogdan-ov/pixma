@@ -21,6 +21,7 @@ export default class Layer implements ISelectableItem, IListener {
     protected _isEmpty = true;
     protected _isCurrent = false;
     protected _isSelected = false;
+    protected _isToolDown = false;
     
     readonly displayNameState = new State<string>("Layer");
     readonly isVisibleState = new State<boolean>(true);
@@ -104,6 +105,7 @@ export default class Layer implements ISelectableItem, IListener {
         this.onDidUnchosen.trigger(this);
     }
     onToolDown(tool: Tool, mouse: IMouseData) {
+        this._isToolDown = true;
         this.onDidToolDown.trigger(tool);
     }
     onToolUse(tool: Tool, mouse: IMouseData) {
@@ -113,6 +115,7 @@ export default class Layer implements ISelectableItem, IListener {
     onToolUp(tool: Tool, mouse: IMouseData) {
         this.onChanged();
         
+        this._isToolDown = false;
         this.onDidToolUp.trigger(tool);
         this.onDidEdited.trigger(this);
     }
@@ -188,6 +191,9 @@ export default class Layer implements ISelectableItem, IListener {
     }
     get isEditable(): boolean {
         return this.isVisible && !this.isLocked;
+    }
+    get isToolDown(): boolean {
+        return this._isToolDown;
     }
     get isEmpty(): boolean {
         return this._isEmpty;
