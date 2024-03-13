@@ -10,10 +10,12 @@ export default class Color {
     protected _saturation!: number;
     protected _value!: number;
     protected _hex!: HexColor;
-    protected _alpha: number = 1;
+    protected _alpha: number;
     
-    constructor(...rgb: RgbColor) {
-        this.setRgb(...rgb);
+    constructor(red: number, green: number, blue: number, alpha=1) {
+        this.setRgb(red, green, blue);
+
+        this._alpha = alpha;
     }
 
     copy(color: Color): this {
