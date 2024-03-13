@@ -149,6 +149,9 @@ export default class Color {
     get alpha(): number {
         return this._alpha;
     }
+    get isTransparent(): boolean {
+        return this.alpha == 0;
+    }
 
     // Static
     static from(color: Color): Color {
