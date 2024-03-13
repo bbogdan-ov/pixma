@@ -132,15 +132,12 @@ export default class ColorPicker extends BaseElement {
         if (!(target instanceof BaseRange)) return;
 
         this._setTempColorHsv([target.value, this.saturation, this.colorValue]);
-        this.saturationRange.update(target.value);
-        this.valueRange.update(target.value, this.saturation);
     }
     protected _onSaturationRangeInput(event: Event) {
         const target = event.target;
         if (!(target instanceof BaseRange)) return;
 
         this._setTempColorHsv([this.hue, target.value, this.colorValue]);
-        this.valueRange.update(this.hue, target.value);
     }
     protected _onValueRangeInput(event: Event) {
         const target = event.target;
@@ -195,6 +192,7 @@ export default class ColorPicker extends BaseElement {
 
         this._updateCursor();
         this._updateCss();
+        this._updateRanges();
     }
 
     // Get
