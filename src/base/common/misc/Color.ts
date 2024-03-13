@@ -187,6 +187,9 @@ export default class Color {
     static get BLUE(): Color {
         return new Color(0, 0, 255);
     }
+    static get TRANSPARENT(): Color {
+        return new Color(0, 0, 0, 0);
+    }
 
     // Utils
     static compare(a: ArrayColor, b: ArrayColor): boolean {
