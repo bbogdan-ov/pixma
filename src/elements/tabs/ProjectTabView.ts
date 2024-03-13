@@ -21,7 +21,7 @@ export default class ProjectTabView extends TabView {
 
         this.append(
             DOM.div("panel-slot orientation-vertical",
-                project.app.element.toolsPanel
+                new ToolsPanel(project.app)
             ),
             DOM.div("size-fill col",
                 DOM.div("panel-slot orientation-horizontal ph-0",
