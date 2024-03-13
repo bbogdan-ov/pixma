@@ -1,4 +1,5 @@
 import { Canvas, Color } from "@base/common/misc";
+import { CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 
 export default class Brush {
@@ -16,11 +17,16 @@ export default class Brush {
         const half = Math.floor(size/2);
         const rem = (size%2)/2;
         
+        if (this._color.isTransparent)
+            context.globalCompositeOperation = CompositeOperation.ERASE;
+
         context.drawImage(
             this.image,
             Math.round(x - half - rem),
             Math.round(y - half - rem)
         );
+
+        context.globalCompositeOperation = CompositeOperation.DEFAULT;
     }
     drawLine(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
         Algorithms.line(
