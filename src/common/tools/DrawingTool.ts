@@ -9,7 +9,9 @@ export default class DrawingTool extends Tool {
         super(name, app);
     }
 
-    use(layer: Layer, mouse: IMouseData) {}
+    use(layer: Layer, mouse: IMouseData) {
+        this.draw(layer.context, mouse);
+    }
 
     createParams(): HTMLElement {
         if (this.paramsElement) return this.paramsElement;

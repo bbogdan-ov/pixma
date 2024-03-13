@@ -53,6 +53,9 @@ export default class Tool {
         return this.paramsElement;
     }
 
+    draw(context: CanvasRenderingContext2D, mouse: IMouseData) {
+        this.brush?.drawLine(context, mouse.last.x, mouse.last.y, mouse.pos.x, mouse.pos.y);
+    }
     drawPreview(previewLayer: PreviewLayer, mouse: IMouseData) {
         this.brush?.draw(previewLayer.context, mouse.pos.x, mouse.pos.y);
     }
