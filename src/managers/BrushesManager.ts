@@ -30,12 +30,12 @@ export default class BrushesManager extends Manager {
         }
 
         this.current?.render(this.getFrontColor(), this.size);
-        this.sizeState.listen(value=> {
-            this.current?.render(this.getFrontColor(), value);
-        })
-        this.frontColorState.listen(color=> {
-            this.current?.render(color, this.size);
-        })
+        // this.sizeState.listen(value=> {
+        //     this.current?.render(this.getFrontColor(), value);
+        // })
+        // this.frontColorState.listen(color=> {
+        //     this.current?.render(color, this.size);
+        // })
     }
 
     choose(brush: Brush): boolean {

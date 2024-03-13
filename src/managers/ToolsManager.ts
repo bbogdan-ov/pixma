@@ -33,6 +33,7 @@ export default class ToolsManager extends Manager {
         // If a new tool is registered, add this tool to the list
         app.toolsRegistry.onDidRegistered.listen(name=> {
             const tool = app.toolsRegistry.registered[name](app);
+            tool.setup();
             this.tools[name] = tool;
             this.onDidAdded.trigger(tool);
         });

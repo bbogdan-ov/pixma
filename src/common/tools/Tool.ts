@@ -31,6 +31,15 @@ export default class Tool {
         this.name = name;
         this.app = app;
     }
+    setup() {
+        this.brush?.render(this.color, this.size);
+        this.sizeState.listen(size=> {
+            this.brush?.render(this.color, size);
+        })
+        this.frontColorState.listen(()=> {
+            this.brush?.render(this.color, this.size);
+        })
+    }
 
     choose(): boolean {
         return this.app.tools.choose(this);
@@ -71,6 +80,7 @@ export default class Tool {
     }
     onChoose() {
         this._isChosen = true;
+        this.brush?.render(this.color, this.size);
         this.onDidChosen.trigger(this);
     }
     onUnchoose() {
