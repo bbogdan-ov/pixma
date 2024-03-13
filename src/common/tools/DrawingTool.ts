@@ -9,7 +9,7 @@ export default class DrawingTool extends Tool {
         super(name, app);
     }
 
-    draw(layer: Layer, mouse: IMouseData) {}
+    use(layer: Layer, mouse: IMouseData) {}
 
     createParams(): HTMLElement {
         if (this.paramsElement) return this.paramsElement;
@@ -20,11 +20,11 @@ export default class DrawingTool extends Tool {
     onDown(layer: Layer, mouse: IMouseData): void {
         super.onDown(layer, mouse);
 
-        this.draw(layer, mouse);
+        this.use(layer, mouse);
     }
     onUse(layer: Layer, mouse: IMouseData): void {
         super.onUse(layer, mouse);
 
-        this.draw(layer, mouse);
+        this.use(layer, mouse);
     }
 }

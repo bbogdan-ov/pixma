@@ -14,7 +14,9 @@ export default class EraseTool extends DrawingTool {
         this._icon = IconName.ERASE_TOOL;
     }
     
-    draw(layer: Layer, mouse: IMouseData): void {
+    use(layer: Layer, mouse: IMouseData): void {
+        super.use(layer, mouse);
+
         layer.context.globalCompositeOperation = CompositeOperation.ERASE;
         this.brush?.drawLine(
             layer.context,

@@ -10,8 +10,8 @@ export default class PenTool extends DrawingTool {
         super(PenTool.NAME, app);
     }
 
-    draw(layer: Layer, mouse: IMouseData): void {
-        super.draw(layer, mouse);
+    use(layer: Layer, mouse: IMouseData): void {
+        super.use(layer, mouse);
 
         this.brush?.drawLine(
             layer.context,
