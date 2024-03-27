@@ -4,13 +4,13 @@ import { BrushColorsBubble } from "../brush";
 import type { Tool } from "@source/common/tools";
 
 @BaseElement.define("tool-params")
-export default class ToolParams extends BaseElement {
-    readonly tool: Tool;
+export default class ToolParams<T extends Tool=Tool> extends BaseElement {
+    readonly tool: T;
 
     readonly toolSizeRange: ProgressRange;
     readonly colorsBubble: BrushColorsBubble;
 
-    constructor(tool: Tool) {
+    constructor(tool: T) {
         super();
 
         this.tool = tool;
