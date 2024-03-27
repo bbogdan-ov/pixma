@@ -16,7 +16,7 @@ export default class ToolParams<T extends Tool=Tool> extends BaseElement {
         this.tool = tool;
 
         this.toolSizeRange = new ProgressRange(tool.sizeState).setIsInt();
-        this.toolSizeRange.classList.add("tool-size-range");
+        this.toolSizeRange.classList.add("tool-size-range", "mr-1");
         this.toolSizeRange.setClamp(1, 32);
         this.toolSizeRange.input?.setMax(tool.brush?.maxSize ?? 32);
 
