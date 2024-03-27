@@ -1,5 +1,5 @@
 import { Tool } from ".";
-import DrawingToolParams from "@source/elements/tools-params/DrawingToolParams";
+import { DrawingToolParams } from "@source/elements/tools-params";
 import { State } from "@base/common/listenable";
 import type { IMouseData } from "@base/types/types";
 import type { Layer } from "../layers";
