@@ -14,11 +14,12 @@ export default class PreviewLayer extends Layer {
         })
     }
 
-    draw(tool: Tool | null, mouse: IMouseData | null) {
+    draw(tool: Tool, mouse: IMouseData | null) {
         this.clear();
         this.drawCurrentLayer();
 
-        if (tool && mouse && this.getIsDrawPreview()) {
+		// Draw preview
+        if (mouse && this.getIsDrawPreview()) {
             tool.drawPreview(this, mouse);
         }
     }
@@ -38,7 +39,8 @@ export default class PreviewLayer extends Layer {
 
         // Draw current layer
         this.clear();
-        this.context.drawImage(layer.canvas.element, 0, 0);
+		if (layer.isVisible)
+			this.context.drawImage(layer.canvas.element, 0, 0);
     }
 
     // On
@@ -49,11 +51,6 @@ export default class PreviewLayer extends Layer {
     }
     onToolMove(tool: Tool, mouse: IMouseData): void {
         super.onToolMove(tool, mouse);
-
-        this.draw(tool, mouse);
-    }
-    onToolUp(tool: Tool, mouse: IMouseData): void {
-        super.onToolUp(tool, mouse);
 
         this.draw(tool, mouse);
     }
