@@ -19,15 +19,13 @@ export default class ToolsPanel extends Panel {
         for (const tool of Object.values(this.app.tools.tools)) {
             this.addToolButton(tool.createButton());
         }
+		this.listen(this.app.tools.onDidRegistered, tool => {
+			this.addToolButton(tool.createButton());
+		})
     }
 
     addToolButton(element: HTMLElement) {
         this.buttonsList.append(element);
-    }
-
-    // On
-    onMount(): void {
-        super.onMount();
     }
 }
 

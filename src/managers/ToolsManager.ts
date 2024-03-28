@@ -2,15 +2,15 @@ import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
 import type App from "@source/App";
-import type { Tool } from "@source/common/tools";
+import { EraseTool, PenTool, type Tool } from "@source/common/tools";
 
 export default class ToolsManager extends Manager {
     readonly app: App;
-    readonly tools: Record<string, Tool>;
+    readonly tools: Record<string, Tool> = {};
 
     protected _current: Tool | null = null;
 
-    readonly onDidAdded = new Trigger<Tool>();
+    readonly onDidRegistered = new Trigger<Tool>();
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
 
@@ -18,27 +18,27 @@ export default class ToolsManager extends Manager {
         super();
 
         this.app = app;
-        this.tools = {};
 
-        for (const name of app.toolsRegistry.getNames()) {
-            const toolCallback = app.toolsRegistry.get(name);
-            if (!toolCallback) continue;
-            this.tools[name] = toolCallback(app);
-        }
+		this.register(PenTool.NAME, 	new PenTool(app));
+		this.register(EraseTool.NAME, 	new EraseTool(app));
 
         const firstTool = Utils.getValueAt(this.tools, 0);
         if (firstTool)
             this.choose(firstTool);
-
-        // If a new tool is registered, add this tool to the list
-        app.toolsRegistry.onDidRegistered.listen(name=> {
-            const tool = app.toolsRegistry.registered[name](app);
-            tool.setup();
-            this.tools[name] = tool;
-            this.onDidAdded.trigger(tool);
-        });
     }
 
+	register(name: string, tool: Tool, override=false): boolean {
+		// Register tool anyway if override is true
+		if (!override && this.get(name)) return false;
+
+		this.tools[name] = tool;
+		tool.setup();
+		this.onDidRegistered.trigger(tool);
+		return true
+	}
+	get(name: string): Tool | null {
+		return this.tools[name] || null;
+	}
     choose(tool: Tool): boolean {
         if (this._current === tool) return false;
 

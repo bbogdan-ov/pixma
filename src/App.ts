@@ -1,16 +1,10 @@
 import AppElement from "@source/elements/AppElement";
 import DragManager from "@base/managers/DragManager";
 import { SelectionManager, TabsManager } from "@base/managers";
-import { LayersRegistry, ToolsRegistry } from "@source/registries";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import type { Tool } from "./common/tools";
-import type { RegisteredLayerCallback } from "./registries/LayersRegistry";
-import { RegisteredToolCallback } from "./registries/ToolsRegistry";
 
 export default class App {
-    readonly toolsRegistry: ToolsRegistry;
-    readonly layersRegistry: LayersRegistry;
-
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -22,9 +16,6 @@ export default class App {
     readonly element: AppElement;
 
     constructor() {
-        this.toolsRegistry = new ToolsRegistry();
-        this.layersRegistry = new LayersRegistry();
-
         this.tabs = new TabsManager();
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -37,11 +28,7 @@ export default class App {
     }
 
     /** Alias to `app.toolsRegistries.register()` */
-    registerTool(name: string, toolCallback: RegisteredToolCallback, override?: boolean): boolean {
-        return this.toolsRegistry.register(name, toolCallback, override);
-    }
-    /** Alias to `app.layersRegistries.register()` */
-    registerLayer(name: string, layerCallback: RegisteredLayerCallback, override?: boolean): boolean {
-        return this.layersRegistry.register(name, layerCallback, override);
+    registerTool(name: string, tool: Tool, override?: boolean): boolean {
+		return this.tools.register(name, tool, override);
     }
 }

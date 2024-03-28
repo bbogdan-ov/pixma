@@ -78,7 +78,7 @@ class RainbowTool extends pixma.DrawingTool {
         const size = previewLayer.manager.project.app.brushes.size;
         previewLayer.context.drawImage(pixma.testImage, mouse.pos.x, mouse.pos.y, size, size);
     }
-    draw(layer, mouse) {
+    use(layer, mouse) {
         const size = layer.manager.project.app.brushes.size;
         layer.context.fillStyle = pixma.Color.random().getRgbString();
 
@@ -96,8 +96,8 @@ return {
 
     load() {
         pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
-        pixma.app.registerTool("line", a=> new LineTool(a));
-        pixma.app.registerTool("rainbow", a=> new RainbowTool(a));
+        pixma.app.registerTool("line", new LineTool(pixma.app));
+        pixma.app.registerTool("rainbow", new RainbowTool(pixma.app));
     },
     unload() {
 
