@@ -19,6 +19,7 @@ export default class ProgressRange extends BaseRange {
 
         this.setMin(0);
         this.setMax(100);
+		this.setWidth(140);
 
         this.classList.add("progress-range");
 
