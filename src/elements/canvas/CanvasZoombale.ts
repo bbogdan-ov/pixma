@@ -2,17 +2,17 @@ import { Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { Zoomable } from "@base/elements/layout";
 import { MouseManager } from "@base/managers";
-import { MouseButton } from "@base/types/enums";
 import { IMouseData } from "@base/types/types";
 import { DOM } from "@base/utils";
 import type { Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
+import type { Point } from "@base/common/math";
 
 @Zoomable.define("canvas-zoomable")
 export default class CanvasZoomable extends Zoomable {
     readonly project: Project;
 
-    readonly toolMouse = new MouseManager();
+    readonly mouse = new MouseManager();
 
     protected _isToolUsing = false;
 
@@ -100,71 +100,72 @@ export default class CanvasZoomable extends Zoomable {
 
     protected _onDown(event: PointerEvent): void {
         super._onDown(event);
-        if (event.button == MouseButton.MIDDLE) return;
+        if (this.isPanning) return;
 
         // TODO: catch missed tool and layer
         const tool = this.project.app.tools.current;
         const layer = this.project.layers.current;
+		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;
 
-        const pos = this.getLocalPos(event.clientX, event.clientY);
-        this.toolMouse.onDown(event, pos.x, pos.y);
-
-        this.project.layers.previewLayer.onToolDown(tool, this.toolMouse);
+        const pos = this.getToolPos(event);
+        this.mouse.onDown(event, pos.x, pos.y);
         
-        if (layer.isEditable)
-            tool.onDown(layer, this.toolMouse);
-        layer.onToolDown(tool, this.toolMouse);
+        if (layer.isEditable) {
+            tool.onDown(layer, this.mouse);
+			this._isToolUsing = true;
+		}
 
-        this._isToolUsing = true;
-        this.onDidToolDown.trigger(this.toolMouse);
+        layer.onToolDown(tool, this.mouse);
+        previewLayer.onToolDown(tool, this.mouse);
+
+        this.onDidToolDown.trigger(this.mouse);
     }
     protected _onWindowMove(event: PointerEvent): void {
         super._onWindowMove(event);
 
         const tool = this.project.app.tools.current;
         const layer = this.project.layers.current;
-        if (!tool || !layer || !layer.isEditable) return;
+		const previewLayer = this.project.previewLayer;
+        if (!tool || !layer) return;
 
-        const pos = this.getLocalPos(event.clientX, event.clientY);
-        this.toolMouse.onMove(event, pos.x, pos.y);
+        const pos = this.getToolPos(event);
+        this.mouse.onMove(event, pos.x, pos.y);
 
-        this.project.layers.previewLayer.onToolMove(tool, this.toolMouse);
+		tool.onMove(layer, this.mouse);
+		layer.onToolMove(tool, this.mouse);
+        previewLayer.onToolMove(tool, this.mouse);
 
-        tool.onMove(layer, this.toolMouse);
-        layer.onToolMove(tool, this.toolMouse);
-        this.onDidToolMove.trigger(this.toolMouse);
+		this.onDidToolMove.trigger(this.mouse);
 
-        if (this.isToolUsing) {
-            this.project.layers.previewLayer.onToolUse(tool, this.toolMouse);
+		// Tool using
+        if (this.isToolUsing && layer.isEditable) {
+			tool.onUse(layer, this.mouse);
+            layer.onToolUse(tool, this.mouse);
+            previewLayer.onToolUse(tool, this.mouse);
 
-            if (layer.isEditable)
-                tool.onUse(layer, this.toolMouse);
-
-            layer.onToolUse(tool, this.toolMouse);
-            this.onDidToolUse.trigger(this.toolMouse);
+            this.onDidToolUse.trigger(this.mouse);
         }
     }
     protected _onWindowUp(event: PointerEvent): void {
         super._onWindowUp(event);
-
-        if (!this._isToolUsing) return;
+        if (!this.isToolUsing) return;
 
         const tool = this.project.app.tools.current;
         const layer = this.project.layers.current;
+		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;
 
-        const pos = this.getLocalPos(event.clientX, event.clientY);
-        this.toolMouse.onUp(event, pos.x, pos.y);
-
-        this.project.layers.previewLayer.onToolUp(tool, this.toolMouse);
+        const pos = this.getToolPos(event);
+        this.mouse.onUp(event, pos.x, pos.y);
+		this._isToolUsing = false;
 
         if (layer.isEditable)
-            tool.onUp(layer, this.toolMouse);
-        layer.onToolUp(tool, this.toolMouse);
+            tool.onUp(layer, this.mouse);
+        layer.onToolUp(tool, this.mouse);
+        previewLayer.onToolUp(tool, this.mouse);
 
-        this._isToolUsing = false;
-        this.onDidToolUp.trigger(this.toolMouse);
+        this.onDidToolUp.trigger(this.mouse);
     }
     
     protected _onLayersListChange(list: Layer[]) {
@@ -182,6 +183,9 @@ export default class CanvasZoomable extends Zoomable {
     }
 
     // Get
+	getToolPos(event: MouseEvent): Point {
+		return this.getLocalPos(event.clientX, event.clientY)
+	}
     get currentCanvas(): Canvas | null {
         return this._currentCanvas;
     }
