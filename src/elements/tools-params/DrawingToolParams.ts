@@ -1,17 +1,20 @@
-import { CheckboxToggle } from "@base/elements/toggles";
 import { ToolParams } from ".";
 import type { DrawingTool } from "@source/common/tools";
 
 @ToolParams.define("drawing-tool-params")
 export default class DrawingToolParams<T extends DrawingTool=DrawingTool> extends ToolParams<T> {
-	readonly pixelPerfectToggle: CheckboxToggle; 
+	static readonly SIZE_RANGE_MAX_VALUE = 32;
 
     constructor(tool: T) {
         super(tool);
 
-		this.pixelPerfectToggle = new CheckboxToggle(tool.isPixelPerfectState);
+		this.addProgressRange(tool.sizeState)
+			.setWidth(200)
+			.setIsInt()
+			.setClamp(1, DrawingToolParams.SIZE_RANGE_MAX_VALUE)
+			.input?.setMax(tool.brush?.maxSize ?? DrawingToolParams.SIZE_RANGE_MAX_VALUE);
+		this.addCheckboxToggle(tool.isPixelPerfectState, "pixel perfect");
 
 		this.classList.add("drawing-tool-params");
-		this.append(this.pixelPerfectToggle);
     }
 }
