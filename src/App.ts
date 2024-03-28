@@ -31,4 +31,10 @@ export default class App {
     registerTool(name: string, tool: Tool, override?: boolean): boolean {
 		return this.tools.register(name, tool, override);
     }
+
+	// Get
+	/** Alias to `app.tools.current` */
+	get currentTool(): Tool | null {
+		return this.tools.current;
+	}
 }

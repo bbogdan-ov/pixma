@@ -6,6 +6,7 @@ import type { ProjectTab } from "../tabs";
 import type { ProjectTabView } from "@source/elements/tabs";
 import type { CanvasZoomable } from "@source/elements/canvas";
 import type PreviewLayer from "../layers/PreviewLayer";
+import type { Layer } from "../layers";
 
 export default class Project {
     static readonly DEFAULT_CANVAS_WIDTH = 416;
@@ -74,6 +75,10 @@ export default class Project {
     get canvasZoomable(): CanvasZoomable | null {
         return this.tabView?.canvasZoomable ?? null;
     }
+	/** Alias to `project.layers.current` */
+	get currentLayer(): Layer | null {
+		return this.layers.current;
+	}
     /** Alias to `project.layers.previewLayer` */
     get previewLayer(): PreviewLayer {
         return this.layers.previewLayer;
