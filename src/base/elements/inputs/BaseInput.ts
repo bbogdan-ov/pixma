@@ -52,12 +52,6 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
         return value.toString();
     }
 
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions | undefined): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions | undefined): void;
-    addEventListener(type: any, listener: any, options?: any): void {
-        this.editable.addEventListener(type, listener, options);
-    }
-
     protected _updateValueDisplay() {
         this.setDisplay(this.value);
     }
