@@ -44,9 +44,14 @@
             background: linear-gradient(to top, #000, transparent);
         }
     }
-    .picker-ranges {
+    .picker-inputs {
         display: flex;
         flex-direction: column;
         gap: var(--unit-1);
+
+		.row {
+			align-items: center;
+			gap: var(--unit-1);
+		}
     }
 }
