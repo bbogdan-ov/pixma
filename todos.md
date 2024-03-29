@@ -6,6 +6,7 @@
 - [ ] reordable tabs
 - [ ] floating windows
 - [ ] dashboard/home page
+- [ ] dispatch "change" event in `NumberInput` when increment/decrement buttons are pressed
 
 # PROCESS
 
