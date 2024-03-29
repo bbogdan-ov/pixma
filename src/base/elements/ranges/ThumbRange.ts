@@ -14,8 +14,6 @@ export default class ThumbRange extends BaseRange {
         this.thumbElement = DOM.div("range-thumb");
         this.draggableElement = DOM.div("range-draggable");
         
-        this.setClamp(0, 100);
-
         this.classList.add("thumb-range");
         this.classList.remove("focusable");
 
@@ -27,9 +25,8 @@ export default class ThumbRange extends BaseRange {
     }
 
     protected _updateThumb() {
-        const p = ((Utils.clamp(this._tempValue, this.min, this.max) - this.min) / (this.max - this.min) * 100);
+        const p = ((Utils.clamp(this.value, this.min, this.max) - this.min) / (this.max - this.min) * 100);
         this.thumbElement.style.left = p + "%";
-        // this.thumbElement.style.translate = `${ -p }% -50%`;
     }
 
     // On
@@ -41,6 +38,11 @@ export default class ThumbRange extends BaseRange {
         this._updateThumb();
     }
 
+	protected _onStateChange(value: number): void {
+	    super._onStateChange(value);
+		this._updateThumb();
+	}
+
     protected _onDraggableDown(event: PointerEvent) {
         this._isChanging = true;
         this.setValueFromMouse(event);
@@ -50,18 +52,5 @@ export default class ThumbRange extends BaseRange {
         if (!this._isChanging) return;
 
         this.setValueFromMouse(event);
-    }
-    protected _onWindowUp(event: PointerEvent): void {
-        if (this._isChanging)
-            this.setValue(this._tempValue);
-
-        super._onWindowUp(event);
-    }
-
-    // Set
-    protected _setTempValue(value: number): this {
-        super._setTempValue(value);
-        this._updateThumb();
-        return this;
     }
 }

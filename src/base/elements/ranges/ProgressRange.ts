@@ -17,8 +17,6 @@ export default class ProgressRange extends BaseRange {
         this.progressElement = DOM.div("range-progress");
         this.draggableElement = DOM.div("range-draggable");
 
-        this.setMin(0);
-        this.setMax(100);
 		this.setWidth(140);
 
         this.classList.add("progress-range");
@@ -31,7 +29,7 @@ export default class ProgressRange extends BaseRange {
     }
 
     protected _updateProgress() {
-        this.progressElement.style.width = ((Utils.clamp(this._tempValue, this.min, this.max) - this.min) / (this.max - this.min) * 100) + "%";
+        this.progressElement.style.width = ((Utils.clamp(this.value, this.min, this.max) - this.min) / (this.max - this.min) * 100) + "%";
     }
 
     // On
@@ -43,6 +41,11 @@ export default class ProgressRange extends BaseRange {
         this._updateProgress();
     }
 
+	protected _onStateChange(value: number) {
+		super._onStateChange(value);
+		this._updateProgress();
+	}
+
     protected _onDraggableDown(event: PointerEvent) {
         this._isChanging = true;
         this.setValueFromMouse(event);
@@ -52,12 +55,6 @@ export default class ProgressRange extends BaseRange {
         if (!this._isChanging) return;
 
         this.setValueFromMouse(event);
-    }
-    protected _onWindowUp(event: PointerEvent): void {
-        if (this._isChanging)
-            this.setValue(this._tempValue);
-
-        super._onWindowUp(event);
     }
     protected _onWheel(event: WheelEvent): void {
         if (this.input ? !this.input.isFocused : true)
@@ -88,12 +85,6 @@ export default class ProgressRange extends BaseRange {
     }
     setIsInt(): this {
         this.input?.setIsInt()
-        return this;
-    }
-    protected _setTempValue(value: number): this {
-        super._setTempValue(value);
-        this._updateProgress();
-        this.input?.setDisplay(value);
         return this;
     }
 

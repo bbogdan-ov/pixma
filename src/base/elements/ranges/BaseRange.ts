@@ -11,8 +11,6 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
 
     readonly state: State<number>;
 
-    protected _tempValue: number;
-
     protected _isChanging = false;
     protected _min = 0;
     protected _max = 100;
@@ -22,7 +20,7 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         super();
 
         this.state = state || new State(0);
-        this._tempValue = this.state.value;
+		this.setClamp(0, 100);
 
         this.classList.add("range");
     }
@@ -40,28 +38,15 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         return this;
     }
 
-    dispatchInputEvent() {
-        this.dispatchEvent(new InputEvent("input"));
-    }
-    dispatchChangeEvent() {
-        this.dispatchEvent(new InputEvent("change"));
-    }
-
     // On
     onMount(): void {
         super.onMount();
-
-        this.listen(this.state, this._onValueChange.bind(this));
 
         this.listen(window, EventName.UP, this._onWindowUp.bind(this));
         this.listen(window, EventName.MOVE, this._onWindowMove.bind(this));
         this.listen(this, EventName.WHEEL, this._onWheel.bind(this));
 
-        this._setTempValue(this.state.value);
-    }
-
-    protected _onValueChange(value: number) {
-        this._setTempValue(value);
+		this.listen(this.state, this._onStateChange.bind(this));
     }
 
     protected _onWindowMove(event: PointerEvent) {}
@@ -69,17 +54,26 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         if (!this.isChanging) return;
 
         this._isChanging = false;
-        this.dispatchChangeEvent();
+        this._onChange();
     }
     protected _onWheel(event: WheelEvent) {
         if (event.deltaY < -BaseRange.WHEEL_THRESHOLD) {
             this.increase(event.shiftKey);
-            this.dispatchInputEvent();
+            this._onInput();
         } else if (event.deltaY > BaseRange.WHEEL_THRESHOLD) {
             this.decrease(event.shiftKey);
-            this.dispatchInputEvent();
+            this._onInput();
         }
     }
+
+	protected _onChange() {
+        this.dispatchEvent(new InputEvent("change"));
+	}
+	protected _onInput() {
+        this.dispatchEvent(new InputEvent("input"));
+	}
+
+	protected _onStateChange(value: number) {}
 
     // Set
     setValueFromMouse(event: MouseEvent) {
@@ -89,8 +83,8 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         const max = this.max;
         const step = this.step;
 
-        this._setTempValue(min + Math.ceil(alpha * (max - min) / step) * step);
-        this.dispatchInputEvent();
+        this.setValue(min + Math.ceil(alpha * (max - min) / step) * step);
+        this._onInput();
     }
     setWidth(value: string | number): this {
         return this.setStyle("width", value);
@@ -123,14 +117,10 @@ export default class BaseRange extends FocusableElement implements Clamped, Step
         this._step = value;
         return this;
     }
-    protected _setTempValue(value: number): this {
-        this._tempValue = Utils.clamp(value, this.min, this.max);
-        return this;
-    }
 
     // Get
     get value(): number {
-        return this._tempValue;
+        return this.state.value;
     }
     get max(): number {
         return this._max;
