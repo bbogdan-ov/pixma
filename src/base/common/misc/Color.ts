@@ -214,9 +214,11 @@ export default class Color {
             hex = hex.repeat(6);
         } else if (hex.length == 2) {
             hex = hex.repeat(3);
-        } else if (hex.length >= 3) {
+        } else if (hex.length == 3) {
             hex = hex[0].repeat(2) + hex[1].repeat(2) + hex[2].repeat(2);
-        }
+        } else { 
+			hex += hex[hex.length-1].repeat(2);
+		}
         
         hex = hex.slice(0, 6);
         return "#" + hex.toUpperCase() as HexColor;
