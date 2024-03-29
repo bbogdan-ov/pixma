@@ -215,7 +215,7 @@ export default class Color {
         } else if (hex.length == 2) {
             hex = hex.repeat(3);
         } else if (hex.length >= 3) {
-            hex = hex.repeat(2);
+            hex = hex[0].repeat(2) + hex[1].repeat(2) + hex[2].repeat(2);
         }
         
         hex = hex.slice(0, 6);
