@@ -9,9 +9,11 @@ import type PreviewLayer from "../layers/PreviewLayer";
 import type { Layer } from "../layers";
 
 export default class Project {
+	static _id = 0;
     static readonly DEFAULT_CANVAS_WIDTH = 416;
     static readonly DEFAULT_CANVAS_HEIGHT = 240;
     
+	readonly id: number;
     readonly app: App;
     readonly titleState: State<string>;
     protected _tab: ProjectTab | null = null;
@@ -26,6 +28,7 @@ export default class Project {
     readonly onDidClosed = new Trigger<Project>();
 
     constructor(app: App, title: string) {
+		this.id = ++ Project._id;
         this.app = app;
         this.titleState = new State(title);
 
