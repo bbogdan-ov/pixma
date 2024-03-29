@@ -13,7 +13,7 @@ export default class HexInput extends BaseInput<string> {
 	}
 
     formatInputValue(value: string | number): string {
-        return value.toString();
+        return Color.formatHex(value.toString());
     }
     formatDisplayValue(value: string): string {
 		const v = Color.formatHex(value);
