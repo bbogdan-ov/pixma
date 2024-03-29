@@ -36,6 +36,22 @@
 
         @include hidden-scrollbar;
     }
+	.input-label {
+		height: 100%;
+		padding: 0 .4em;
+		padding-right: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--background);
+		color: var(--lightgray);
+		font-weight: 500;
+		@include left-border-radius(var(--base-border-radius));
+
+		~ .content-editable {
+			@include left-border-radius(0);
+		}
+	}
 
     // Colors
     &:focus-within .content-editable {

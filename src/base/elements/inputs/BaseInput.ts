@@ -17,6 +17,7 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
     protected _color: ColorName | AccentName = AccentName.PRIMARY;
     protected _size: SizeName = SizeName.NORMAL;
 
+	protected _label: HTMLDivElement | null = null;
     readonly editable = new ContentEditableElement();
 
     constructor(defaultValue: T, state?: State<T>) {
@@ -136,6 +137,25 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
         this._size = name;
         return this;
     }
+	/**
+	 * Set label's text is `value` is string
+	 * To remove label set `value` to `null`
+	 */
+	setLabel(value: string | null): this {
+		if (value === null) {
+			this.label?.remove();
+			this._label = null;
+			return this;
+		}
+
+		if (!this.label) {
+			this._label = DOM.div("input-label");
+			this.prepend(this._label);
+		}
+
+		this.label!.textContent = value;
+		return this;
+	}
 
     // Get
     get value(): T {
@@ -150,4 +170,7 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
     get size(): SizeName {
         return this._size;
     }
+	get label(): HTMLDivElement | null {
+		return this._label;
+	}
 }
