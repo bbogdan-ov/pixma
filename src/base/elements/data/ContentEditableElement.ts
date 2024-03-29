@@ -13,6 +13,7 @@ export default class ContentEditableElement extends BaseElement {
         super();
 
         this.contentEditable = "true";
+		this.spellcheck = false;
 
         this.classList.add("content-editable");
     }
