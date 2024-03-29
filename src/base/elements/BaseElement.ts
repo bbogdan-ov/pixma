@@ -60,13 +60,21 @@ export default abstract class BaseElement extends HTMLElement implements IListen
         this.textContent = value;
         return this;
     }
-    setStyle(property: keyof CSSStyleDeclaration, value: string | number): this {
+    setStyle(property: keyof CSSStyleDeclaration, value: string | number | null): this {
         if (typeof value == "number")
             value = value + "px";
 
         Object.assign(this.style, { [property]: value });
         return this;
     }
+	/** Set elements's CSS `visibility` property (clear property if `true`, otherwise set it to `hidden`) */
+	setVisibility(visible: boolean): this {
+		return this.setStyle("visibility", visible ? null : "hidden");
+	}
+	/** Set element's CSS `display` property (clear property if `true`, otherwise set it to `none`) */
+	setDisplacement(display: boolean): this {
+		return this.setStyle("display", display ? null : "none");
+	}
     setProperty<T extends keyof typeof this>(key: T, value: typeof this[T]): this {
         this[key] = value;
         return this;
