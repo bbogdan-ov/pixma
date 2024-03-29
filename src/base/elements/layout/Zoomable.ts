@@ -99,7 +99,7 @@ export default class Zoomable extends BaseElement {
     }
     protected _updateMoveZoom(event: PointerEvent) {
         if (!this.zoomEnabled || this.isPanning) return;
-        if (!this.mouse.getIsPressed(MouseBind.MIDDLE.setCtrlKey())) return;
+        if (!this.mouse.getIsPressed(MouseBind.MIDDLE.setCtrl())) return;
         event.preventDefault();
 
         this.setZoom(

@@ -27,10 +27,10 @@ export default class ContentEditableElement extends BaseElement {
     protected _onKeyDown(event: KeyboardEvent) {
         const key = new KeyboardData(event);
 
-        if (!this.allowNewLine && key.get(KeyBind.ENTER.setWeak()))
+        if (!this.allowNewLine && key.get(KeyBind.ENTER.setGentle()))
             event.preventDefault();
 
-        if (!this.allowFormatting && key.get(KeyBind.B.setCtrlKey(), KeyBind.I.setCtrlKey(), KeyBind.U.setCtrlKey()))
+        if (!this.allowFormatting && key.get(KeyBind.B.setCtrl(), KeyBind.I.setCtrl(), KeyBind.U.setCtrl()))
             event.preventDefault();
     }
     protected _onPaste(event: ClipboardEvent) {

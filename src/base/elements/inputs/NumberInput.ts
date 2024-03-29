@@ -90,10 +90,10 @@ export default class NumberInput extends BaseInput<number> implements Clamped, S
         super._onKeyDown(event);
         const key = new KeyboardData(event);
 
-        if (key.get(KeyBind.ARROW_UP.setWeak())) {
+        if (key.get(KeyBind.ARROW_UP.setGentle())) {
             event.preventDefault();
             this.increase(key.isShift);
-        } else if (key.get(KeyBind.ARROW_DOWN.setWeak())) {
+        } else if (key.get(KeyBind.ARROW_DOWN.setGentle())) {
             event.preventDefault();
             this.decrease(key.isShift);
         }

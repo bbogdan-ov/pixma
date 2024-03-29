@@ -1,48 +1,60 @@
 export default class Bind {
-    ctrlKey = false;
-    shiftKey = false;
-    altKey = false;
+    ctrl: boolean;
+    shift: boolean;
+    alt: boolean;
 
-    weak = false;
+	/**
+	 * TODO: come up with a good description for this thing
+	 * See implementation of `get()` method 
+	 */
+    strict = true;
 
-    constructor(ctrlKey=false, shiftKey=false, altKey=false) {
-        this.ctrlKey = ctrlKey;
-        this.shiftKey = shiftKey;
-        this.altKey = altKey;
+    constructor(ctrl=false, shift=false, alt=false) {
+        this.ctrl = ctrl;
+        this.shift = shift;
+        this.alt = alt;
     }
 
+	/** Test event for matching */
     get(event: Event): boolean {
         const ev = event as any;
 
-        if (this.weak) {
+        if (!this.strict) {
+			// Match at least one
             return (
-                this.ctrlKey ? ev.ctrlKey : true &&
-                this.shiftKey ? ev.shiftKey : true &&
-                this.altKey ? ev.altKey : true
+                this.ctrl ? ev.ctrlKey : true &&
+                this.shift ? ev.shiftKey : true &&
+                this.alt ? ev.altKey : true
             )
         } else {
+			// Match all
             return (
-                ev.ctrlKey == this.ctrlKey &&
-                ev.shiftKey == this.shiftKey &&
-                ev.altKey == this.altKey
+                ev.ctrlKey == this.ctrl &&
+                ev.shiftKey == this.shift &&
+                ev.altKey == this.alt
             )
         }
     }
 
-    setCtrlKey(value=true): this {
-        this.ctrlKey = value;
+    setCtrl(value=true): this {
+        this.ctrl = value;
         return this;
     }
-    setShiftKey(value=true): this {
-        this.shiftKey = value;
+    setShift(value=true): this {
+        this.shift = value;
         return this;
     }
-    setAltKey(value=true): this {
-        this.altKey = value;
+    setAlt(value=true): this {
+        this.alt = value;
         return this;
     }
-    setWeak(value=true): this {
-        this.weak = value;
+	/** TODO: this is also need a good description */
+    setStrict(value=true): this {
+        this.strict = value;
         return this;
+    }
+	/** Inverse of `setStrict()` */
+    setGentle(value=true): this {
+        return this.setStrict(!value);
     }
 }
