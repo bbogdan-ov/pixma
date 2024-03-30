@@ -26,6 +26,14 @@ export class ProjectTab extends Tab<ProjectTabView> {
         super.onOpen();
         this.project.onOpen();
     }
+	onEnter(): void {
+	    super.onEnter();
+        this.project.onEnter();
+	}
+	onLeave(): void {
+	    super.onLeave();
+		this.project.onLeave();
+	}
     onClose(): void {
         super.onClose();
         this.project.onClose();

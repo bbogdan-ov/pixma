@@ -23,6 +23,8 @@ export class Project {
     readonly canvasHeightState = new State<number>(Project.DEFAULT_CANVAS_HEIGHT);
 
     readonly onDidOpened = new Trigger<Project>();
+    readonly onDidEntered = new Trigger<Project>();
+    readonly onDidLeaved = new Trigger<Project>();
     readonly onDidClosed = new Trigger<Project>();
 
     constructor(app: App, title: string) {
@@ -42,9 +44,19 @@ export class Project {
 
     // On
     onOpen() {
+		this.app.projects.onOpen(this);
         this.onDidOpened.trigger(this);
     }
+	onEnter() {
+		this.app.projects.onEnter(this);
+		this.onDidEntered.trigger(this);
+	}
+	onLeave() {
+		this.app.projects.onLeave(this);
+		this.onDidLeaved.trigger(this);
+	}
     onClose() {
+		this.app.projects.onClose(this);
         this.onDidClosed.trigger(this);
     }
     
@@ -84,4 +96,8 @@ export class Project {
     get previewLayer(): PreviewLayer {
         return this.layers.previewLayer;
     }
+	/** Is tab active */
+	get isActive(): boolean {
+		return this.tab?.isActive ?? false;
+	}
 }
