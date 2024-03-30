@@ -18,8 +18,10 @@ export class Color {
         this._alpha = alpha;
     }
 
-    copy(color: Color): this {
+    copy(color: Color, ignoreAlpha=false): this {
         this.setRgb(...color.rgb);
+		if (!ignoreAlpha)
+			this.setAlpha(color.alpha);
         return this;
     }
     clone(): Color {
