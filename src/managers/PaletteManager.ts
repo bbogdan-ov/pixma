@@ -18,11 +18,23 @@ export class PaletteManager extends Manager {
 		this.project = project;
 
         this._list = [
-            PaletteColor.fromHex(this, "#fff"),
-            PaletteColor.fromHex(this, "#000"),
-            PaletteColor.fromHex(this, "#f00"),
-            PaletteColor.fromHex(this, "#0f0"),
-            PaletteColor.fromHex(this, "#00f"),
+			PaletteColor.transparent(this),
+            PaletteColor.fromHex(this, "#000000"),
+            PaletteColor.fromHex(this, "#1D2B53"),
+            PaletteColor.fromHex(this, "#7E2553"),
+            PaletteColor.fromHex(this, "#008751"),
+            PaletteColor.fromHex(this, "#AB5236"),
+			PaletteColor.fromHex(this, "#5F574F"),
+			PaletteColor.fromHex(this, "#C2C3C7"),
+			PaletteColor.fromHex(this, "#FFF1E8"),
+			PaletteColor.fromHex(this, "#FF004D"),
+			PaletteColor.fromHex(this, "#FFA300"),
+			PaletteColor.fromHex(this, "#FFEC27"),
+			PaletteColor.fromHex(this, "#00E436"),
+			PaletteColor.fromHex(this, "#29ADFF"),
+			PaletteColor.fromHex(this, "#83769C"),
+			PaletteColor.fromHex(this, "#FF77A8"),
+			PaletteColor.fromHex(this, "#FFCCAA"),
         ];
     }
 

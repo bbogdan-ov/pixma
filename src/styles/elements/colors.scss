@@ -1,11 +1,18 @@
 .palette-color {
-    background: #000;
+    background: var(--color, #000);
     border-radius: var(--base-border-radius);
     outline: 0 solid #fff;
 
     cursor: pointer;
 
     // States
+	&.transparent {
+		background: url(src/assets/images/checkerboard.png);
+        background-repeat: repeat;
+        background-position: 0 0;
+        background-size: 16px 16px;
+        image-rendering: pixelated;
+	}
     &:hover {
         z-index: 1;
         outline: 3px solid #fff;

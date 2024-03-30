@@ -79,6 +79,12 @@ export class PaletteColor {
     get value() {
         return this.state.value;
     }
+	get alpha(): number {
+		return this.state.alpha;
+	}
+	get isTransparent(): boolean {
+		return this.state.isTransparent;
+	}
 
     // Static
     static fromHex(manager: PaletteManager, hex: HexColor): PaletteColor {
@@ -90,4 +96,7 @@ export class PaletteColor {
     static fromHsv(manager: PaletteManager, hsv: HsvColor): PaletteColor {
         return new PaletteColor(manager, Color.fromHsv(hsv));
     }
+	static transparent(manager: PaletteManager): PaletteColor {
+		return new PaletteColor(manager, Color.TRANSPARENT);
+	}
 }
