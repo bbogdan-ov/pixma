@@ -159,7 +159,7 @@ export class Color {
 
     // Static
     static from(color: Color): Color {
-        return new Color(...color.rgb);
+        return new Color(...color.rgb).setAlpha(color.alpha);
     }
     /** Generates random RGB color */
     static random(): Color {
