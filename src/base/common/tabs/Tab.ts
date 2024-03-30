@@ -9,6 +9,7 @@ export class Tab<V extends HTMLElement=HTMLElement> {
     readonly name: string;
     readonly manager: TabsManager;
 
+	protected _context: string | null = null;
     protected _viewElement: V | null = null;
 
     readonly titleState: State<string>;
@@ -56,10 +57,16 @@ export class Tab<V extends HTMLElement=HTMLElement> {
         this.onDidClosed.trigger(this);
     }
     onEnter() {
+		if (this.context)
+			this.manager.app.addContext(this.context);
+
         this._isActive = true;
         this.onDidEntered.trigger(this);
     }
     onLeave() {
+		if (this.context)
+			this.manager.app.removeContext(this.context);
+
         this._isActive = false;
         this.onDidLeaved.trigger(this);
     }
@@ -83,4 +90,7 @@ export class Tab<V extends HTMLElement=HTMLElement> {
     get isActive() {
         return this._isActive;
     }
+	get context(): string | null {
+		return this._context;
+	}
 }
