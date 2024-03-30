@@ -49,6 +49,7 @@ export enum AppCommand {
 	ENTER_TENTH_TAB   = "enter-tenth-tab",
 	
 	// Project
+	SWAP_COLORS = "swap-colors",
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
 }

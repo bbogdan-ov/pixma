@@ -2,39 +2,32 @@ import type { App } from "./App";
 import { DrawingLayer } from "./common/layers";
 import { AppCommand, AppContext } from "./types/enums";
 
+const cmd = AppCommand;
+
 export function initAppCommands(app: App) {
+	const regApp = app.registerCommand.bind(app, AppContext.APP);
+	const regProject = app.registerCommand.bind(app, AppContext.PROJECT);
 
-	app.registerCommand(AppContext.APP, AppCommand.HELLO, ()=> alert("Hello, PIXMA!"));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_FIRST_TAB,   ()=> enterTab(0));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_SECOND_TAB,  ()=> enterTab(1));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_THIRD_TAB,   ()=> enterTab(2));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_FOURTH_TAB,  ()=> enterTab(3));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_FIFTH_TAB,   ()=> enterTab(4));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_SIXTH_TAB,   ()=> enterTab(5));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_SEVENTH_TAB, ()=> enterTab(6));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_EIGHTH_TAB,  ()=> enterTab(7));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_NINETH_TAB,  ()=> enterTab(8));
-	app.registerCommand(AppContext.APP, AppCommand.ENTER_TENTH_TAB,   ()=> enterTab(9));
+	regApp(cmd.HELLO, 							()=> alert("Hello, PIXMA!"));
+	regApp(cmd.ENTER_FIRST_TAB,   				()=> app.tabs.enterByIndex(0));
+	regApp(cmd.ENTER_SECOND_TAB,  				()=> app.tabs.enterByIndex(1));
+	regApp(cmd.ENTER_THIRD_TAB,   				()=> app.tabs.enterByIndex(2));
+	regApp(cmd.ENTER_FOURTH_TAB,  				()=> app.tabs.enterByIndex(3));
+	regApp(cmd.ENTER_FIFTH_TAB,   				()=> app.tabs.enterByIndex(4));
+	regApp(cmd.ENTER_SIXTH_TAB,   				()=> app.tabs.enterByIndex(5));
+	regApp(cmd.ENTER_SEVENTH_TAB, 				()=> app.tabs.enterByIndex(6));
+	regApp(cmd.ENTER_EIGHTH_TAB,  				()=> app.tabs.enterByIndex(7));
+	regApp(cmd.ENTER_NINETH_TAB,  				()=> app.tabs.enterByIndex(8));
+	regApp(cmd.ENTER_TENTH_TAB,   				()=> app.tabs.enterByIndex(9));
 
-	app.registerCommand(AppContext.PROJECT, AppCommand.ADD_DRAWING_LAYER_ABOVE, addDrawingLayerAboveCurrent);
-	app.registerCommand(AppContext.PROJECT, AppCommand.ADD_DRAWING_LAYER_BELOW, addDrawingLayerBelowCurrent);
+	regProject(cmd.SWAP_COLORS, 				()=> app.brushes.swapColors());
+	regProject(cmd.ADD_DRAWING_LAYER_ABOVE, 	()=> addDrawingLayerBelowCurrent(1));
+	regProject(cmd.ADD_DRAWING_LAYER_BELOW, 	()=> addDrawingLayerBelowCurrent(0));
 
-	// Commands
-	// App
-	function enterTab(num: number) {
-		const tab = app.tabs.list[num];
-		if (!tab) return;
-		app.tabs.enter(tab);
-	}
 	// Project
-	function addDrawingLayerAboveCurrent() {
+	function addDrawingLayerBelowCurrent(offset: number) {
 		const layers = app.currentProject?.layers;
 		if (!layers) return;
-		layers.add(new DrawingLayer(layers), layers.currentIndex+1);
-	}
-	function addDrawingLayerBelowCurrent() {
-		const layers = app.currentProject?.layers;
-		if (!layers) return;
-		layers.add(new DrawingLayer(layers), layers.currentIndex);
+		layers.add(new DrawingLayer(layers), layers.currentIndex+offset);
 	}
 }

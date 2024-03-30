@@ -20,5 +20,6 @@ export function initAppKeymaps(app: App) {
 	map("alt-0", 		cmd.ENTER_TENTH_TAB);
 
 	// Project
+	map("x", 			cmd.SWAP_COLORS);
 	map("ctrl-l", 		cmd.ADD_DRAWING_LAYER_ABOVE);
 }
