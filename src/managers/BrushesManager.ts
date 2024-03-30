@@ -40,8 +40,8 @@ export class BrushesManager extends Manager {
         return true;
     }
     swapColors(): boolean {
-        const front = this.frontColor;
-        this.setFrontColor(this.backColor);
+        const front = this.frontColor.clone();
+        this.setFrontColor(this.backColor.clone());
         this.setBackColor(front);
         return true;
     }

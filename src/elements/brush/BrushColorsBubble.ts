@@ -25,9 +25,9 @@ export class BrushColorsBubble extends BaseElement {
     }
 
     swap() {
-        const front = this.frontState.rgb;
-        this.frontState.setRgb(this.backState.rgb);
-        this.backState.setRgb(front);
+        const front = this.frontState.color.clone();
+        this.frontState.set(this.backState.color.clone());
+        this.backState.set(front);
     }
     
     // On
