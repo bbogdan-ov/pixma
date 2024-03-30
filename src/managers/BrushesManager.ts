@@ -29,13 +29,7 @@ export class BrushesManager extends Manager {
             return Utils.clamp(value, 1, max);
         }
 
-        this.current?.render(this.getFrontColor(), this.size);
-        // this.sizeState.listen(value=> {
-        //     this.current?.render(this.getFrontColor(), value);
-        // })
-        // this.frontColorState.listen(color=> {
-        //     this.current?.render(color, this.size);
-        // })
+        this.current?.render(this.frontColor, this.size);
     }
 
     choose(brush: Brush): boolean {
@@ -46,8 +40,8 @@ export class BrushesManager extends Manager {
         return true;
     }
     swapColors(): boolean {
-        const front = this.getFrontColor();
-        this.setFrontColor(this.getBackColor());
+        const front = this.frontColor;
+        this.setFrontColor(this.backColor);
         this.setBackColor(front);
         return true;
     }
@@ -67,10 +61,10 @@ export class BrushesManager extends Manager {
     }
 
     // Get
-    getFrontColor(): Color {
+    get frontColor(): Color {
         return this.frontColorState.color;
     }
-    getBackColor(): Color {
+    get backColor(): Color {
         return this.backColorState.color;
     }
     get current(): Brush | null {
