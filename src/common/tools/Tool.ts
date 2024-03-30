@@ -35,10 +35,12 @@ export class Tool {
     setup() {
         this.brush?.render(this.color, this.size);
         this.sizeState.listen(size=> {
-            this.brush?.render(this.color, size);
+			if (this.isChosen)
+				this.brush?.render(this.color, size);
         })
-        this.frontColorState.listen(()=> {
-            this.brush?.render(this.color, this.size);
+        this.colorState.listen(color=> {
+			if (this.isChosen)
+				this.brush?.render(color, this.size);
         })
     }
 
@@ -50,7 +52,7 @@ export class Tool {
     }
 	/** Create a command and keymap for this tool */
 	keymap(binds: KeymapBind) {
-		this.app.registerCommand(AppContext.APP, this.chooseCommandName, this.choose.bind(this));
+		this.app.registerCommand(AppContext.PROJECT, this.chooseCommandName, this.choose.bind(this));
 		this.app.registerKeymap(binds, this.chooseCommandName);
 	}
 
@@ -98,20 +100,16 @@ export class Tool {
     get brush(): Brush | null {
         return this.app.brushes.current;
     }
-    /** Color from `frontColorState` */
     get color(): Color {
-        return this.frontColorState.color;
+        return this.colorState.color;
     }
     /** Value from `sizeState` */
     get size(): number {
         return this.sizeState.value;
     }
-    get frontColorState(): ColorState {
-        return this.app.brushes.frontColorState;
-    }
-    get backColorState(): ColorState {
-        return this.app.brushes.backColorState;
-    }
+	get colorState(): ColorState {
+		return this.app.brushes.frontColorState;
+	}
     get sizeState(): State<number> {
         return this.app.brushes.sizeState;
     }

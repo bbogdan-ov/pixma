@@ -15,7 +15,10 @@ export class ToolParams<T extends Tool=Tool> extends BaseElement {
         super();
 
         this.tool = tool;
-        this.colorsBubble = new BrushColorsBubble(tool.frontColorState, tool.backColorState);
+        this.colorsBubble = new BrushColorsBubble(
+			tool.app.brushes.frontColorState,
+			tool.app.brushes.backColorState
+		);
 
         this.classList.add("tool-params");
         this.append(this.colorsBubble);

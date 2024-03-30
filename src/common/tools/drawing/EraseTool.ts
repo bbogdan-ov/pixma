@@ -1,7 +1,7 @@
 import { IconName } from "@base/types/enums";
 import { DrawingTool } from "../DrawingTool";
 import type { App } from "@source/App";
-import { Color } from "@base/common/misc";
+import { ColorState } from "@base/common/listenable";
 
 export class EraseTool extends DrawingTool {
     static readonly NAME = "erase";
@@ -14,7 +14,7 @@ export class EraseTool extends DrawingTool {
 		this.keymap(["2", "e"]);
     }
     
-    get color(): Color {
-        return Color.TRANSPARENT;
+    get colorState(): ColorState {
+        return ColorState.TRANSPARENT;
     }
 }
