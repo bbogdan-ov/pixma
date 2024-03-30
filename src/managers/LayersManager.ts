@@ -88,7 +88,7 @@ export class LayersManager extends Manager {
         return this.list[index] || null;
     }
     getIsExists(layer: Layer): boolean {
-        return this.list.findIndex(l=> l === layer) >= 0;
+        return this.list.includes(layer);
     }
     getSelected(): Layer[] {
         return this.project.app.selection.getSelectedItems(Layer.KEY);
