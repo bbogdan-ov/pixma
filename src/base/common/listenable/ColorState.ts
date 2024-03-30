@@ -123,4 +123,12 @@ export class ColorState extends Listenable<Color> {
     get alpha(): number {
         return this.color.alpha;
     }
+	get isTransparent(): boolean {
+		return this.color.isTransparent;
+	}
+
+	// Static
+	static get TRANSPARENT(): ColorState {
+		return new ColorState(Color.TRANSPARENT);
+	}
 }
