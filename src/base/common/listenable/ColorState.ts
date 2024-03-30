@@ -1,9 +1,8 @@
 import { HexColor, HslStringColor, HsvColor, RgbColor, RgbStringColor } from "@base/types/types";
-import { Listenable } from ".";
 import { Color } from "../misc";
-import { ListenableListener } from "./Listenable";
+import { Listenable, ListenableListener } from "./Listenable";
 
-export default class ColorState extends Listenable<Color> {
+export class ColorState extends Listenable<Color> {
     readonly color: Color;
     
     constructor(color: Color) {

@@ -1,8 +1,8 @@
 import { State } from "@base/common/listenable";
-import { BaseInput } from ".";
+import { BaseInput } from "./BaseInput";
 
 @BaseInput.define("text-input")
-export default class TextInput extends BaseInput<string> {
+export class TextInput extends BaseInput<string> {
     constructor(state?: State<string>) {
         super("", state);
 

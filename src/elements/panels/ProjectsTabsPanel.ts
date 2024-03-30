@@ -5,7 +5,7 @@ import { TabsManager } from "@base/managers";
 import { Orientation } from "@base/types/enums";
 
 @Panel.define("project-tabs-panel")
-export default class ProjectsTabsPanel extends Panel {
+export class ProjectsTabsPanel extends Panel {
     readonly manager: TabsManager;
 
     readonly tabsList: TabsList;

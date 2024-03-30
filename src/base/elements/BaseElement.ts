@@ -3,7 +3,7 @@ import type { Listenable } from "@base/common/listenable";
 import { HTMLTagNames, IListener } from "@base/types/types";
 import { DOM } from "@base/utils";
 
-export default abstract class BaseElement extends HTMLElement implements IListener {
+export abstract class BaseElement extends HTMLElement implements IListener {
     readonly unlistens: VoidFunction[] = [];
     protected _isMountedOnce = false;
 

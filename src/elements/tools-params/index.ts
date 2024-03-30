@@ -1,7 +1,2 @@
-import ToolParams from "./ToolParams"
-import DrawingToolParams from "./DrawingToolParams"
-
-export {
-    ToolParams,
-	DrawingToolParams
-}
+export * from "./ToolParams";
+export * from "./DrawingToolParams";

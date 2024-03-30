@@ -2,7 +2,7 @@ import { KeyCode } from "@base/types/enums";
 import { Bind } from ".";
 import { Utils } from "@base/utils";
 
-export default class KeyBind extends Bind {
+export class KeyBind extends Bind {
     readonly code: KeyCode;
 
     constructor(code: KeyCode, isCtrl=false, isShift=false, isAlt=false) {

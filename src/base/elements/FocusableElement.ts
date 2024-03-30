@@ -1,9 +1,8 @@
 import { EventName } from "@base/types/enums";
-import { BaseElement } from ".";
-import { KeyboardData } from "@base/common/events";
+import { BaseElement } from "./BaseElement";
 import { KeyBind } from "@base/common/binds";
 
-export default abstract class FocusableElement extends BaseElement {
+export abstract class FocusableElement extends BaseElement {
     protected _isFocused = false;
 
     constructor() {
@@ -28,12 +27,11 @@ export default abstract class FocusableElement extends BaseElement {
         this._isFocused = false;
     }
     protected _onKeyDown(event: KeyboardEvent) {
-        const key = new KeyboardData(event);
-
-        if (key.get(KeyBind.SPACE, KeyBind.ENTER)) {
+		// TODO: same story
+        if (KeyBind.SPACE.get(event) || KeyBind.ENTER.get(event)) {
             event.preventDefault();
             this._onInteract(event);
-        } else if (key.get(KeyBind.ESCAPE)) {
+        } else if (KeyBind.ESCAPE.get(event)) {
             this.blur();
         }
     }

@@ -1,7 +1,2 @@
-import ProjectTabElement from "./ProjectTabElement"
-import ProjectTabView from "./ProjectTabView"
-
-export {
-    ProjectTabElement,
-    ProjectTabView
-}
+export * from "./ProjectTabElement";
+export * from "./ProjectTabView";

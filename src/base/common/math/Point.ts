@@ -1,6 +1,6 @@
 import { IPoint } from "@base/types/types";
 
-export default class Point implements IPoint {
+export class Point implements IPoint {
     x: number;
     y: number;
 

@@ -1,15 +1,6 @@
-import BaseRange from "./BaseRange";
-import ProgressRange from "./ProgressRange";
-import ThumbRange from "./ThumbRange";
-import HueRange from "./HueRange";
-import SaturationRange from "./SaturationRange";
-import ColorValueRange from "./ColorValueRange";
-
-export {
-    BaseRange,
-    ProgressRange,
-    ThumbRange,
-    HueRange,
-    SaturationRange,
-    ColorValueRange
-}
+export * from "./BaseRange";
+export * from "./ProgressRange";
+export * from "./ThumbRange";
+export * from "./HueRange";
+export * from "./SaturationRange";
+export * from "./ColorValueRange";

@@ -4,7 +4,7 @@ import { Project } from "@source/common/project";
 import { DrawingLayer } from "@source/common/layers";
 import { EventName } from "@base/types/enums";
 import { TabViewSlot } from "@base/elements/tabs";
-import type App from "@source/App";
+import type { App } from "@source/App";
 
 @BaseElement.define("app-element")
 export default class AppElement extends BaseElement {

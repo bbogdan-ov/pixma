@@ -1,7 +1,3 @@
-import Layer from "./Layer";
-import DrawingLayer from "./DrawingLayer";
-
-export {
-    Layer,
-    DrawingLayer
-}
+export * from "./Layer";
+export * from "./DrawingLayer";
+export * from "./PreviewLayer";

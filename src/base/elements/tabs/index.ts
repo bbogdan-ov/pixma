@@ -1,9 +1,3 @@
-import TabElement from "./TabElement"
-import TabView from "./TabView"
-import TabViewSlot from "./TabViewSlot"
-
-export {
-    TabElement,
-    TabView,
-    TabViewSlot
-}
+export * from "./TabElement";
+export * from "./TabView";
+export * from "./TabViewSlot";

@@ -1,10 +1,10 @@
 import { Panel, PanelContent } from "@base/elements/panels";
 import { Orientation } from "@base/types/enums";
-import type App from "@source/App";
+import type { App } from "@source/App";
 import type { Tool } from "@source/common/tools";
 
 @Panel.define("tool-params-panel")
-export default class ToolParamsPanel extends Panel {
+export class ToolParamsPanel extends Panel {
     readonly app: App;
 
     readonly content = new PanelContent();

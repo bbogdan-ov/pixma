@@ -2,7 +2,7 @@ import { Random, Utils } from "@base/utils";
 import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
 import convert from "color-convert";
 
-export default class Color {
+export class Color {
     protected _red!: number;
     protected _green!: number;
     protected _blue!: number;

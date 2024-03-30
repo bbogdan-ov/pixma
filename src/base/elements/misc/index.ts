@@ -1,5 +1,1 @@
-import LagMeter from "./LagMeter"
-
-export {
-    LagMeter
-}
+export * from "./LagMeter";

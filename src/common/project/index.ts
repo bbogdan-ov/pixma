@@ -1,5 +1,1 @@
-import Project from "./Project";
-
-export {
-    Project
-}
+export * from "./Project";

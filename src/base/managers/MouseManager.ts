@@ -4,7 +4,7 @@ import { MouseButton } from "@base/types/enums";
 import { MouseBind } from "@base/common/binds";
 import { IMouseData } from "@base/types/types";
 
-export default class MouseManager extends Manager implements IMouseData {
+export class MouseManager extends Manager implements IMouseData {
     /** Pressed and move pos */
     readonly pos = new Point();
     /** Last moved pos */

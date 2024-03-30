@@ -5,7 +5,7 @@ type ListenableListeners<T> = {
     [key: string]: ListenableListener<T>;
 };
 
-export default class Listenable<T> {
+export class Listenable<T> {
     static key = 0;
 
     listeners: ListenableListeners<T> = {};

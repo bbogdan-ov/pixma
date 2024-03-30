@@ -1,9 +1,9 @@
-import { BaseElement } from "..";
+import { BaseElement } from "../BaseElement";
 import type { Tab } from "@base/common/tabs";
 import type { TabsManager } from "@base/managers";
 
 @BaseElement.define("base-tab-view-slot")
-export default class TabViewSlot extends BaseElement {
+export class TabViewSlot extends BaseElement {
     readonly manager: TabsManager;
     readonly parent: HTMLElement;
 

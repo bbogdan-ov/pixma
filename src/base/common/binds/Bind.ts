@@ -1,4 +1,4 @@
-export default class Bind {
+export class Bind {
     ctrl: boolean;
     shift: boolean;
     alt: boolean;

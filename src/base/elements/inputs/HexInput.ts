@@ -1,9 +1,9 @@
 import { State } from "@base/common/listenable";
-import { BaseInput } from ".";
+import { BaseInput } from "./BaseInput";
 import { Color } from "@base/common/misc";
 
 @BaseInput.define("hex-input")
-export default class HexInput extends BaseInput<string> {
+export class HexInput extends BaseInput<string> {
 	protected _showHashChar = true;
 
 	constructor(state: State<string>) {

@@ -2,9 +2,9 @@ import { ColorState, Trigger } from "@base/common/listenable";
 import { Color } from "@base/common/misc";
 import { PaletteColorElement } from "@source/elements/colors";
 import type { HexColor, HslColor, HsvColor } from "@base/types/types";
-import type PaletteManager from "@source/managers/project/PaletteManager";
+import type { PaletteManager } from "@source/managers";
 
-export default class PaletteColor {
+export class PaletteColor {
     readonly manager: PaletteManager;
     readonly state: ColorState;
 

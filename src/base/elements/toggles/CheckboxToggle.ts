@@ -1,10 +1,10 @@
-import { BaseToggle } from ".";
-import type { State } from "@base/common/listenable";
+import { BaseToggle } from "./BaseToggle";
 import { Icon } from "../media";
 import { IconName } from "@base/types/enums";
+import type { State } from "@base/common/listenable";
 
 @BaseToggle.define("base-checkbox-toggle")
-export default class CheckboxToggle extends BaseToggle {
+export class CheckboxToggle extends BaseToggle {
     constructor(state?: State<boolean>) {
         super(state);
 

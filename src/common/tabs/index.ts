@@ -1,5 +1,1 @@
-import ProjectTab from "./ProjectTab"
-
-export {
-    ProjectTab
-}
+export * from "./ProjectTab";

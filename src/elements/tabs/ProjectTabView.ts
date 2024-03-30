@@ -1,13 +1,12 @@
 import { ToolsPanel, LayersPanel, ColorPickerPanel } from "../panels";
 import { DOM } from "@base/utils";
 import { CanvasZoomable } from "../canvas";
-import ToolParamsPanel from "../panels/ToolParamsPanel";
-import type { ProjectTab } from "@source/common/tabs";
 import { TabView } from "@base/elements/tabs";
-import PalettePanel from "../panels/PalettePanel";
+import { PalettePanel, ToolParamsPanel } from "../panels";
+import type { ProjectTab } from "@source/common/tabs";
 
 @TabView.define("project-tab-view")
-export default class ProjectTabView extends TabView {
+export class ProjectTabView extends TabView {
     readonly canvasZoomable: CanvasZoomable;
     
     constructor(tab: ProjectTab) {

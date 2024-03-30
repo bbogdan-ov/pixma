@@ -7,7 +7,7 @@ import { PaletteColor } from "@source/common/colors";
 import { Project } from "@source/common/project";
 
 @Panel.define("palette-panel")
-export default class PalettePanel extends Panel {
+export class PalettePanel extends Panel {
     readonly project: Project;
 
     readonly colorsList = DOM.div("colors-list");

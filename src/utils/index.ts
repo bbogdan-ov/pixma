@@ -1,9 +1,3 @@
-import Draw from "./Draw"
-import Algorithms from "./Algorithms"
-import ImageUtils from "./ImageUtils"
-
-export {
-    Draw,
-    Algorithms,
-    ImageUtils
-}
+export * from "./Draw";
+export * from "./Algorithms";
+export * from "./ImageUtils";

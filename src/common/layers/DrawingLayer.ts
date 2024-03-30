@@ -1,8 +1,8 @@
 import DrawingLayerElement from "@source/elements/layers/DrawingLayerElement";
-import { Layer } from ".";
+import { Layer } from "./Layer";
 import type { LayersManager } from "@source/managers";
 
-export default class DrawingLayer extends Layer {
+export class DrawingLayer extends Layer {
     static readonly NAME = "drawing";
 
     constructor(manager: LayersManager) {

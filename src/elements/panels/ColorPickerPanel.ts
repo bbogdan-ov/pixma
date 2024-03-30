@@ -1,10 +1,10 @@
 import { ColorPicker } from "@base/elements/data";
 import { Panel, PanelContent } from "@base/elements/panels";
 import { Orientation } from "@base/types/enums";
-import type App from "@source/App";
+import type { App } from "@source/App";
 
 @Panel.define("color-picker-panel")
-export default class ColorPickerPanel extends Panel {
+export class ColorPickerPanel extends Panel {
     readonly app: App;
 
     readonly colorPicker: ColorPicker;

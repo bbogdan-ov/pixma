@@ -1,16 +1,15 @@
 import { Trigger } from "@base/common/listenable";
 import { IconName } from "@base/types/enums";
 import { ToolButton } from "@source/elements/tools";
-import { IMouseData, RgbStringColor } from "@base/types/types";
+import { IMouseData } from "@base/types/types";
 import { ToolParams } from "@source/elements/tools-params";
 import type { ColorState, State } from "@base/common/listenable";
-import type { Layer } from "../layers";
-import type App from "@source/App";
+import type { PreviewLayer, Layer } from "../layers";
+import type { App } from "@source/App";
 import type { Brush } from "../brushes";
-import type PreviewLayer from "../layers/PreviewLayer";
 import { Color } from "@base/common/misc";
 
-export default class Tool {
+export class Tool {
     readonly name: string;
     readonly app: App;
 

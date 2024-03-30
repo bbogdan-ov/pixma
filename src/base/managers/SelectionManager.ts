@@ -5,7 +5,7 @@ import { ISelectableItem } from "@base/types/types";
 
 type SelectionItem = ISelectableItem;
 
-export default class SelectionManager extends Manager {
+export class SelectionManager extends Manager {
 	protected _selectedKey: string | null = null;
 	protected _selectedItems: SelectionItem[] = [];
 	

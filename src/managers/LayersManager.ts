@@ -1,11 +1,12 @@
 import { Trigger } from "@base/common/listenable";
+import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
-import { DrawingLayer, Layer } from "@source/common/layers";
+import { DrawingLayer, Layer, PreviewLayer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
-import { ProjectManager } from "..";
-import PreviewLayer from "@source/common/layers/PreviewLayer";
 
-export default class LayersManager extends ProjectManager {
+export class LayersManager extends Manager {
+	readonly project: Project;
+
     protected _list: Layer[] = [];
 
     protected _current: Layer | null = null;
@@ -20,7 +21,9 @@ export default class LayersManager extends ProjectManager {
     readonly onDidReordered = new Trigger<Layer[]>();
 
     constructor(project: Project) {
-        super(project);
+        super();
+
+		this.project = project;
 
         this.previewLayer = new PreviewLayer(this);
 

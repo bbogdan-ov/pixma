@@ -1,5 +1,1 @@
-import CanvasZoomable from "./CanvasZoombale"
-
-export {
-    CanvasZoomable
-}
+export * from "./CanvasZoombale";

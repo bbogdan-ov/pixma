@@ -1,9 +1,9 @@
-import { BaseElement } from "..";
+import { BaseElement } from "../BaseElement";
 import type { TabsManager } from "@base/managers";
 import type { Tab } from "@base/common/tabs";
 
 @BaseElement.define("base-tabs-list")
-export default class TabsList extends BaseElement {
+export class TabsList extends BaseElement {
     readonly manager: TabsManager;
 
     constructor(manager: TabsManager) {

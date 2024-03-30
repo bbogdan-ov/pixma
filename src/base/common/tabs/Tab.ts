@@ -2,7 +2,7 @@ import { State, Trigger } from "../listenable";
 import { TabElement } from "@base/elements/tabs";
 import type { TabsManager } from "@base/managers";
 
-export default class Tab<V extends HTMLElement=HTMLElement> {
+export class Tab<V extends HTMLElement=HTMLElement> {
     static _id: number = 0;
 
     readonly id: number;

@@ -1,11 +1,4 @@
-import Listenable from "./Listenable";
-import State from "./State";
-import Trigger from "./Trigger";
-import ColorState from "./ColorState";
-
-export {
-    Listenable,
-    State,
-    Trigger,
-    ColorState
-}
+export * from "./Listenable";
+export * from "./State";
+export * from "./Trigger";
+export * from "./ColorState";

@@ -1,14 +1,12 @@
 import { State, Trigger } from "@base/common/listenable";
-import App from "@source/App";
-import LayersManager from "@source/managers/project/LayersManager";
-import PaletteManager from "@source/managers/project/PaletteManager";
+import { LayersManager, PaletteManager } from "@source/managers";
+import type { App } from "@source/App";
 import type { ProjectTab } from "../tabs";
 import type { ProjectTabView } from "@source/elements/tabs";
 import type { CanvasZoomable } from "@source/elements/canvas";
-import type PreviewLayer from "../layers/PreviewLayer";
-import type { Layer } from "../layers";
+import type { PreviewLayer, Layer } from "../layers";
 
-export default class Project {
+export class Project {
 	static _id = 0;
     static readonly DEFAULT_CANVAS_WIDTH = 416;
     static readonly DEFAULT_CANVAS_HEIGHT = 240;

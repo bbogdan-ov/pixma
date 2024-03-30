@@ -3,7 +3,7 @@ import { ProjectTabElement, ProjectTabView } from "@source/elements/tabs";
 import type { TabsManager } from "@base/managers";
 import type { Project } from "../project";
 
-export default class ProjectTab extends Tab<ProjectTabView> {
+export class ProjectTab extends Tab<ProjectTabView> {
     static readonly NAME = "project";
     
     readonly project: Project;

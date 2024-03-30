@@ -1,9 +1,9 @@
 import { State } from "@base/common/listenable";
 import { Color } from "@base/common/misc";
-import { ThumbRange } from "@base/elements/ranges";
+import { ThumbRange } from "./ThumbRange";
 
 @ThumbRange.define("color-value-range")
-export default class ColorValueRange extends ThumbRange {
+export class ColorValueRange extends ThumbRange {
     constructor(hue: number, saturation: number, state?: State<number>) {
         super(state);
 

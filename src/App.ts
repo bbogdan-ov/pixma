@@ -4,7 +4,7 @@ import { SelectionManager, TabsManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import type { Tool } from "./common/tools";
 
-export default class App {
+export class App {
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;

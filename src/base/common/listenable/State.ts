@@ -1,8 +1,8 @@
-import Listenable, { ListenableListener } from "./Listenable";
+import { Listenable, ListenableListener } from "./Listenable";
 
 type StateCallbackOrValue<T> = T | ((old: T) => T);
 
-class State<T> extends Listenable<T> {
+export class State<T> extends Listenable<T> {
     protected _value: T;
 
     apply: (value: T)=> T = v=> v;
@@ -39,4 +39,3 @@ class State<T> extends Listenable<T> {
         return callbackOrValue;
     }
 }
-export default State;

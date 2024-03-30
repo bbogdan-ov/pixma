@@ -1,5 +1,5 @@
 import { Point } from "@base/common/math";
-import { BaseElement } from "..";
+import { BaseElement } from "../BaseElement";
 import { EventName } from "@base/types/enums";
 import { Trigger } from "@base/common/listenable";
 import { MouseManager } from "@base/managers";
@@ -7,7 +7,7 @@ import { MouseBind } from "@base/common/binds";
 import { DOM, Utils } from "@base/utils";
 
 @BaseElement.define("zoomable-element")
-export default class Zoomable extends BaseElement {
+export class Zoomable extends BaseElement {
     protected _target: HTMLElement | null = null;
 
     protected _isPanning: boolean = false;

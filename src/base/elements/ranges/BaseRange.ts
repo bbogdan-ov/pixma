@@ -1,11 +1,11 @@
 import { State } from "@base/common/listenable";
-import { FocusableElement } from "..";
+import { FocusableElement } from "../FocusableElement";
 import { Dev, Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 import { Clamped, Stepped } from "@base/types/types";
 
 @FocusableElement.define("base-range")
-export default class BaseRange extends FocusableElement implements Clamped, Stepped {
+export class BaseRange extends FocusableElement implements Clamped, Stepped {
     static readonly WHEEL_THRESHOLD = 1;
     static readonly SHIFT_MUL = 5;
 

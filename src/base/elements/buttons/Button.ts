@@ -5,7 +5,7 @@ import { Icon } from "@base/elements/media";
 import { IThemeColorful, IThemeResizeable } from "@base/types/types";
 
 @FocusableElement.define("base-button")
-export default class Button extends FocusableElement implements IThemeColorful, IThemeResizeable {
+export class Button extends FocusableElement implements IThemeColorful, IThemeResizeable {
     readonly inner = DOM.div("button-inner");
     readonly content = DOM.div("button-content");
     protected _icon: Icon | null = null;

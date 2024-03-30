@@ -3,7 +3,7 @@ import { IMouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
 import type { Tool } from "../tools";
 
-export default class PreviewLayer extends Layer {
+export class PreviewLayer extends Layer {
     static readonly NAME = "preview";
     
     constructor(manager: LayersManager) {

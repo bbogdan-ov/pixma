@@ -1,8 +1,8 @@
 import { Color } from "@base/common/misc";
-import { Brush } from ".";
+import { Brush } from "./Brush";
 import { Utils } from "@base/utils";
 
-export default class CircleBrush extends Brush {
+export class CircleBrush extends Brush {
     protected readonly _frames: HTMLImageElement[] = [];
     
     constructor() {

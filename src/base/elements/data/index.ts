@@ -1,7 +1,2 @@
-import ContentEditableElement from "./ContentEditableElement"
-import ColorPicker from "./ColorPicker"
-
-export {
-    ContentEditableElement,
-    ColorPicker
-}
+export * from "./ContentEditableElement";
+export * from "./ColorPicker";

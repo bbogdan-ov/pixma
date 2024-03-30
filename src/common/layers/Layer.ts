@@ -7,7 +7,7 @@ import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { LayersManager } from "@source/managers";
 
-export default class Layer implements ISelectableItem, IListener {
+export class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
     static _id = 0;
 

@@ -1,9 +1,9 @@
-import Manager from "./Manager";
+import { Manager } from "./Manager";
 import { Tab } from "@base/common/tabs";
 import { Trigger } from "@base/common/listenable";
 import Utils from "@base/utils/Utils";
 
-export default class TabsManager extends Manager {
+export class TabsManager extends Manager {
     protected _active: Tab | null = null;
     protected readonly _list: Tab[] = [];
 

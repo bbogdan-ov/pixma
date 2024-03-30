@@ -3,7 +3,7 @@ import { EventName, MouseButton } from "@base/types/enums";
 import { PaletteColor } from "@source/common/colors";
 
 @BaseElement.define("palette-color")
-export default class PaletteColorElement extends BaseElement {
+export class PaletteColorElement extends BaseElement {
     readonly paletteColor: PaletteColor;
     
     constructor(paletteColor: PaletteColor) {

@@ -1,6 +1,6 @@
-import Listenable from "./Listenable";
+import { Listenable } from "./Listenable";
 
-class Trigger<T> extends Listenable<T> {
+export class Trigger<T> extends Listenable<T> {
     constructor() {
         super();
     }
@@ -9,4 +9,3 @@ class Trigger<T> extends Listenable<T> {
         return this._notify(value);
     }
 }
-export default Trigger;

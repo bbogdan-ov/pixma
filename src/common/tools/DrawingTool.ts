@@ -1,11 +1,11 @@
-import { Tool } from ".";
+import { Tool } from "./Tool";
 import { DrawingToolParams } from "@source/elements/tools-params";
 import { State } from "@base/common/listenable";
 import type { IMouseData } from "@base/types/types";
 import type { Layer } from "../layers";
-import type App from "@source/App";
+import type { App } from "@source/App";
 
-export default class DrawingTool extends Tool {
+export class DrawingTool extends Tool {
 	readonly isPixelPerfectState = new State<boolean>(false);
 
     constructor(name: string, app: App) {

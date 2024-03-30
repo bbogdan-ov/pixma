@@ -1,5 +1,1 @@
-import BrushColorsBubble from "./BrushColorsBubble"
-
-export {
-    BrushColorsBubble
-}
+export * from "./BrushColorsBubble";

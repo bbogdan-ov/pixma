@@ -1,5 +1,1 @@
-import Tab from "./Tab";
-
-export {
-    Tab
-}
+export * from "./Tab";

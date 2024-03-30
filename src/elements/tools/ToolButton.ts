@@ -3,7 +3,7 @@ import { AccentName } from "@base/types/enums";
 import type { Tool } from "@source/common/tools";
 
 @Button.define("tool-button")
-export default class ToolButton extends Button {
+export class ToolButton extends Button {
     readonly tool: Tool;
 
     constructor(tool: Tool) {

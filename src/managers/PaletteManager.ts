@@ -1,17 +1,21 @@
 import { Utils } from "@base/utils";
-import { ProjectManager } from "..";
 import { PaletteColor } from "@source/common/colors";
 import { Trigger } from "@base/common/listenable";
+import { Manager } from "@base/managers";
 import type { Project } from "@source/common/project";
 
-export default class PaletteManager extends ProjectManager {
+export class PaletteManager extends Manager {
+	readonly project: Project;
+
     protected _list: PaletteColor[] = [];
     
     readonly onDidAdded = new Trigger<PaletteColor>();
     readonly onDidRemoved = new Trigger<PaletteColor>();
     
     constructor(project: Project) {
-        super(project);
+        super();
+
+		this.project = project;
 
         this._list = [
             PaletteColor.fromHex(this, "#fff"),

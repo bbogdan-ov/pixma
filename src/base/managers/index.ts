@@ -1,13 +1,5 @@
-import Manager from "./Manager";
-import TabsManager from "./TabsManager";
-import MouseManager from "./MouseManager";
-import KeyboardManager from "./KeyboardManager";
-import SelectionManager from "./SelectionManager";
-
-export {
-    Manager,
-    TabsManager,
-    MouseManager,
-    KeyboardManager,
-    SelectionManager
-}
+export * from "./Manager";
+export * from "./TabsManager";
+export * from "./MouseManager";
+export * from "./KeyboardManager";
+export * from "./SelectionManager";

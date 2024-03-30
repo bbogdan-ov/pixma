@@ -1,8 +1,8 @@
-import { ToolParams } from ".";
+import { ToolParams } from "./ToolParams";
 import type { DrawingTool } from "@source/common/tools";
 
 @ToolParams.define("drawing-tool-params")
-export default class DrawingToolParams<T extends DrawingTool=DrawingTool> extends ToolParams<T> {
+export class DrawingToolParams<T extends DrawingTool=DrawingTool> extends ToolParams<T> {
 	static readonly SIZE_RANGE_MAX_VALUE = 32;
 
     constructor(tool: T) {

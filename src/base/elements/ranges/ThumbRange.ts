@@ -1,10 +1,10 @@
 import { State } from "@base/common/listenable";
-import { BaseRange } from ".";
+import { BaseRange } from "./BaseRange";
 import { DOM, Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 
 @BaseRange.define("thumb-range")
-export default class ThumbRange extends BaseRange {
+export class ThumbRange extends BaseRange {
     readonly thumbElement: HTMLDivElement;
     readonly draggableElement: HTMLDivElement;
 

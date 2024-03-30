@@ -9,7 +9,7 @@ import type { Project } from "@source/common/project";
 import type { Point } from "@base/common/math";
 
 @Zoomable.define("canvas-zoomable")
-export default class CanvasZoomable extends Zoomable {
+export class CanvasZoomable extends Zoomable {
     readonly project: Project;
 
     readonly toolMouse = new MouseManager();

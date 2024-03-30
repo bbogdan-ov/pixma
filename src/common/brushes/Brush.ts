@@ -2,7 +2,7 @@ import { Canvas, Color } from "@base/common/misc";
 import { CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 
-export default class Brush {
+export class Brush {
     protected readonly _canvas = new Canvas();
 
     protected _color: Color = Color.BLACK;

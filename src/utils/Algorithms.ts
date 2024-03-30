@@ -4,7 +4,7 @@ import { ImageDataPixelCallback, PointCallback } from "@source/types/types";
 import { ImageUtils } from ".";
 import { Color } from "@base/common/misc";
 
-export default class Algorithms {
+export class Algorithms {
     /** 
      * Code from https://gist.github.com/DavidMcLaughlin208/60e69e698e3858617c322d80a8f174e2
      * Very cool!

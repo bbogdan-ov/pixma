@@ -1,10 +1,9 @@
 import { EventName } from "@base/types/enums";
 import { BaseElement } from "..";
-import { KeyboardData } from "@base/common/events";
 import { KeyBind } from "@base/common/binds";
 
 @BaseElement.define("content-editable")
-export default class ContentEditableElement extends BaseElement {
+export class ContentEditableElement extends BaseElement {
     allowNewLine = true;
     allowFormatting = true;
     allowPasteFormattedText = true;
@@ -25,13 +24,16 @@ export default class ContentEditableElement extends BaseElement {
         this.listen(this, EventName.PASTE, this._onPaste.bind(this));
     }
     protected _onKeyDown(event: KeyboardEvent) {
-        const key = new KeyboardData(event);
-
-        if (!this.allowNewLine && key.get(KeyBind.ENTER.setGentle()))
+        if (!this.allowNewLine && KeyBind.ENTER.setGentle().get(event))
             event.preventDefault();
 
-        if (!this.allowFormatting && key.get(KeyBind.B.setCtrl(), KeyBind.I.setCtrl(), KeyBind.U.setCtrl()))
-            event.preventDefault();
+        if (
+			!this.allowFormatting && (
+			// TODO: make it simple
+			KeyBind.B.setCtrl().get(event) ||
+			KeyBind.I.setCtrl().get(event) ||
+			KeyBind.U.setCtrl().get(event)
+		)) event.preventDefault();
     }
     protected _onPaste(event: ClipboardEvent) {
         if (!this.allowPasteFormattedText) {

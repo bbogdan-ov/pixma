@@ -1,10 +1,10 @@
 import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
-import type App from "@source/App";
-import { EraseTool, PenTool, type Tool } from "@source/common/tools";
+import { type Tool, EraseTool, PenTool } from "@source/common/tools";
+import type { App } from "@source/App";
 
-export default class ToolsManager extends Manager {
+export class ToolsManager extends Manager {
     readonly app: App;
     readonly tools: Record<string, Tool> = {};
 

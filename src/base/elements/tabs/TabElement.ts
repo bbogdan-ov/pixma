@@ -1,11 +1,11 @@
 import { DOM } from "@base/utils";
-import { FocusableElement } from "..";
+import { FocusableElement } from "../FocusableElement";
 import type { Tab } from "@base/common/tabs";
 import { Button } from "../buttons";
 import { EventName, IconName } from "@base/types/enums";
 
 @FocusableElement.define("base-tab")
-export default class TabElement extends FocusableElement {
+export class TabElement extends FocusableElement {
     readonly tab: Tab;
 
     protected readonly _content = DOM.div("tab-content");

@@ -1,14 +1,13 @@
 import { State } from "@base/common/listenable";
-import { BaseInput } from ".";
+import { BaseInput } from "./BaseInput";
 import { Dev, DOM, Utils } from "@base/utils";
 import { Button } from "../buttons";
 import { EventName, IconName } from "@base/types/enums";
-import { KeyboardData } from "@base/common/events";
 import { KeyBind } from "@base/common/binds";
 import { Clamped, Stepped } from "@base/types/types";
 
 @BaseInput.define("number-input")
-export default class NumberInput extends BaseInput<number> implements Clamped, Stepped {
+export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
     static readonly WHEEL_THRESHOLD = 1;
     static readonly SHIFT_MUL = 5;
 
@@ -88,14 +87,13 @@ export default class NumberInput extends BaseInput<number> implements Clamped, S
 
     protected _onKeyDown(event: KeyboardEvent): void {
         super._onKeyDown(event);
-        const key = new KeyboardData(event);
-
-        if (key.get(KeyBind.ARROW_UP.setGentle())) {
+		// TODO: make it simple too
+        if (KeyBind.ARROW_UP.setGentle().get(event)) {
             event.preventDefault();
-            this.increase(key.isShift);
-        } else if (key.get(KeyBind.ARROW_DOWN.setGentle())) {
+            this.increase(event.shiftKey);
+        } else if (KeyBind.ARROW_DOWN.setGentle().get(event)) {
             event.preventDefault();
-            this.decrease(key.isShift);
+            this.decrease(event.shiftKey);
         }
     }
     protected _onValueChange(value: number): void {

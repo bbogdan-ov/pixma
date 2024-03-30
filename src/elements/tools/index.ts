@@ -1,5 +1,1 @@
-import ToolButton from "./ToolButton"
-
-export {
-    ToolButton
-}
+export * from "./ToolButton";

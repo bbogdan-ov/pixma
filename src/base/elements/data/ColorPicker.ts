@@ -8,7 +8,7 @@ import { HexColor, HsvColor, RgbColor } from "@base/types/types";
 import { HexInput, NumberInput } from "../inputs";
 
 @BaseElement.define("color-picker")
-export default class ColorPicker extends BaseElement {
+export class ColorPicker extends BaseElement {
     protected _isChanging = false;
 
     readonly state: ColorState;

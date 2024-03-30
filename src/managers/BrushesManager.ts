@@ -2,10 +2,10 @@ import { Manager } from "@base/managers";
 import { ColorState, State, Trigger } from "@base/common/listenable";
 import { Utils } from "@base/utils";
 import { Color } from "@base/common/misc";
-import type App from "@source/App";
-import { CircleBrush, type Brush } from "@source/common/brushes";
+import { type Brush, CircleBrush } from "@source/common/brushes";
+import type { App } from "@source/App";
 
-export default class BrushesManager extends Manager {
+export class BrushesManager extends Manager {
     readonly app: App;
 
     protected _current: Brush | null = null;

@@ -1,9 +1,9 @@
 import { State } from "@base/common/listenable";
-import { FocusableElement } from "..";
+import { FocusableElement } from "../FocusableElement";
 import { EventName } from "@base/types/enums";
 
 @FocusableElement.define("base-toggle")
-export default class BaseToggle extends FocusableElement {
+export class BaseToggle extends FocusableElement {
     readonly state: State<boolean>;
 
     constructor(state?: State<boolean>) {

@@ -1,11 +1,11 @@
 import { State } from "@base/common/listenable";
-import { BaseRange } from ".";
+import { BaseRange } from "./BaseRange";
 import { NumberInput } from "../inputs";
 import { DOM, Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 
 @BaseRange.define("progress-range")
-export default class ProgressRange extends BaseRange {
+export class ProgressRange extends BaseRange {
     protected _input: NumberInput | null;
     readonly progressElement: HTMLDivElement;
     readonly draggableElement: HTMLDivElement;

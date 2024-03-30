@@ -1,3 +1,3 @@
-export default class Manager {
+export class Manager {
     constructor() {}
 }

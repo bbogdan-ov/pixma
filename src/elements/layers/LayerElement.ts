@@ -6,7 +6,7 @@ import { Layer } from "@source/common/layers";
 
 // TODO: make layer selectable and reordable
 @FocusableElement.define("layer-element")
-export default class LayerElement extends FocusableElement {
+export class LayerElement extends FocusableElement {
     readonly layer: Layer;
 
     protected _isFocused = false;

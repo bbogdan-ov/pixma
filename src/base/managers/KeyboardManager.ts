@@ -3,7 +3,7 @@ import { Manager } from ".";
 import { EventUtils } from "@base/utils";
 import { KeyBind } from "@base/common/binds";
 
-export default class KeyboardManager extends Manager {
+export class KeyboardManager extends Manager {
     protected _isPressed = false;
     protected _pressedCode: KeyCode | null = null;
     protected _isCtrlPressed = false;

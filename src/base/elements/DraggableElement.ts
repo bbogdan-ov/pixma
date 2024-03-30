@@ -2,7 +2,7 @@ import { EventName } from "@base/types/enums";
 import { BaseElement } from ".";
 
 @BaseElement.define("draggable-element")
-export default class DraggableElement extends BaseElement {
+export class DraggableElement extends BaseElement {
 	protected _isDragging = false;
 
 	constructor() {

@@ -3,7 +3,7 @@ import { Algorithms } from ".";
 
 type Context = CanvasRenderingContext2D
 
-export default class Draw {
+export class Draw {
     static clear(context: Context, x=0, y=0, width?: number, height?: number) {
         context.clearRect(
             Math.floor(x),

@@ -1,8 +1,8 @@
 import { EventName, Orientation } from "@base/types/enums";
-import { BaseElement } from "..";
+import { BaseElement } from "../BaseElement";
 
 @BaseElement.define("base-panel")
-export default class Panel extends BaseElement {
+export class Panel extends BaseElement {
     static _id = 0;
 
     readonly panelId: number;

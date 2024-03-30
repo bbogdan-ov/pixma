@@ -151,7 +151,7 @@ export const icons = {
 }
 
 @BaseElement.define("base-icon")
-export default class Icon extends BaseElement {
+export class Icon extends BaseElement {
     constructor(type: IconName | null) {
         super();
 

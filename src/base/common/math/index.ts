@@ -1,5 +1,1 @@
-import Point from "./Point"
-
-export {
-    Point
-}
+export * from "./Point";

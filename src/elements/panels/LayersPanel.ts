@@ -6,7 +6,7 @@ import { DrawingLayer, Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
 
 @Panel.define("layers-panel")
-export default class LayersPanel extends Panel {
+export class LayersPanel extends Panel {
     readonly project: Project;
 
     readonly layersList = DOM.div("layers-list");

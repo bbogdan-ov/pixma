@@ -1,9 +1,3 @@
-import BaseElement from "./BaseElement";
-import FocusableElement from "./FocusableElement";
-import DraggableElement from "./DraggableElement";
-
-export {
-    BaseElement,
-    FocusableElement,
-    DraggableElement
-}
+export * from "./BaseElement";
+export * from "./FocusableElement";
+export * from "./DraggableElement";

@@ -1,9 +1,9 @@
-import { FocusableElement } from "..";
+import { FocusableElement } from "../FocusableElement";
 import { ISelectableItem } from "@base/types/types";
 import type { SelectionManager } from "@base/managers";
 
 @FocusableElement.define("selectable-item")
-export default class SelectableItemElement extends FocusableElement {
+export class SelectableItemElement extends FocusableElement {
     manager: SelectionManager;
     selectionKey: string;
     selectableItem: ISelectableItem;

@@ -1,7 +1,2 @@
-import BaseToggle from "./BaseToggle";
-import CheckboxToggle from "./CheckboxToggle";
-
-export {
-    BaseToggle,
-    CheckboxToggle
-}
+export * from "./BaseToggle";
+export * from "./CheckboxToggle";

@@ -1,11 +1,11 @@
 import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
-import type App from "@source/App";
-import type { Project } from "@source/common/project";
 import { ProjectTab } from "@source/common/tabs";
+import type { App } from "@source/App";
+import type { Project } from "@source/common/project";
 
-export default class ProjectsManager extends Manager {
+export class ProjectsManager extends Manager {
 	readonly app: App;
 
 	protected readonly _list: Project[] = []

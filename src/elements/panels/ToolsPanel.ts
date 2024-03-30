@@ -1,10 +1,10 @@
 import { Panel, PanelContent } from "@base/elements/panels";
 import { Orientation } from "@base/types/enums";
 import { DOM } from "@base/utils";
-import type App from "@source/App";
+import type { App } from "@source/App";
 
 @Panel.define("tools-panel")
-export default class ToolsPanel extends Panel {
+export class ToolsPanel extends Panel {
     readonly app: App;
     readonly buttonsList = DOM.div("buttons-list");
     

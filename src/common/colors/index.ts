@@ -1,5 +1,1 @@
-import PaletteColor from "./PaletteColor"
-
-export {
-    PaletteColor
-}
+export * from "./PaletteColor";

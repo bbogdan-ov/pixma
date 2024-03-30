@@ -1,14 +1,13 @@
 import { AccentName, ColorName, EventName, SizeName } from "@base/types/enums";
 import { ContentEditableElement } from "../data";
 import { FocusableElement } from "..";
-import { KeyboardData } from "@base/common/events";
 import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
 import { IThemeColorful, IThemeResizeable } from "@base/types/types";
 
 @FocusableElement.define("base-input")
-export default class BaseInput<T extends string | number> extends FocusableElement implements IThemeColorful, IThemeResizeable {
+export class BaseInput<T extends string | number> extends FocusableElement implements IThemeColorful, IThemeResizeable {
     protected _maxLength = Infinity;
 
     readonly state: State<T>;
@@ -87,9 +86,10 @@ export default class BaseInput<T extends string | number> extends FocusableEleme
     }
     // override
     protected _onKeyDown(event: KeyboardEvent): void {
-        const key = new KeyboardData(event);
-
-        if (key.get(KeyBind.ENTER, KeyBind.ESCAPE)) {
+        if (
+			KeyBind.SPACE.get(event) ||
+			KeyBind.ENTER.get(event)
+		) {
             event.preventDefault();
             this.blur();
         }

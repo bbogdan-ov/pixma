@@ -1,7 +1,7 @@
 import { MouseButton } from "@base/types/enums";
 import { Bind } from ".";
 
-export default class MouseBind extends Bind {
+export class MouseBind extends Bind {
     readonly button: MouseButton;
 
     constructor(button: MouseButton, isCtrl=false, isShift=false, isAlt=false) {

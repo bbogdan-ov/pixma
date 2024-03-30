@@ -1,10 +1,3 @@
-import TabsList from "./TabsList"
-import Zoomable from "./Zoomable"
-import SelectableItemElement from "./SelectableItemElement"
-
-export {
-    TabsList,
-    Zoomable,
-    SelectableItemElement
-}
-
+export * from "./TabsList";
+export * from "./Zoomable";
+export * from "./SelectableItemElement";

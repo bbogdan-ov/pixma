@@ -3,10 +3,9 @@ import { Color } from "@base/common/misc";
 import { BaseElement } from "@base/elements";
 import { EventName } from "@base/types/enums";
 import { DOM } from "@base/utils";
-import App from "@source/App";
 
 @BaseElement.define("brush-colors-bubble")
-export default class BrushColorsBubble extends BaseElement {
+export class BrushColorsBubble extends BaseElement {
     readonly frontState: ColorState;
     readonly backState: ColorState;
     

@@ -1,9 +1,9 @@
 import { DOM } from "@base/utils";
-import { LayerElement } from ".";
+import { LayerElement } from "./LayerElement";
 import type { Layer } from "@source/common/layers";
 
 @LayerElement.define("layer-with-preview")
-export default class LayerElementWithPreview extends LayerElement {
+export class LayerElementWithPreview extends LayerElement {
     readonly previewImage = new Image();
 
     constructor(layer: Layer) {

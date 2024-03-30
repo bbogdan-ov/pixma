@@ -1,8 +1,7 @@
-import { Utils } from "@base/utils";
 import { BaseElement } from "..";
 
 @BaseElement.define("lag-meter")
-export default class LagMeter extends BaseElement {
+export class LagMeter extends BaseElement {
     readonly canvas: HTMLCanvasElement;
     readonly context: CanvasRenderingContext2D;
     
