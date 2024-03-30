@@ -1,9 +1,12 @@
 import { Manager } from "./Manager";
-import { Tab } from "@base/common/tabs";
 import { Trigger } from "@base/common/listenable";
-import Utils from "@base/utils/Utils";
+import { Utils } from "@base/utils";
+import type { Tab } from "@base/common/tabs";
+import type { BaseApp } from "@base/BaseApp";
 
 export class TabsManager extends Manager {
+	readonly app: BaseApp;
+
     protected _active: Tab | null = null;
     protected readonly _list: Tab[] = [];
 
@@ -12,8 +15,10 @@ export class TabsManager extends Manager {
     readonly onDidEntered = new Trigger<Tab>();
     readonly onDidLeaved = new Trigger<Tab>();
 
-    constructor() {
+    constructor(app: BaseApp) {
         super()
+
+		this.app = app;
     }
 
     open(tab: Tab): boolean {
