@@ -12,6 +12,9 @@ export class PreviewLayer extends Layer {
         this.listen(manager.onDidChosen, ()=> {
             this.drawCurrentLayer();
         })
+		this.listen(manager.project.app.tools.onDidChosen, tool=> {
+			this.draw(tool, manager.project.canvasZoomable?.toolMouse || null);
+		})
     }
 
     draw(tool: Tool, mouse: IMouseData | null) {
