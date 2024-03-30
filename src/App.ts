@@ -9,11 +9,15 @@ import type { Project } from "./common/project";
 import { CommandFunc, CommandsManager } from "@base/managers/CommandsManager";
 import { initAppCommands } from "./commands";
 import { AppCommand } from "./types/enums";
+import { KeymapBind, KeymapsManager } from "@base/managers/KeymapsManager";
+import { initAppKeymaps } from "./keymaps";
+import { KeyBind } from "@base/common/binds";
 
 export const APP_NAMESPACE = "pixma";
 
 export class App extends BaseApp<AppElement> {
 	readonly commands: CommandsManager;
+	readonly keymaps: KeymapsManager;
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -26,6 +30,7 @@ export class App extends BaseApp<AppElement> {
 		super();
 
 		this.commands = new CommandsManager(this);
+		this.keymaps = new KeymapsManager(this.commands);
         this.tabs = new TabsManager(this);
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -35,22 +40,21 @@ export class App extends BaseApp<AppElement> {
         this.plugins = new PluginsManager(this);
 
 		initAppCommands(this);
-
-		addEventListener("keydown", e=> {
-			if (e.code == "KeyA")
-				this.commands.call(AppCommand.ADD_DRAWING_LAYER_BELOW);
-			if (e.code == "KeyD")
-				this.commands.call(AppCommand.ADD_DRAWING_LAYER_ABOVE);
-			if (e.code == "KeyH")
-				this.commands.call(AppCommand.HELLO);
-		})
+		initAppKeymaps(this);
 
 		this._element = new AppElement(this);
     }
 
-	/** Register command with "pixma" namespace */
+	/** Register a new command with "pixma" namespace */
 	registerCommand(context: string, name: string, func: CommandFunc): boolean {
 		return this.commands.register(APP_NAMESPACE, context, name, func);
+	}
+	/**
+	 * Register a keymap
+	 * See `keymapsManager.register()` for more info
+	 */
+	registerKeymap(binds: KeymapBind, command: string): boolean {
+		return this.keymaps.register(binds, command);
 	}
     /** Alias to `app.toolsRegistries.register()` */
     registerTool(name: string, tool: Tool, override?: boolean): boolean {

@@ -1,6 +1,6 @@
 import { KeyCode } from "@base/types/enums";
 import { Bind } from ".";
-import { Utils } from "@base/utils";
+import { Dev, Utils } from "@base/utils";
 
 export class KeyBind extends Bind {
     readonly code: KeyCode;
@@ -25,6 +25,77 @@ export class KeyBind extends Bind {
 			ev.shiftKey,
 			ev.shiftKey
 		);
+	}
+	/**
+	 * Try to create a key bind from the string
+	 * Returns `null` if something goes wrong
+	 * See `KeyCode` for available key codes
+	 *
+	 * Syntax:
+	 * - `"KEY"` - just a one key
+	 * - `"MOD_1-MOD_N-...-KEY"` - key with 1, 2 or 3 modifiers (ctrl, shift or alt)
+	 *
+	 * Examples:
+	 * - `"a"` -> A
+	 * - `"ctrl-a"` -> Ctrl + A
+	 * - `"shift-a"` -> Shift + A
+	 * - `"alt-a"` -> Alt + A
+	 * - `"ctrl-shift-b"` -> Ctrl + Shift + B
+	 * - `"shift-ctrl-b"` -> Ctrl + Shift + B
+	 * - `"ctrl-shift-alt-c"` -> Ctrl + Shift + Alt + C
+	 * - `"ctrl-shift-alt-c-d-shift"` -> It's ok, but it's better not to do that (only the first 4 keys are counted)
+	 * - `"f2"` -> F2
+	 * - `"1"` -> ONE
+	 * - `"one"` -> ONE
+	 * - `"pageup"` -> PAGE_UP
+	 * - `"a-b"` -> Throws an error!
+	 * - `"abc"`, `"ctrl-!"` -> Also throws an error
+	 */
+	static fromString(value: string): KeyBind | null {
+		value = value.toLowerCase().trim();
+		const keys = value.split("-");
+
+		let keyCode: KeyCode | null = null;
+		let ctrl = false;
+		let shift = false;
+		let alt = false;
+
+		for (let i = 0; i < Math.min(keys.length, 4); i ++) {
+			const key = keys[i];
+
+			if (key == "ctrl")
+				ctrl = true;
+			else if (key == "shift")
+				shift = true;
+			else if (key == "alt")
+				alt = true;
+			else {
+				keyCode = KeyBind.keyCodeFromString(key);
+
+				if (!keyCode) {
+					Dev.throwError(`Unable to parse key bind. Unknown key "${ key }" in key bind "${ value }"`);
+					return null;
+				}
+			}
+		}
+
+		return new KeyBind(keyCode!, ctrl, shift, alt);
+	}
+
+	/**
+	 * Try to create a key code from the string
+	 * See `KeyCode` for available key codes
+	 */
+	static keyCodeFromString(code: string): KeyCode | null {
+		code = code.toLowerCase().trim();
+
+		const keys = Object.keys(KeyCode);
+		for (let i = 0; i < keys.length; i ++) {
+			const keyCode = (KeyCode as any)[keys[i]];
+			if (keyCode == code)
+				return keyCode;
+		}
+		return null;
 	}
 	
     static get A(): KeyBind {

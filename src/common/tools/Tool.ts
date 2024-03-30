@@ -8,6 +8,8 @@ import type { PreviewLayer, Layer } from "../layers";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
 import { Color } from "@base/common/misc";
+import { KeymapBind } from "@base/managers/KeymapsManager";
+import { AppContext } from "@source/types/enums";
 
 export class Tool {
     readonly name: string;
@@ -46,6 +48,11 @@ export class Tool {
     unchoose(): boolean {
         return this.app.tools.unchoose();
     }
+	/** Create a command and keymap for this tool */
+	keymap(binds: KeymapBind) {
+		this.app.registerCommand(AppContext.APP, this.chooseCommandName, this.choose.bind(this));
+		this.app.registerKeymap(binds, this.chooseCommandName);
+	}
 
     createButton(): HTMLElement {
         return new ToolButton(this).setIcon(this._icon);
@@ -117,4 +124,7 @@ export class Tool {
     get isUsing(): boolean {
         return this._isUsing;
     }
+	get chooseCommandName(): string {
+		return `choose-${ this.name }-tool`;
+	}
 }

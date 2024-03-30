@@ -10,6 +10,8 @@ export class EraseTool extends DrawingTool {
         super(EraseTool.NAME, app);
 
         this._icon = IconName.ERASE_TOOL;
+
+		this.keymap(["2", "e"]);
     }
     
     get color(): Color {

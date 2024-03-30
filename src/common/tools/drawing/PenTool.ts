@@ -6,5 +6,7 @@ export class PenTool extends DrawingTool {
 
     constructor(app: App) {
         super(PenTool.NAME, app);
+
+		this.keymap(["1", "p"]);
     }
 }

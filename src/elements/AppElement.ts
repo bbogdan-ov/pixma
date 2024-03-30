@@ -36,8 +36,12 @@ export default class AppElement extends BaseElement {
         this.app.projects.open(b);
         // }
 
-        this.listen(this, EventName.SCROLL, this._onScroll.bind(this));
+        this.listen(window, EventName.SCROLL, this._onScroll.bind(this));
+		this.listen(window, EventName.KEY_DOWN, this._onKeyDown.bind(this));
     }
+	protected _onKeyDown(event: KeyboardEvent) {
+		this.app.keymaps.onKeyDown(event);
+	}
     protected _onScroll() {
         this.scrollTo(0, 0); // its a crutch
     }

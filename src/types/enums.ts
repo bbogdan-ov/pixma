@@ -37,6 +37,16 @@ export enum CompositeOperation {
 export enum AppCommand {
 	// App
 	HELLO = "hello",
+	ENTER_FIRST_TAB   = "enter-first-tab",
+	ENTER_SECOND_TAB  = "enter-second-tab",
+	ENTER_THIRD_TAB   = "enter-third-tab",
+	ENTER_FOURTH_TAB  = "enter-fourth-tab",
+	ENTER_FIFTH_TAB   = "enter-fifth-tab",
+	ENTER_SIXTH_TAB   = "enter-sixth-tab",
+	ENTER_SEVENTH_TAB = "enter-seventh-tab",
+	ENTER_EIGHTH_TAB  = "enter-eighth-tab",
+	ENTER_NINETH_TAB  = "enter-nineth-tab",
+	ENTER_TENTH_TAB   = "enter-tenth-tab",
 	
 	// Project
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
