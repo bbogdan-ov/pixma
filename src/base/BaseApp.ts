@@ -1,10 +1,10 @@
 import { Trigger } from "./common/listenable";
 import { Utils } from "./utils";
 
-export class BaseApp<E extends Element=HTMLDivElement> {
+export class BaseApp<E extends Element=HTMLElement> {
 	protected _element!: E;
 
-	readonly activeContexts: string[] = [];
+	readonly activeContexts: string[] = ["app"];
 
 	readonly onDidContextAdded = new Trigger<string>();
 	readonly onDidContextRemoved = new Trigger<string>();

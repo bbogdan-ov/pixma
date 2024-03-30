@@ -33,3 +33,16 @@ export enum CompositeOperation {
     /** Alias to `DESTINATION_IN` */
     MASK = DESTINATION_IN
 }
+
+export enum AppCommand {
+	// App
+	HELLO = "hello",
+	
+	// Project
+	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
+	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
+}
+export enum AppContext {
+	APP = "app",
+	PROJECT = "project"
+}

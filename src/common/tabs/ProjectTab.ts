@@ -1,5 +1,6 @@
 import { Tab } from "@base/common/tabs";
 import { ProjectTabElement, ProjectTabView } from "@source/elements/tabs";
+import { AppContext } from "@source/types/enums";
 import type { TabsManager } from "@base/managers";
 import type { Project } from "../project";
 
@@ -13,6 +14,8 @@ export class ProjectTab extends Tab<ProjectTabView> {
     
         this.project = project;
         this.project.attachTab(this);
+
+		this._context = AppContext.PROJECT;
 
         this.attachView(new ProjectTabView(this));
     }
