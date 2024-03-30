@@ -51,6 +51,11 @@ export class TabsManager extends Manager {
         this.onDidEntered.trigger(tab);
         return true;
     }
+	enterByIndex(index: number): boolean {
+		const tab = this.list[index];
+		if (!tab) return false;
+		return this.enter(tab);
+	}
     leave(tab: Tab): boolean {
         if (this.active !== tab) return false;
 
