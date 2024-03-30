@@ -5,8 +5,8 @@ import { Utils } from "@base/utils";
 export class KeyBind extends Bind {
     readonly code: KeyCode;
 
-    constructor(code: KeyCode, isCtrl=false, isShift=false, isAlt=false) {
-        super(isCtrl, isShift, isAlt);
+    constructor(code: KeyCode, ctrl=false, shift=false, alt=false) {
+        super(ctrl, shift, alt);
 
         this.code = code;
     }
@@ -16,6 +16,17 @@ export class KeyBind extends Bind {
     }
 
     // Static
+	static fromEvent(event: Event): KeyBind | null { 
+		const ev = event as KeyboardEvent;
+		if (!ev.code) return null;
+		return new KeyBind(
+			Utils.formatKeyCode(ev.code) as KeyCode,
+			ev.ctrlKey,
+			ev.shiftKey,
+			ev.shiftKey
+		);
+	}
+	
     static get A(): KeyBind {
         return new KeyBind(KeyCode.A);
     }

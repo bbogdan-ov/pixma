@@ -4,8 +4,8 @@ import { Bind } from ".";
 export class MouseBind extends Bind {
     readonly button: MouseButton;
 
-    constructor(button: MouseButton, isCtrl=false, isShift=false, isAlt=false) {
-        super(isCtrl, isShift, isAlt);
+    constructor(button: MouseButton, ctrl=false, shift=false, alt=false) {
+        super(ctrl, shift, alt);
 
         this.button = button;
     }
@@ -15,6 +15,11 @@ export class MouseBind extends Bind {
     }
 
     // Static
+	static fromEvent(event: Event): MouseBind | null {
+		const ev = event as MouseEvent;
+		if (!ev.button) return null;
+		return new MouseBind(ev.button, ev.ctrlKey, ev.shiftKey, ev.shiftKey);
+	}
     static get LEFT(): MouseBind {
         return new MouseBind(MouseButton.LEFT);
     }
