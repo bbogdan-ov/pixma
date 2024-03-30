@@ -11,8 +11,8 @@ export class KeyBind extends Bind {
         this.code = code;
     }
 
-    get(event: Event): boolean {
-        return Utils.formatKeyCode((event as any).code) == Utils.formatKeyCode(this.code) && super.get(event);
+    test(event: Event): boolean {
+        return Utils.formatKeyCode((event as any).code) == Utils.formatKeyCode(this.code) && super.test(event);
     }
 
     // Static

@@ -10,8 +10,8 @@ export class MouseBind extends Bind {
         this.button = button;
     }
 
-    get(event: Event): boolean {
-        return (event as any).button == this.button && super.get(event);
+    test(event: Event): boolean {
+        return (event as any).button == this.button && super.test(event);
     }
 
     // Static

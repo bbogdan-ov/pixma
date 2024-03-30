@@ -97,7 +97,7 @@ export class MouseManager extends Manager implements IMouseData {
         if (!this.isPressed || !this.downEvent) return false;
 
         for (const bind of binds) {
-            if (bind.get(this.downEvent))
+            if (bind.test(this.downEvent))
                 return true;
         }
 

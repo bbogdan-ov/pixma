@@ -16,7 +16,7 @@ export class Bind {
     }
 
 	/** Test event for matching */
-    get(event: Event): boolean {
+    test(event: Event): boolean {
         const ev = event as any;
 
         if (!this.strict) {

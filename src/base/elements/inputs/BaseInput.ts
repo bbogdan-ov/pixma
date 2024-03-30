@@ -87,8 +87,8 @@ export class BaseInput<T extends string | number> extends FocusableElement imple
     // override
     protected _onKeyDown(event: KeyboardEvent): void {
         if (
-			KeyBind.SPACE.get(event) ||
-			KeyBind.ENTER.get(event)
+			KeyBind.SPACE.test(event) ||
+			KeyBind.ENTER.test(event)
 		) {
             event.preventDefault();
             this.blur();

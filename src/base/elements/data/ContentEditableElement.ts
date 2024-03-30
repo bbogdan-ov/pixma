@@ -24,15 +24,15 @@ export class ContentEditableElement extends BaseElement {
         this.listen(this, EventName.PASTE, this._onPaste.bind(this));
     }
     protected _onKeyDown(event: KeyboardEvent) {
-        if (!this.allowNewLine && KeyBind.ENTER.setGentle().get(event))
+        if (!this.allowNewLine && KeyBind.ENTER.setGentle().test(event))
             event.preventDefault();
 
         if (
 			!this.allowFormatting && (
 			// TODO: make it simple
-			KeyBind.B.setCtrl().get(event) ||
-			KeyBind.I.setCtrl().get(event) ||
-			KeyBind.U.setCtrl().get(event)
+			KeyBind.B.setCtrl().test(event) ||
+			KeyBind.I.setCtrl().test(event) ||
+			KeyBind.U.setCtrl().test(event)
 		)) event.preventDefault();
     }
     protected _onPaste(event: ClipboardEvent) {

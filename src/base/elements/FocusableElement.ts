@@ -28,10 +28,10 @@ export abstract class FocusableElement extends BaseElement {
     }
     protected _onKeyDown(event: KeyboardEvent) {
 		// TODO: same story
-        if (KeyBind.SPACE.get(event) || KeyBind.ENTER.get(event)) {
+        if (KeyBind.SPACE.test(event) || KeyBind.ENTER.test(event)) {
             event.preventDefault();
             this._onInteract(event);
-        } else if (KeyBind.ESCAPE.get(event)) {
+        } else if (KeyBind.ESCAPE.test(event)) {
             this.blur();
         }
     }

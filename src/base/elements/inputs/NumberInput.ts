@@ -88,10 +88,10 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
     protected _onKeyDown(event: KeyboardEvent): void {
         super._onKeyDown(event);
 		// TODO: make it simple too
-        if (KeyBind.ARROW_UP.setGentle().get(event)) {
+        if (KeyBind.ARROW_UP.setGentle().test(event)) {
             event.preventDefault();
             this.increase(event.shiftKey);
-        } else if (KeyBind.ARROW_DOWN.setGentle().get(event)) {
+        } else if (KeyBind.ARROW_DOWN.setGentle().test(event)) {
             event.preventDefault();
             this.decrease(event.shiftKey);
         }
