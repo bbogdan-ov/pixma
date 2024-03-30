@@ -3,6 +3,8 @@ import DragManager from "@base/managers/DragManager";
 import { SelectionManager, TabsManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import type { Tool } from "./common/tools";
+import type { Layer } from "./common/layers";
+import type { Project } from "./common/project";
 
 export class App {
     readonly tabs: TabsManager;
@@ -33,8 +35,13 @@ export class App {
     }
 
 	// Get
-	/** Alias to `app.tools.current` */
 	get currentTool(): Tool | null {
 		return this.tools.current;
+	}
+	get currentLayer(): Layer | null {
+		return this.currentProject?.layers.current ?? null;
+	}
+	get currentProject(): Project | null {
+		return this.projects.current;
 	}
 }
