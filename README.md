@@ -1,4 +1,4 @@
-# ⚠️ Work in progress ⚠️
+# /!\\ Work in progress /!\\
 
 This project is still at a very early stage of development!\
 Sooner or later, I will definitely bring this project into shape (i hope)
@@ -51,7 +51,7 @@ Huge thanks to these awesome things and people:
 - [sass](https://sass-lang.com/) - for making css even less shitty
 - [vite](https://vitejs.dev/) - fast and simple bundler
 - [color-convert.js](https://github.com/Qix-/color-convert) - small lib for converting colors *(very useful)*
-- [helix](https://helix-editor.com/) - for providing a cool, fast and functional text editor *(i still need a plugin system!!)*
+- [helix](https://helix-editor.com/) and [neovim](https://neovim.io/) - for providing a cool, fast and functional text editors
 - Whitey, Jack Stauber, Alec Normal, Low Roar, Alt J, Tame Impala - for fucking great sound waves in my headphones!
 
 ### License
