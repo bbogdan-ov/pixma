@@ -1,3 +1,4 @@
+import { BaseApp } from "@base/BaseApp";
 import AppElement from "@source/elements/AppElement";
 import DragManager from "@base/managers/DragManager";
 import { SelectionManager, TabsManager } from "@base/managers";
@@ -6,7 +7,7 @@ import type { Tool } from "./common/tools";
 import type { Layer } from "./common/layers";
 import type { Project } from "./common/project";
 
-export class App {
+export class App extends BaseApp<AppElement> {
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -15,9 +16,9 @@ export class App {
     readonly projects: ProjectsManager;
     readonly plugins: PluginsManager;
 
-    readonly element: AppElement;
-
     constructor() {
+		super();
+
         this.tabs = new TabsManager();
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -26,7 +27,7 @@ export class App {
         this.projects = new ProjectsManager(this);
         this.plugins = new PluginsManager(this);
 
-        this.element = new AppElement(this);
+		this._element = new AppElement(this);
     }
 
     /** Alias to `app.toolsRegistries.register()` */
