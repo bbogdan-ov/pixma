@@ -35,6 +35,7 @@ export class CanvasZoomable extends Zoomable {
         this.useCtrlToZoom = true;
         this.minZoom = .1;
         this.maxZoom = 1000;
+		this.resizeOnZoom = true;
 
         this.classList.add("canvas-zoomable", "size-fill");
 
@@ -81,6 +82,12 @@ export class CanvasZoomable extends Zoomable {
             this.frontCanvas.context.drawImage(layer.canvas.element, 0, 0);
         }
     }
+	updateTargetTransform(): void {
+	    super.updateTargetTransform();
+
+		const size = 8 * this.zoom;
+		this.canvasesWrapper.style.backgroundSize = `${ size }px ${ size }px`;
+	}
     
     // On
     onMount(): void {
@@ -185,6 +192,12 @@ export class CanvasZoomable extends Zoomable {
     // Get
 	getToolPos(event: MouseEvent): Point {
 		return this.getLocalPos(event.clientX, event.clientY)
+	}
+	getTargetWidth(): number {
+	    return this.project.canvasWidth;
+	}
+	getTargetHeight(): number {
+	    return this.project.canvasHeight;
 	}
     get currentCanvas(): Canvas | null {
         return this._currentCanvas;

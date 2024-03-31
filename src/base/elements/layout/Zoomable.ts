@@ -28,7 +28,9 @@ export class Zoomable extends BaseElement {
     allowMouseZoom = true;
     /** Blur other elements on mouse enter */
     autoBlurOnEnter = true;
-
+	/** Change `target` size (width and height) on zoom instead of scale */
+	resizeOnZoom = false;
+	
     minZoom = 0.02;
     maxZoom = 10;
     minPanX = -Infinity;
@@ -64,7 +66,15 @@ export class Zoomable extends BaseElement {
         const panX = Math.floor(this.pan.x);
         const panY = Math.floor(this.pan.y);
 
-        this._target.style.transform  = `translate(calc(${panX}px - 50%), calc(${panY}px - 50%)) scale(${this._zoom})`;
+		if (this.resizeOnZoom) {
+			const width = this.getTargetWidth() * this.zoom;
+			const height = this.getTargetHeight() * this.zoom;
+			this._target.style.width = Math.round(width) + "px";
+			this._target.style.height = Math.round(height) + "px";
+			this._target.style.transform  = `translate(calc(${panX}px - 50%), calc(${panY}px - 50%))`;
+		} else {
+			this._target.style.transform  = `translate(calc(${panX}px - 50%), calc(${panY}px - 50%)) scale(${this.zoom})`;
+		}
     }
 
     protected _updateMovePan(event: PointerEvent) {
@@ -211,11 +221,26 @@ export class Zoomable extends BaseElement {
         const localX = screenX - targetRect.left;
         const localY = screenY - targetRect.top;
 
-        return new Point(
+        const point = new Point(
             localX / targetRect.width * this._target.clientWidth,
             localY / targetRect.height * this._target.clientHeight,
         );
+
+		if (this.resizeOnZoom) {
+			point.x /= this.zoom;
+			point.y /= this.zoom;
+		}
+
+		return point;
     }
+	/** Default target width. Needed when `resizeOnZoom` is `true` */
+	getTargetWidth(): number {
+		return 100;
+	}
+	/** Default target height. Needed when `resizeOnZoom` is `true` */
+	getTargetHeight(): number {
+		return 100;
+	}
     get target() {
         return this._target;
     }
