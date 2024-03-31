@@ -17,6 +17,8 @@ export class PaletteManager extends Manager {
 
 		this.project = project;
 
+		// PICO-8 color palette!
+		// https://lospec.com/palette-list/pico-8
         this._list = [
 			PaletteColor.transparent(this),
             PaletteColor.fromHex(this, "#000000"),
