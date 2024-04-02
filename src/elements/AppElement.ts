@@ -36,9 +36,13 @@ export default class AppElement extends BaseElement {
         this.app.projects.open(b);
         // }
 
+		this.listen(window, EventName.CONTEXT_MENU, this._onContextMenu.bind(this));
         this.listen(window, EventName.SCROLL, this._onScroll.bind(this));
 		this.listen(window, EventName.KEY_DOWN, this._onKeyDown.bind(this));
     }
+	protected _onContextMenu(event: MouseEvent) {
+		event.preventDefault();
+	}
 	protected _onKeyDown(event: KeyboardEvent) {
 		this.app.keymaps.onKeyDown(event);
 	}
