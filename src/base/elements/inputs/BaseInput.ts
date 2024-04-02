@@ -98,12 +98,14 @@ export class BaseInput<T extends string | number> extends FocusableElement imple
     protected _onFocus(event: FocusEvent): void {
         super._onFocus(event);
 
+		DOM.focusedInput = this;
         if (this.selectOnFocus)
             DOM.selectContent(this.editable);
     }
     protected _onBlur(event: FocusEvent): void {
         super._onBlur(event);
 
+		DOM.focusedInput = null;
         this._onChange(event);
     }
 
