@@ -1,7 +1,7 @@
 import { Manager } from ".";
 import { KeyBind } from "@base/common/binds";
 import { CommandsManager } from "./CommandsManager";
-import { Dev } from "@base/utils";
+import { DOM, Dev } from "@base/utils";
 
 export type KeymapBind = KeyBind | string | (KeyBind | string)[];
 
@@ -22,6 +22,8 @@ export class Keymap {
 export class KeymapsManager extends Manager {
 	readonly commands: CommandsManager;
 	readonly keymaps: Keymap[] = [];
+
+	protected _isPreventing = false;
 
 	constructor(commands: CommandsManager) {
 		super();
@@ -64,12 +66,28 @@ export class KeymapsManager extends Manager {
 		return true;
 	}
 
+	// On
 	onKeyDown(event: KeyboardEvent) {
+		if (this.getIsPreventKeyDownListen()) return;
+
 		for (const map of this.keymaps) {
 			if (map.test(event)) {
 				event.preventDefault();
 				this.commands.call(map.command);
 			}
 		}
+	}
+
+	// Set
+	setIsPreventing(value: boolean) {
+		this._isPreventing = value;
+	}
+
+	// Get
+	getIsPreventKeyDownListen(): boolean {
+		return this.isPreventing || !!DOM.focusedInput;
+	}
+	get isPreventing(): boolean {
+		return this._isPreventing;
 	}
 }
