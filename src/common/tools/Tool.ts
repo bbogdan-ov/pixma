@@ -33,12 +33,11 @@ export class Tool {
         this.app = app;
     }
     setup() {
-        this.brush?.render(this.color, this.size);
         this.sizeState.listen(size=> {
 			if (this.isChosen)
-				this.brush?.render(this.color, size);
+				this.brush?.render(this.frontColor, size);
         })
-        this.colorState.listen(color=> {
+        this.frontColorState.listen(color=> {
 			if (this.isChosen)
 				this.brush?.render(color, this.size);
         })
@@ -88,7 +87,7 @@ export class Tool {
     }
     onChoose() {
         this._isChosen = true;
-        this.brush?.render(this.color, this.size);
+        this.brush?.render(this.frontColor, this.size);
         this.onDidChosen.trigger(this);
     }
     onUnchoose() {
@@ -100,15 +99,18 @@ export class Tool {
     get brush(): Brush | null {
         return this.app.brushes.current;
     }
-    get color(): Color {
-        return this.colorState.color;
+    get frontColor(): Color {
+        return this.frontColorState.color;
     }
     /** Value from `sizeState` */
     get size(): number {
         return this.sizeState.value;
     }
-	get colorState(): ColorState {
+	get frontColorState(): ColorState {
 		return this.app.brushes.frontColorState;
+	}
+	get backColorState(): ColorState {
+		return this.app.brushes.backColorState;
 	}
     get sizeState(): State<number> {
         return this.app.brushes.sizeState;
