@@ -17,6 +17,15 @@ class CustomTabView extends pixma.TabView {
         this.append(this.counter, this.button);
     }
 
+	increment() {
+		this.num ++;
+		this._updateCounter();
+	}
+	decrement() {
+		this.num --;
+		this._updateCounter();
+	}
+
     _updateCounter() {
         this.counter.textContent = this.num.toString()
     }
@@ -25,10 +34,7 @@ class CustomTabView extends pixma.TabView {
     onMount() {
         super.onMount();
 
-        this.listen(this.button, "click", ()=> {
-            this.num ++;
-            this._updateCounter();
-        })
+        this.listen(this.button, "click", this.increment.bind(this))
     }
 }
 pixma.DOM.define("custom-tab-view", CustomTabView);
@@ -39,6 +45,7 @@ class LineTool extends pixma.Tool {
 
         this._icon = "line-tool";
         this.customSizeState = new pixma.State(1);
+		this.keymap(["3", "l"]);
     }
 
     onUp(layer, mouse) {
@@ -62,6 +69,8 @@ class LineTool extends pixma.Tool {
 class RainbowTool extends pixma.DrawingTool {
     constructor(app) {
         super("rainbow", app);
+
+		this.keymap(["4"]);
     }
 
     createButton() {
