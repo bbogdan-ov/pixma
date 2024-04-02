@@ -16,8 +16,8 @@ export class MouseManager extends Manager implements IMouseData {
     /** Difference between `pos` and `last` */
     readonly movement = new Point();
 
+    protected _pressedButton: MouseButton | null = null;
     protected _isPressed = false;
-    protected _pressedButton = MouseButton.LEFT;
     protected _isCtrlPressed = false;
     protected _isShiftPressed = false;
     protected _isAltPressed = false;
@@ -36,8 +36,8 @@ export class MouseManager extends Manager implements IMouseData {
         this.end.zero();
         this.movement.zero();
 
+        this._pressedButton = null;
         this._isPressed = false;
-        this._pressedButton = MouseButton.LEFT;
         this._isCtrlPressed = false;
         this._isShiftPressed = false;
         this._isAltPressed = false;
@@ -86,6 +86,7 @@ export class MouseManager extends Manager implements IMouseData {
 
         this.end.set(x, y);
 
+		this._pressedButton = null;
         this._isPressed = false;
         this._isCtrlPressed = false;
         this._isShiftPressed = false;
@@ -112,7 +113,7 @@ export class MouseManager extends Manager implements IMouseData {
     get isPressed(): boolean {
         return this._isPressed;
     }
-    get pressedButton(): MouseButton {
+    get pressedButton(): MouseButton | null {
         return this._pressedButton;
     }
     get isCtrlPressed(): boolean {

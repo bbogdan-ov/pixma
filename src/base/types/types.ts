@@ -17,7 +17,7 @@ export interface IMouseData {
     end: IPoint
     movement: IPoint
 
-    pressedButton: MouseButton
+    pressedButton: MouseButton | null
     isCtrlPressed: boolean
     isShiftPressed: boolean
     isAltPressed: boolean
