@@ -77,7 +77,7 @@ export class Tool {
     protected _iconName: IconName = IconName.PEN_TOOL;
 
     /** Cache params, so we dont need to create another one */
-    readonly paramsElement: ToolParams;
+    protected _paramsElement: ToolParams | null = null;
 	readonly brush = new ToolBrush();
 
     readonly onDidChosen = new Trigger<Tool>();
@@ -86,17 +86,9 @@ export class Tool {
     constructor(name: string, app: App) {
         this.name = name;
         this.app = app;
-		this.paramsElement = this.createParams();
     }
     setup() {
-		//         this.sizeState?.listen(size=> {
-		// // TEMP:
-		// this.brush.render(this.app.brushes.current!, this.frontColor, size);
-		//         })
-		//         this.frontColorState?.listen(color=> {
-		// // TEMP:
-		// this.brush.render(this.app.brushes.current!, color, this.size);
-		//         })
+		this._paramsElement = this.createParams();
     }
 
     choose(): boolean {
@@ -195,5 +187,8 @@ export class Tool {
 	}
 	get iconName(): IconName {
 		return this._iconName;
+	}
+	get paramsElement(): ToolParams | null {
+		return this._paramsElement;
 	}
 }

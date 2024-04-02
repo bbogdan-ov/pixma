@@ -50,7 +50,6 @@ class LineTool extends pixma.Tool {
 
     onUp(layer, mouse) {
         super.onUp(layer, mouse);
-        if (!this.brush) return;
 
         this.brush.drawLine(
             layer.context,
