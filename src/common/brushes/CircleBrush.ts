@@ -1,42 +1,36 @@
 import { Color } from "@base/common/misc";
 import { Brush } from "./Brush";
 import { Utils } from "@base/utils";
+import { CompositeOperation } from "@source/types/enums";
 
 export class CircleBrush extends Brush {
-    protected readonly _frames: HTMLImageElement[] = [];
+    readonly frames: HTMLImageElement[] = [];
     
     constructor() {
         super();
 
-        this._maxSize = 64;
-
         for (let i = 1; i <= this.maxSize; i ++) {
             const frame = new Image();
             frame.src = new URL(`/src/assets/images/brushes/circle/${ i }.png`, import.meta.url).href;
-            this._frames.push(frame);
-            frame.onload = ()=> {
-                if (i == this.maxSize)
-                    this.render(this._color, this._size);
-            }
+            this.frames.push(frame);
         }
     }
 
-    render(color: Color, size: number): void {
-        super.render(color, size);
+    render(context: CanvasRenderingContext2D, color: Color, size: number): void {
+        super.render(context, color, size);
         size = Utils.clamp(Math.floor(size), 1, this.maxSize);
 
-        this._canvas.setSize(size, size);
-        this._canvas.context.imageSmoothingEnabled = false;
+        const frame = this.frames[size-1];
 
-        const frame = this._frames[size-1];
+		context.canvas.width = size;
+		context.canvas.height = size;
+		context.imageSmoothingEnabled = false;
 
-        
-        this._canvas.context.globalCompositeOperation = "source-over";
-        this._canvas.context.fillStyle = color.getRgbString();
-        this._canvas.context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-        this._canvas.context.globalCompositeOperation = "destination-in";
+        context.globalCompositeOperation = CompositeOperation.DEFAULT;
+        context.fillStyle = color.getRgbString();
+        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+        context.globalCompositeOperation = CompositeOperation.MASK;
 
-        this._canvas.context.drawImage(frame, 0, 0);
-
+        context.drawImage(frame, 0, 0);
     }
 }

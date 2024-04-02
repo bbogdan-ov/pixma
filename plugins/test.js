@@ -43,7 +43,7 @@ class LineTool extends pixma.Tool {
     constructor(app) {
         super("line", app);
 
-        this._icon = "line-tool";
+        this._iconName = "line-tool";
         this.customSizeState = new pixma.State(1);
 		this.keymap(["3", "l"]);
     }
@@ -83,9 +83,8 @@ class RainbowTool extends pixma.DrawingTool {
         return button;
     }
 
-    drawPreview(previewLayer, mouse) {
-        const size = previewLayer.manager.project.app.brushes.size;
-        previewLayer.context.drawImage(pixma.testImage, mouse.pos.x, mouse.pos.y, size, size);
+    drawPreview(context, mouse) {
+        context.drawImage(pixma.testImage, mouse.pos.x, mouse.pos.y, this.size, this.size);
     }
     use(layer, mouse) {
         const size = layer.manager.project.app.brushes.size;

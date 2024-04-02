@@ -34,6 +34,7 @@ export class ToolParamsPanel extends Panel {
         this.content.replaceChildren();
     }
     protected _onToolChoose(tool: Tool) {
-        this.content.replaceChildren(tool.createParams());
+		if (tool.paramsElement)
+			this.content.replaceChildren(tool.paramsElement);
     }
 }

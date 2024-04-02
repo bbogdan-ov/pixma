@@ -1,6 +1,5 @@
 import { Manager } from "@base/managers";
 import { ColorState, State, Trigger } from "@base/common/listenable";
-import { Utils } from "@base/utils";
 import { Color } from "@base/common/misc";
 import { type Brush, CircleBrush } from "@source/common/brushes";
 import type { App } from "@source/App";
@@ -20,16 +19,7 @@ export class BrushesManager extends Manager {
 
         this.app = app;
 
-        // TEMP:
         this._current = new CircleBrush();
-
-        this.sizeState.apply = value=> {
-            let max = 100;
-            if (this.current) max = this.current.maxSize;
-            return Utils.clamp(value, 1, max);
-        }
-
-        this.current?.render(this.frontColor, this.size);
     }
 
     choose(brush: Brush): boolean {

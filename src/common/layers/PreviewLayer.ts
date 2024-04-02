@@ -23,7 +23,7 @@ export class PreviewLayer extends Layer {
 
 		// Draw preview
         if (mouse && this.getIsDrawPreview()) {
-            tool.drawPreview(this, mouse);
+            tool.drawPreview(this.context, mouse);
         }
     }
     
@@ -57,6 +57,11 @@ export class PreviewLayer extends Layer {
 
         this.draw(tool, mouse);
     }
+	onToolUp(tool: Tool, mouse: IMouseData): void {
+	    super.onToolUp(tool, mouse);
+
+		this.draw(tool, mouse);
+	}
 
     // Get
     getIsDrawPreview(): boolean {

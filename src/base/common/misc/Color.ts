@@ -2,6 +2,9 @@ import { Random, Utils } from "@base/utils";
 import { ArrayColor, HexColor, HslColor, HslStringColor, HslaColor, HslaStringColor, HsvColor, RgbColor, RgbStringColor, RgbaColor, RgbaStringColor } from "@base/types/types";
 import convert from "color-convert";
 
+// I love enums in rust so fckn much!!!
+// I CAN'T LIVE WITHOUT THEM
+// MICROSOFT, PLEASE ADD THESE ENUMS INTO TYPESCRIPT!
 export class Color {
     protected _red!: number;
     protected _green!: number;
@@ -27,6 +30,33 @@ export class Color {
     clone(): Color {
         return Color.from(this);
     }
+
+	compareHsl(color: Color, ignoreAlpha=false): boolean {
+		let isAlphaEq = true;
+
+		if (!ignoreAlpha)
+			isAlphaEq = this.alpha == color.alpha;
+
+		return (
+			this.hue == color.hue &&
+			this.saturation == color.saturation &&
+			this.value == color.value &&
+			isAlphaEq
+		);
+	}
+	compareRgb(color: Color, ignoreAlpha=false): boolean {
+		let isAlphaEq = true;
+
+		if (!ignoreAlpha)
+			isAlphaEq = this.alpha == color.alpha;
+
+		return (
+			this.red == color.red &&
+			this.green == color.green &&
+			this.blue == color.blue &&
+			isAlphaEq
+		);
+	}
 
     // Set
     setRgb(...rgb: RgbColor): this {
@@ -102,12 +132,15 @@ export class Color {
     }
 
     // Get
+	/** Calculate and return HEX */
     getHex(): HexColor {
         return Color.formatHex(Color.convert.rgb.hex(this.rgb));
     }
+	/** Calculate and return HSL */
     getHsl(): HslColor {
         return Color.convert.rgb.hsl(this.rgb);
     }
+	/** Calculate and return HSV */
     getHsv(): HsvColor {
         return Color.convert.rgb.hsv(this.rgb);
     }

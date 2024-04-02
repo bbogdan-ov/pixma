@@ -1,29 +1,84 @@
 import { Trigger } from "@base/common/listenable";
-import { IconName } from "@base/types/enums";
-import { ToolButton } from "@source/elements/tools";
+import { IconName, MouseButton } from "@base/types/enums";
+import { ToolButton, ToolParams } from "@source/elements/tools";
 import { IMouseData } from "@base/types/types";
-import { ToolParams } from "@source/elements/tools-params";
+import { Canvas, Color } from "@base/common/misc";
+import { KeymapBind } from "@base/managers/KeymapsManager";
+import { AppContext, CompositeOperation } from "@source/types/enums";
+import { Algorithms } from "@source/utils";
 import type { ColorState, State } from "@base/common/listenable";
 import type { PreviewLayer, Layer } from "../layers";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
-import { Color } from "@base/common/misc";
-import { KeymapBind } from "@base/managers/KeymapsManager";
-import { AppContext } from "@source/types/enums";
+import { Utils } from "@base/utils";
+
+export class ToolBrush {
+	readonly canvas = Canvas.sized(1, 1);
+
+	protected _color: Color = Color.BLACK;
+	protected _size: number = 1;
+
+	readonly onDidRendered = new Trigger<ToolBrush>();
+
+	constructor() {}
+
+    draw(context: CanvasRenderingContext2D, x: number, y: number) {
+        const half = Math.floor(this._size/2);
+        const rem = (this._size%2)/2;
+        
+        if (this._color.isTransparent)
+            context.globalCompositeOperation = CompositeOperation.ERASE;
+
+        context.drawImage(
+            this.image,
+            Math.round(x - half - rem),
+            Math.round(y - half - rem)
+        );
+
+        context.globalCompositeOperation = CompositeOperation.DEFAULT;
+    }
+    drawLine(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
+        Algorithms.line(
+            fromX, fromY,
+            toX, toY,
+            (x, y)=> this.draw(context, x, y)
+        )
+    }
+    
+	render(brush: Brush, color: Color, size: number): boolean {
+		size = Utils.clamp(Math.floor(size), 1, brush.maxSize);
+
+		if (this._color.compareHsl(color) && this._size == size)
+			return false;
+
+		console.log("render");
+
+		this._color.copy(color);
+		this._size = size;
+		brush.render(this.canvas.context, color, size);
+
+		this.onDidRendered.trigger(this);
+		return true;
+	}
+
+	// Get
+	get image(): CanvasImageSource {
+		return this.canvas.element;
+	}
+}
 
 export class Tool {
     readonly name: string;
     readonly app: App;
 
-    protected _resizable = true;
-
     protected _isChosen = false;
     protected _isUsing = false;
 
-    protected _icon: IconName = IconName.PEN_TOOL;
+    protected _iconName: IconName = IconName.PEN_TOOL;
 
     /** Cache params, so we dont need to create another one */
-    paramsElement: HTMLElement | null = null;
+    readonly paramsElement: ToolParams;
+	readonly brush = new ToolBrush();
 
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
@@ -31,16 +86,17 @@ export class Tool {
     constructor(name: string, app: App) {
         this.name = name;
         this.app = app;
+		this.paramsElement = this.createParams();
     }
     setup() {
-        this.sizeState.listen(size=> {
-			if (this.isChosen)
-				this.brush?.render(this.frontColor, size);
-        })
-        this.frontColorState.listen(color=> {
-			if (this.isChosen)
-				this.brush?.render(color, this.size);
-        })
+		//         this.sizeState?.listen(size=> {
+		// // TEMP:
+		// this.brush.render(this.app.brushes.current!, this.frontColor, size);
+		//         })
+		//         this.frontColorState?.listen(color=> {
+		// // TEMP:
+		// this.brush.render(this.app.brushes.current!, color, this.size);
+		//         })
     }
 
     choose(): boolean {
@@ -56,38 +112,46 @@ export class Tool {
 	}
 
     createButton(): HTMLElement {
-        return new ToolButton(this).setIcon(this._icon);
+        return new ToolButton(this).setIcon(this.iconName);
     }
-    createParams(): HTMLElement {
-        if (this.paramsElement) return this.paramsElement;
-        const el = new ToolParams(this);
-        return this.cacheParamsElement(el);
-    }
-
-    cacheParamsElement(element: HTMLElement): HTMLElement {
-        this.paramsElement = element;
-        return this.paramsElement;
+    createParams(): ToolParams {
+        return new ToolParams(this);
     }
 
     draw(context: CanvasRenderingContext2D, mouse: IMouseData) {
-        this.brush?.drawLine(context, mouse.last.x, mouse.last.y, mouse.pos.x, mouse.pos.y);
+		this.brush.drawLine(
+			context,
+			mouse.last.x, mouse.last.y,
+			mouse.pos.x, mouse.pos.y
+		);
     }
-    drawPreview(previewLayer: PreviewLayer, mouse: IMouseData) {
-        this.brush?.draw(previewLayer.context, mouse.pos.x, mouse.pos.y);
+    drawPreview(context: CanvasRenderingContext2D, mouse: IMouseData) {
+		this.brush.draw(context, mouse.pos.x, mouse.pos.y);
     }
+
+	renderBrush(button: MouseButton | null) {
+		const curBrush = this.app.brushes.current;
+
+		// TODO: somehow store current app brush
+		if (curBrush)
+			this.brush.render(curBrush, this.getColor(button), this.size);
+	}
 
     // On
     onDown(layer: Layer, mouse: IMouseData) {
         this._isUsing = true;
+		this.renderBrush(mouse.pressedButton);
     }
     onUse(layer: Layer, mouse: IMouseData) {}
-    onMove(layer: Layer, mouse: IMouseData) {}
+    onMove(layer: Layer, mouse: IMouseData) {
+		this.renderBrush(mouse.pressedButton);
+	}
     onUp(layer: Layer, mouse: IMouseData) {
         this._isUsing = false;
+		this.renderBrush(mouse.pressedButton);
     }
     onChoose() {
         this._isChosen = true;
-        this.brush?.render(this.frontColor, this.size);
         this.onDidChosen.trigger(this);
     }
     onUnchoose() {
@@ -96,27 +160,29 @@ export class Tool {
     }
 
     // Get
-    get brush(): Brush | null {
-        return this.app.brushes.current;
-    }
+	getColor(button: MouseButton | null): Color {
+		if (button == MouseButton.RIGHT)
+			return this.backColor;
+		return this.frontColor;
+	}
     get frontColor(): Color {
-        return this.frontColorState.color;
+        return this.frontColorState?.color ?? Color.TRANSPARENT;
+    }
+    get backColor(): Color {
+        return this.backColorState?.color ?? Color.TRANSPARENT;
     }
     /** Value from `sizeState` */
     get size(): number {
-        return this.sizeState.value;
+        return this.sizeState?.value ?? 1;
     }
-	get frontColorState(): ColorState {
+	get frontColorState(): ColorState | null {
 		return this.app.brushes.frontColorState;
 	}
-	get backColorState(): ColorState {
+	get backColorState(): ColorState | null {
 		return this.app.brushes.backColorState;
 	}
-    get sizeState(): State<number> {
+    get sizeState(): State<number> | null {
         return this.app.brushes.sizeState;
-    }
-    get resizable(): boolean {
-        return this._resizable
     }
     get isChosen(): boolean {
         return this._isChosen;
@@ -126,5 +192,8 @@ export class Tool {
     }
 	get chooseCommandName(): string {
 		return `choose-${ this.name }-tool`;
+	}
+	get iconName(): IconName {
+		return this._iconName;
 	}
 }
