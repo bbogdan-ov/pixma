@@ -59,12 +59,10 @@ export class Color {
 	}
 
     // Set
-    setRgb(...rgb: RgbColor): this {
-        rgb = [Utils.clamp(rgb[0], 0, 255), Utils.clamp(rgb[1], 0, 255), Utils.clamp(rgb[2], 0, 255)];
-
-        this._red = rgb[0];
-        this._green = rgb[1];
-        this._blue = rgb[2];
+    setRgb(red: number, green: number, blue: number, alpha=1): this {
+        this._red = Utils.clamp(red, 0, 255);
+        this._green = Utils.clamp(green, 0, 255);
+        this._blue = Utils.clamp(blue, 0, 255);
 
         const hsv = this.getHsv();
         this._hue = hsv[0];
@@ -73,19 +71,22 @@ export class Color {
         
         this._hex = this.getHex();
 
+		this.setAlpha(alpha);
         return this;
     }
-    setHsv(...hsv: HsvColor): this {
-        hsv = [Utils.clamp(hsv[0], 0, 360), Utils.clamp(hsv[1], 0, 100), Utils.clamp(hsv[2], 0, 100)];
+    setHsv(hue: number, saturation: number, value: number, alpha=1): this {
+		hue = Utils.clamp(hue, 0, 360);
+		saturation = Utils.clamp(saturation, 0, 100);
+		value = Utils.clamp(value, 0, 100);
 
-        const rgb = Color.convert.hsv.rgb(hsv);
+        const rgb = Color.convert.hsv.rgb([hue, saturation, value]);
         this._red = rgb[0];
         this._green = rgb[1];
         this._blue = rgb[2];
 
-        this._hue = hsv[0];
-        this._saturation = hsv[1];
-        this._value = hsv[2];
+        this._hue = hue;
+        this._saturation = saturation;
+        this._value = value;
 
         this._hex = this.getHex();
 
