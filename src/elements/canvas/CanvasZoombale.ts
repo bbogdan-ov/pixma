@@ -103,6 +103,7 @@ export class CanvasZoomable extends Zoomable {
         this.listen(this.project.canvasHeightState, this._onCanvasHeightChanged.bind(this), true);
 
         this.updateCanvases();
+		this.updateTargetTransform();
     }
 
     protected _onDown(event: PointerEvent): void {
