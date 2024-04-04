@@ -7,7 +7,7 @@ import { KeymapBind } from "@base/managers/KeymapsManager";
 import { AppContext, CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 import type { ColorState, State } from "@base/common/listenable";
-import type { PreviewLayer, Layer } from "../layers";
+import type { Layer } from "../layers";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
 import { Utils } from "@base/utils";
@@ -50,8 +50,6 @@ export class ToolBrush {
 
 		if (this._color.compareHsl(color) && this._size == size)
 			return false;
-
-		console.log("render");
 
 		this._color.copy(color);
 		this._size = size;
