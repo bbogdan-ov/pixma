@@ -26,8 +26,7 @@ export class ToolBrush {
         const half = Math.floor(this._size/2);
         const rem = (this._size%2)/2;
         
-        if (this._color.isTransparent)
-            context.globalCompositeOperation = CompositeOperation.ERASE;
+		context.globalCompositeOperation = this.getCompositeOperation();
 
         context.drawImage(
             this.image,
@@ -60,6 +59,11 @@ export class ToolBrush {
 	}
 
 	// Get
+	getCompositeOperation(): CompositeOperation {
+        if (this._color.isTransparent)
+            return CompositeOperation.ERASE;
+		return CompositeOperation.DEFAULT;
+	}
 	get image(): CanvasImageSource {
 		return this.canvas.element;
 	}
