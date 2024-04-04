@@ -8,12 +8,10 @@ import type { Layer } from "./common/layers";
 import type { Project } from "./common/project";
 import { CommandFunc, CommandsManager } from "@base/managers/CommandsManager";
 import { initAppCommands } from "./commands";
-import { AppCommand } from "./types/enums";
-import { KeymapBind, KeymapsManager } from "@base/managers/KeymapsManager";
+import { KeymapBind, KeymapCondition, KeymapsManager } from "@base/managers/KeymapsManager";
 import { initAppKeymaps } from "./keymaps";
-import { KeyBind } from "@base/common/binds";
-
-export const APP_NAMESPACE = "pixma";
+import { initAppOptions } from "./options";
+import { AppOption } from "./types/enums";
 
 export class App extends BaseApp<AppElement> {
 	readonly commands: CommandsManager;
@@ -39,22 +37,34 @@ export class App extends BaseApp<AppElement> {
         this.projects = new ProjectsManager(this);
         this.plugins = new PluginsManager(this);
 
+		initAppOptions(this);
 		initAppCommands(this);
 		initAppKeymaps(this);
 
 		this._element = new AppElement(this);
     }
 
+	hello(): boolean {
+		if (!this.options.getBoolean(AppOption.HELLO)) {
+			alert("goodbye pixma...");
+			return false;
+		}
+
+		const msg = this.options.getString(AppOption.HELLO_MESSAGE) ?? "no message...";
+		alert(msg);
+		return true;
+	}
+
 	/** Register a new command with "pixma" namespace */
 	registerCommand(context: string, name: string, func: CommandFunc): boolean {
-		return this.commands.register(APP_NAMESPACE, context, name, func);
+		return this.commands.register(App.NAMESPACE, context, name, func);
 	}
 	/**
 	 * Register a keymap
 	 * See `keymapsManager.register()` for more info
 	 */
-	registerKeymap(binds: KeymapBind, command: string): boolean {
-		return this.keymaps.register(binds, command);
+	registerKeymap(binds: KeymapBind, command: string, condition?: KeymapCondition): boolean {
+		return this.keymaps.register(binds, command, condition);
 	}
     /** Alias to `app.toolsRegistries.register()` */
     registerTool(name: string, tool: Tool, override?: boolean): boolean {

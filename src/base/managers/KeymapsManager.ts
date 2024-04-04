@@ -4,17 +4,25 @@ import { CommandsManager } from "./CommandsManager";
 import { DOM, Dev } from "@base/utils";
 
 export type KeymapBind = KeyBind | string | (KeyBind | string)[];
+export type KeymapCondition = ()=> boolean;
 
 export class Keymap {
 	readonly bind: KeyBind;
 	readonly command: string;
+	readonly condition: KeymapCondition | null;
 
-	constructor(bind: KeyBind, command: string) {
+	constructor(bind: KeyBind, command: string, condition?: KeymapCondition) {
 		this.bind = bind;
 		this.command = command;
+		this.condition = condition ?? null;
 	}
 
 	test(event: Event): boolean {
+		// If condition returns false, return false
+		// Is condition is null, continue
+		if (this.condition ? !this.condition() : false)
+			return false;
+
 		return this.bind.test(event);
 	}
 }
@@ -44,7 +52,7 @@ export class KeymapsManager extends Manager {
 	 * - `register(KeyBind.B.setShift(), "my-command")` -> Bind `"my-command"` to `Shift + B`
 	 * - `register(["c", "d"], "my-command")` -> Bind `"my-command"` to `C` and `D`
 	 */
-	register(binds: KeymapBind, command: string): boolean {
+	register(binds: KeymapBind, command: string, condition?: KeymapCondition): boolean {
 		if (typeof binds != "object")
 			binds = [binds];
 
@@ -61,7 +69,7 @@ export class KeymapsManager extends Manager {
 				Dev.throwError(`Cannot register a keymap bind "${ bind }"`);
 				return false;
 			}
-			this.keymaps.push(new Keymap(b, command));
+			this.keymaps.push(new Keymap(b, command, condition));
 		}
 		return true;
 	}

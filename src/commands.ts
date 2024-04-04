@@ -8,7 +8,7 @@ export function initAppCommands(app: App) {
 	const regApp = app.registerCommand.bind(app, AppContext.APP);
 	const regProject = app.registerCommand.bind(app, AppContext.PROJECT);
 
-	regApp(cmd.HELLO, 							()=> alert("Hello, PIXMA!"));
+	regApp(cmd.HELLO, 							()=> app.hello());
 	regApp(cmd.ENTER_FIRST_TAB,   				()=> app.tabs.enterByIndex(0));
 	regApp(cmd.ENTER_SECOND_TAB,  				()=> app.tabs.enterByIndex(1));
 	regApp(cmd.ENTER_THIRD_TAB,   				()=> app.tabs.enterByIndex(2));

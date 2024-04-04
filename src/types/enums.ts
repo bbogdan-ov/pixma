@@ -53,6 +53,13 @@ export enum AppCommand {
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
 }
+export enum AppOption {
+	HELLO = "hello",
+	HELLO_MESSAGE = "hello-message"
+}
+export enum AppOptionCategory {
+	GENERAL = "general",
+}
 export enum AppContext {
 	APP = "app",
 	PROJECT = "project"

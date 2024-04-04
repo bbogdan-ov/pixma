@@ -1,8 +1,13 @@
 import { Trigger } from "./common/listenable";
+import { OptionsManager } from "./managers/OptionsManager";
 import { Utils } from "./utils";
 
 export class BaseApp<E extends Element=HTMLElement> {
+	static readonly NAMESPACE = "app";
+
 	protected _element!: E;
+
+	readonly options = new OptionsManager();
 
 	readonly activeContexts: string[] = ["app"];
 
