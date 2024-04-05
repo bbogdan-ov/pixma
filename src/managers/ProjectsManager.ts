@@ -62,6 +62,9 @@ export class ProjectsManager extends Manager {
 	getIsExists(project: Project): boolean {
 		return this.list.includes(project);
 	}
+	getById(id: number): Project | null {
+		return this.list.find(p=> p.id == id) ?? null;
+	}
 	get current(): Project | null {
 		return this._current;
 	}

@@ -105,6 +105,12 @@ return {
         pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
         pixma.app.registerTool("line", new LineTool(pixma.app));
         pixma.app.registerTool("rainbow", new RainbowTool(pixma.app));
+
+		pixma.app.brushes.frontColorState.listen(color=> {
+			if (pixma.app.currentTool.name == "erase") {
+				pixma.app.tools.choose(pixma.app.tools.get("pen"));
+			}
+		})
     },
     unload() {
 

@@ -9,20 +9,31 @@ export class PreviewLayer extends Layer {
     constructor(manager: LayersManager) {
         super(PreviewLayer.NAME, manager);
 
-        this.listen(manager.onDidChosen, ()=> {
+		let layerEditedUnlisten: VoidFunction | null = null;
+
+        this.listen(manager.onDidChosen, layer=> {
+			if (layerEditedUnlisten)
+				layerEditedUnlisten();
+
             this.drawCurrentLayer();
+			layerEditedUnlisten = layer.onDidEdited.listen(()=> {
+				this.draw(null, null);
+			})
         })
 		this.listen(manager.project.app.tools.onDidChosen, tool=> {
-			this.draw(tool, manager.project.canvasZoomable?.toolMouse || null);
+			this.draw(tool, null);
 		})
     }
 
-    draw(tool: Tool, mouse: IMouseData | null) {
+    draw(tool: Tool | null, mouse: IMouseData | null) {
+		tool = tool ?? this.manager.project.app.currentTool ?? null;
+		mouse = mouse ?? this.manager.project.toolMouse ?? null;
+
         this.clear();
         this.drawCurrentLayer();
 
 		// Draw preview
-        if (mouse && this.getIsDrawPreview()) {
+        if (tool && mouse && this.getIsDrawPreview()) {
             tool.drawPreview(this.context, mouse);
         }
     }

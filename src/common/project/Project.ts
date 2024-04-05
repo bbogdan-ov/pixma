@@ -5,12 +5,28 @@ import type { ProjectTab } from "../tabs";
 import type { ProjectTabView } from "@source/elements/tabs";
 import type { CanvasZoomable } from "@source/elements/canvas";
 import type { PreviewLayer, Layer } from "../layers";
-import { MouseManager } from "@base/managers";
+import { HistoryItem, MouseManager } from "@base/managers";
+import { AppOption } from "@source/types/enums";
+
+export class ProjectHistoryItem<T=any> extends HistoryItem<T, App> {
+	readonly projectId: number;
+
+	constructor(project: Project, title: string, data: T) {
+		super(project.app, title, data);
+
+		this.projectId = project.id;
+	}
+
+	condition(): boolean {
+	    return this.app.currentProject?.id !== this.projectId;
+	}
+}
 
 export class Project {
 	static _id = 0;
-    static readonly DEFAULT_CANVAS_WIDTH = 416;
-    static readonly DEFAULT_CANVAS_HEIGHT = 240;
+	static readonly DEFAULT_CANVAS_WIDTH = 256;
+	static readonly DEFAULT_CANVAS_HEIGHT = 256;
+	static readonly MAX_CANVAS_SIZE = 2048;
     
 	readonly id: number;
     readonly app: App;
@@ -20,8 +36,8 @@ export class Project {
     readonly layers: LayersManager;
     readonly palette: PaletteManager;
 
-    readonly canvasWidthState = new State<number>(Project.DEFAULT_CANVAS_WIDTH);
-    readonly canvasHeightState = new State<number>(Project.DEFAULT_CANVAS_HEIGHT);
+    readonly canvasWidthState: State<number>;
+    readonly canvasHeightState: State<number>;
 
     readonly onDidOpened = new Trigger<Project>();
     readonly onDidEntered = new Trigger<Project>();
@@ -32,6 +48,13 @@ export class Project {
 		this.id = ++ Project._id;
         this.app = app;
         this.titleState = new State(title);
+
+		this.canvasWidthState = new State(
+			app.getInt(AppOption.DEFAULT_CANVAS_WIDTH, Project.DEFAULT_CANVAS_WIDTH) 
+		);
+		this.canvasHeightState = new State(
+			app.getInt(AppOption.DEFAULT_CANVAS_HEIGHT, Project.DEFAULT_CANVAS_HEIGHT)
+		);
 
         this.layers = new LayersManager(this);
         this.palette = new PaletteManager(this);

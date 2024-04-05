@@ -2,10 +2,62 @@ import { LayerElement } from "@source/elements/layers";
 import { Listenable, State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { DOM } from "@base/utils";
+import { HistoryItem } from "@base/managers";
 import type { Tool } from "../tools";
 import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { LayersManager } from "@source/managers";
+import type { App } from "@source/App";
+import { ProjectHistoryItem } from "../project";
+
+export interface LayerHistoryItemOpts {
+	canvasChanged?: boolean
+}
+export interface LayerHistoryItemData {
+	id: number
+	projectId: number,
+	canvasDataUrl: string | null
+}
+
+export class LayerHistoryItem extends ProjectHistoryItem<LayerHistoryItemData> {
+	constructor(layer: Layer, title: string, opts: LayerHistoryItemOpts) {
+		super(layer.manager.project, title, {
+			id: layer.id,
+			projectId: layer.manager.project.id,
+			canvasDataUrl: opts.canvasChanged ? layer.getDataUrl() : null
+		});
+	}
+
+	apply(): Promise<boolean> {
+		return new Promise((res)=> {
+			const layer = this.app.projects.getById(this.data.projectId)?.layers.getById(this.data.id);
+			if (!layer) {
+				res(false);
+				return;
+			}
+
+			if (this.data.canvasDataUrl) {
+				const image = new Image();
+				image.src = this.data.canvasDataUrl;
+
+				image.onload = ()=> {
+					if (!layer) {
+						res(false);
+						return;
+					}
+
+					layer.clear();
+					layer.context.drawImage(image, 0, 0);
+					layer.edited();
+					res(true);
+				}
+				image.onerror = ()=> res(false);
+			} else {
+				res(true);
+			}
+		})
+	}
+}
 
 export class Layer implements ISelectableItem, IListener {
     static readonly KEY = "layer";
@@ -68,6 +120,9 @@ export class Layer implements ISelectableItem, IListener {
             unlisten();
         }
     }
+	edited() {
+		this.onDidEdited.trigger(this);
+	}
 
     clear(): this {
         this.context.clearRect(0, 0, this.width, this.height);
@@ -117,7 +172,7 @@ export class Layer implements ISelectableItem, IListener {
         
         this._isToolDown = false;
         this.onDidToolUp.trigger(tool);
-        this.onDidEdited.trigger(this);
+		this.edited();
     }
     onSelect(key: string) {
         this._isSelected = true;

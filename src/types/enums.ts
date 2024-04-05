@@ -36,26 +36,30 @@ export enum CompositeOperation {
 
 export enum AppCommand {
 	// App
-	HELLO = "hello",
-	ENTER_FIRST_TAB   = "enter-first-tab",
-	ENTER_SECOND_TAB  = "enter-second-tab",
-	ENTER_THIRD_TAB   = "enter-third-tab",
-	ENTER_FOURTH_TAB  = "enter-fourth-tab",
-	ENTER_FIFTH_TAB   = "enter-fifth-tab",
-	ENTER_SIXTH_TAB   = "enter-sixth-tab",
-	ENTER_SEVENTH_TAB = "enter-seventh-tab",
-	ENTER_EIGHTH_TAB  = "enter-eighth-tab",
-	ENTER_NINETH_TAB  = "enter-nineth-tab",
-	ENTER_TENTH_TAB   = "enter-tenth-tab",
+	HELLO 				= "hello",
+	ENTER_FIRST_TAB   	= "enter-first-tab",
+	ENTER_SECOND_TAB  	= "enter-second-tab",
+	ENTER_THIRD_TAB   	= "enter-third-tab",
+	ENTER_FOURTH_TAB  	= "enter-fourth-tab",
+	ENTER_FIFTH_TAB   	= "enter-fifth-tab",
+	ENTER_SIXTH_TAB   	= "enter-sixth-tab",
+	ENTER_SEVENTH_TAB 	= "enter-seventh-tab",
+	ENTER_EIGHTH_TAB  	= "enter-eighth-tab",
+	ENTER_NINETH_TAB  	= "enter-nineth-tab",
+	ENTER_TENTH_TAB   	= "enter-tenth-tab",
+	UNDO 				= "undo",
+	REDO 				= "redo",
 	
 	// Project
-	SWAP_COLORS = "swap-colors",
+	SWAP_COLORS 			= "swap-colors",
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
 }
 export enum AppOption {
 	HELLO = "hello",
-	HELLO_MESSAGE = "hello-message"
+	HELLO_MESSAGE = "hello-message",
+	DEFAULT_CANVAS_WIDTH = "default-canvas-width",
+	DEFAULT_CANVAS_HEIGHT = "default-canvas-height",
 }
 export enum AppOptionCategory {
 	GENERAL = "general",

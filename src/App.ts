@@ -1,5 +1,5 @@
 import { BaseApp } from "@base/BaseApp";
-import { SelectionManager, TabsManager, KeymapBind, DragManager, KeymapCondition, KeymapsManager, CommandFunc, CommandsManager } from "@base/managers";
+import { SelectionManager, TabsManager, KeymapBind, DragManager, KeymapCondition, CommandFunc } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import { AppOption } from "./types/enums";
 import AppElement from "@source/elements/AppElement";
@@ -11,8 +11,6 @@ import { initAppKeymaps } from "./keymaps";
 import { initAppOptions } from "./options";
 
 export class App extends BaseApp<AppElement> {
-	readonly commands: CommandsManager;
-	readonly keymaps: KeymapsManager;
     readonly tabs: TabsManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -24,8 +22,6 @@ export class App extends BaseApp<AppElement> {
     constructor() {
 		super();
 
-		this.commands = new CommandsManager(this);
-		this.keymaps = new KeymapsManager(this.commands);
         this.tabs = new TabsManager(this);
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -52,17 +48,6 @@ export class App extends BaseApp<AppElement> {
 		return true;
 	}
 
-	/** Register a new command with "pixma" namespace */
-	registerCommand(context: string, name: string, func: CommandFunc): boolean {
-		return this.commands.register(App.NAMESPACE, context, name, func);
-	}
-	/**
-	 * Register a keymap
-	 * See `keymapsManager.register()` for more info
-	 */
-	registerKeymap(binds: KeymapBind, command: string, condition?: KeymapCondition): boolean {
-		return this.keymaps.register(binds, command, condition);
-	}
     /** Alias to `app.toolsRegistries.register()` */
     registerTool(name: string, tool: Tool, override?: boolean): boolean {
 		return this.tools.register(name, tool, override);

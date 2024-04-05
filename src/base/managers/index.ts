@@ -6,3 +6,4 @@ export * from "./SelectionManager";
 export * from "./DragManager";
 export * from "./KeymapsManager";
 export * from "./CommandsManager";
+export * from "./HistoryManager";

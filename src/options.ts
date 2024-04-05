@@ -1,4 +1,5 @@
 import { App } from "./App";
+import { Project } from "./common/project";
 import { AppOption, AppOptionCategory } from "./types/enums";
 
 export function initAppOptions(app: App) {
@@ -11,6 +12,8 @@ export function initAppOptions(app: App) {
 	const string = opts.registerString.bind(opts, App.NAMESPACE);
 
 	// General
-	bool	(cat.GENERAL, opt.HELLO, 				true);
-	string	(cat.GENERAL, opt.HELLO_MESSAGE, 		"Hello PIXMA!");
+	bool	(cat.GENERAL, opt.HELLO, 					true);
+	string	(cat.GENERAL, opt.HELLO_MESSAGE, 			"Hello PIXMA!");
+	int		(cat.GENERAL, opt.DEFAULT_CANVAS_WIDTH, 	Project.DEFAULT_CANVAS_WIDTH, 1, Project.MAX_CANVAS_SIZE);
+	int		(cat.GENERAL, opt.DEFAULT_CANVAS_HEIGHT,	Project.DEFAULT_CANVAS_HEIGHT, 1, Project.MAX_CANVAS_SIZE);
 }

@@ -7,7 +7,7 @@ import { KeymapBind } from "@base/managers/KeymapsManager";
 import { AppContext, CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 import type { ColorState, State } from "@base/common/listenable";
-import type { Layer } from "../layers";
+import { LayerHistoryItem, type Layer } from "../layers";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
 import { Utils } from "@base/utils";
@@ -135,6 +135,9 @@ export class Tool {
     onDown(layer: Layer, mouse: IMouseData) {
         this._isUsing = true;
 		this.renderBrush(mouse.pressedButton);
+
+		if (this.pushToHistory)
+			this.app.history.save(new LayerHistoryItem(layer, "Draw", { canvasChanged: true }));
     }
     onUse(layer: Layer, mouse: IMouseData) {}
     onMove(layer: Layer, mouse: IMouseData) {
@@ -143,6 +146,8 @@ export class Tool {
     onUp(layer: Layer, mouse: IMouseData) {
         this._isUsing = false;
 		this.renderBrush(mouse.pressedButton);
+
+		this.app.history.push();
     }
     onChoose() {
         this._isChosen = true;
@@ -192,5 +197,8 @@ export class Tool {
 	}
 	get paramsElement(): ToolParams | null {
 		return this._paramsElement;
+	}
+	get pushToHistory(): boolean {
+		return true;
 	}
 }

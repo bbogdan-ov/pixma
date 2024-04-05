@@ -1,5 +1,6 @@
 import { State, Trigger } from "@base/common/listenable";
 import { Manager } from ".";
+import { Dev } from "@base/utils";
 
 // Option
 export type AnyOption = Option<any>;
@@ -27,7 +28,10 @@ export class Option<T> {
 	 */
 	set(value: T): boolean {
 		const v = this.validate(value);
-		if (v === null) return false;
+		if (v === null) {
+			Dev.warn(`Value ${ value } isn't valid`);
+			return false;
+		}
 
 		this.valueState.set(v);
 		return true;
