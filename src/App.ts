@@ -1,17 +1,14 @@
 import { BaseApp } from "@base/BaseApp";
-import AppElement from "@source/elements/AppElement";
-import DragManager from "@base/managers/DragManager";
-import { SelectionManager, TabsManager } from "@base/managers";
+import { SelectionManager, TabsManager, KeymapBind, DragManager, KeymapCondition, KeymapsManager, CommandFunc, CommandsManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
+import { AppOption } from "./types/enums";
+import AppElement from "@source/elements/AppElement";
 import type { Tool } from "./common/tools";
 import type { Layer } from "./common/layers";
 import type { Project } from "./common/project";
-import { CommandFunc, CommandsManager } from "@base/managers/CommandsManager";
 import { initAppCommands } from "./commands";
-import { KeymapBind, KeymapCondition, KeymapsManager } from "@base/managers/KeymapsManager";
 import { initAppKeymaps } from "./keymaps";
 import { initAppOptions } from "./options";
-import { AppOption } from "./types/enums";
 
 export class App extends BaseApp<AppElement> {
 	readonly commands: CommandsManager;

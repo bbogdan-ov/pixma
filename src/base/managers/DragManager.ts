@@ -4,7 +4,7 @@ import { Trigger } from "@base/common/listenable";
 
 type DragItem = any;
 
-export default class DragManager extends Manager {
+export class DragManager extends Manager {
     protected _dragKey: string | null = null;
     protected _draggingItems: DragItem[] = [];
 
