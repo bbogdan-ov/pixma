@@ -5,6 +5,7 @@ import type { ProjectTab } from "../tabs";
 import type { ProjectTabView } from "@source/elements/tabs";
 import type { CanvasZoomable } from "@source/elements/canvas";
 import type { PreviewLayer, Layer } from "../layers";
+import { MouseManager } from "@base/managers";
 
 export class Project {
 	static _id = 0;
@@ -88,6 +89,10 @@ export class Project {
     get canvasZoomable(): CanvasZoomable | null {
         return this.tabView?.canvasZoomable ?? null;
     }
+    /** Alias to `project.tab.viewElement.canvasZoomable.toolMouse` */
+	get toolMouse(): MouseManager | null {
+		return this.canvasZoomable?.toolMouse ?? null;
+	}
 	/** Alias to `project.layers.current` */
 	get currentLayer(): Layer | null {
 		return this.layers.current;
