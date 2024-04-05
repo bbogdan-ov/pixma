@@ -53,8 +53,24 @@ export class BooleanOption extends Option<boolean> {
 	}
 }
 export class FloatOption extends Option<number> {
+	readonly min: number | null;
+	readonly max: number | null;
+
+	constructor(namespace: string, category: string, value: number, min: number | null, max: number | null) {
+		super(namespace, category, value);
+
+		this.min = this.validate(min as number);
+		this.max = this.validate(max as number);
+	}
+
 	validate(value: number): number | null {
 		if (typeof value != "number") return null;
+		
+		if (this.min !== null)
+			value = Math.max(value, this.min);
+		if (this.max !== null)
+			value = Math.min(value, this.max);
+
 		return value;
 	}
 	increment(): number {
@@ -98,16 +114,40 @@ export class OptionsManager extends Manager {
 		this.onDidRegistered.trigger(option);
 		return true;
 	}
-	registerBoolean(namespace: string, category: string, name: string, value: boolean): boolean {
+	registerBoolean(
+		namespace: string,
+		category: string,
+		name: string,
+		value: boolean
+	): boolean {
 		return this.register(name, new BooleanOption(namespace, category, value));
 	}
-	registerFloat(namespace: string, category: string, name: string, value: number): boolean {
-		return this.register(name, new FloatOption(namespace, category, value));
+	registerFloat(
+		namespace: string,
+		category: string,
+		name: string,
+		value: number,
+		min: number | null=null,
+		max: number | null=null
+	): boolean {
+		return this.register(name, new FloatOption(namespace, category, value, min, max));
 	}
-	registerInt(namespace: string, category: string, name: string, value: number): boolean {
-		return this.register(name, new IntOption(namespace, category, value));
+	registerInt(
+		namespace: string,
+		category: string,
+		name: string,
+		value: number,
+		min: number | null=null,
+		max: number | null=null
+	): boolean {
+		return this.register(name, new IntOption(namespace, category, value, min, max));
 	}
-	registerString(namespace: string, category: string, name: string, value: string): boolean {
+	registerString(
+		namespace: string,
+		category: string,
+		name: string,
+		value: string
+	): boolean {
 		return this.register(name, new StringOption(namespace, category, value));
 	}
 
