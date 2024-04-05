@@ -64,4 +64,7 @@ export class ToolsManager extends Manager {
     get current(): Tool | null {
         return this._current;
     }
+	get isUsing(): boolean {
+		return this.current?.isUsing ?? false;
+	}
 }

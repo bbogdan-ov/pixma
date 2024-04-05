@@ -81,4 +81,7 @@ export class App extends BaseApp<AppElement> {
 	get currentProject(): Project | null {
 		return this.projects.current;
 	}
+	get isToolUsing(): boolean {
+		return this.tools.isUsing;
+	}
 }
