@@ -87,6 +87,9 @@ export class LayersManager extends Manager {
     get(index: number): Layer | null {
         return this.list[index] || null;
     }
+	getById(id: number): Layer | null {
+		return this.list.find(l=> l.id == id) ?? null;
+	}
     getIsExists(layer: Layer): boolean {
         return this.list.includes(layer);
     }
