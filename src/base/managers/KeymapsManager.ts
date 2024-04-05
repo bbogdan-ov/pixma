@@ -2,6 +2,7 @@ import { Manager } from ".";
 import { KeyBind } from "@base/common/binds";
 import { CommandsManager } from "./CommandsManager";
 import { DOM, Dev } from "@base/utils";
+import { Trigger } from "@base/common/listenable";
 
 export type KeymapBind = KeyBind | string | (KeyBind | string)[];
 export type KeymapCondition = ()=> boolean;
@@ -32,6 +33,13 @@ export class KeymapsManager extends Manager {
 	readonly keymaps: Keymap[] = [];
 
 	protected _isPreventing = false;
+
+	readonly onDidRegistered = new Trigger<Keymap>();
+	/**
+	 * Triggers before keymap is called
+	 * Can be used for preveting certain keymaps
+	 */
+	readonly onDidStartedCalling = new Trigger<Keymap>();
 
 	constructor(commands: CommandsManager) {
 		super();
@@ -69,7 +77,10 @@ export class KeymapsManager extends Manager {
 				Dev.throwError(`Cannot register a keymap bind "${ bind }"`);
 				return false;
 			}
-			this.keymaps.push(new Keymap(b, command, condition));
+
+			const keymap = new Keymap(b, command, condition);
+			this.keymaps.push(keymap);
+			this.onDidRegistered.trigger(keymap);
 		}
 		return true;
 	}
@@ -81,6 +92,8 @@ export class KeymapsManager extends Manager {
 		for (const map of this.keymaps) {
 			if (map.test(event)) {
 				event.preventDefault();
+				this.onDidStartedCalling.trigger(map);
+
 				this.commands.call(map.command);
 			}
 		}

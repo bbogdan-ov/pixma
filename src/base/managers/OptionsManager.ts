@@ -1,3 +1,4 @@
+import { State, Trigger } from "@base/common/listenable";
 import { Manager } from ".";
 
 // Option
@@ -6,13 +7,13 @@ export class Option<T> {
 	readonly namespace: string;
 	readonly category: string;
 	readonly defaultValue: T;
-	protected _value: T;
+	readonly valueState: State<T>;
 
 	constructor(namespace: string, category: string, value: T) {
 		this.namespace = namespace;
 		this.category = category;
 		this.defaultValue = value;
-		this._value = value;
+		this.valueState = new State(value);
 	}
 
 	/** Returns `null` if value is invalid, otherwise just returns `value` */
@@ -28,16 +29,16 @@ export class Option<T> {
 		const v = this.validate(value);
 		if (v === null) return false;
 
-		this._value = v;
+		this.valueState.set(v);
 		return true;
 	}
 	/** Reset/set value to default */
 	reset(): T {
-		this._value = this.defaultValue;
-		return this._value;
+		this.valueState.set(this.defaultValue);
+		return this.value;
 	}
 	get value(): T {
-		return this._value;
+		return this.valueState.value;
 	}
 }
 
@@ -82,6 +83,9 @@ export class StringOption extends Option<string> {
 export class OptionsManager extends Manager {
 	readonly options: Record<string, AnyOption> = {};
 
+	readonly onDidRegistered = new Trigger<AnyOption>();
+	readonly onDidChanged = new Trigger<AnyOption>();
+
 	constructor() {
 		super();
 	}
@@ -91,6 +95,7 @@ export class OptionsManager extends Manager {
 		if (!override && this.getOption(name)) return false;
 
 		this.options[name] = option;
+		this.onDidRegistered.trigger(option);
 		return true;
 	}
 	registerBoolean(namespace: string, category: string, name: string, value: boolean): boolean {
@@ -112,7 +117,12 @@ export class OptionsManager extends Manager {
 	 * Returns successfully or not
 	 */
 	set(name: string, value: boolean | string | number): boolean {
-		return this.getOption(name)?.set(value) ?? false;
+		const option = this.getOption(name);
+		if (!option) return false;
+		const success = option.set(value);
+
+		this.onDidChanged.trigger(option);
+		return success;
 	}
 	/**
 	 * Set boolean option value
