@@ -10,11 +10,14 @@ import { Clamped, Stepped } from "@base/types/types";
 export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
     static readonly WHEEL_THRESHOLD = 1;
     static readonly SHIFT_MUL = 5;
+    static readonly CHANGE_DEBOUNCE_DURATION = 200;
 
     protected _fixed = 2;
     protected _min = -Infinity;
     protected _max = Infinity;
     protected _step = 1;
+
+	protected _changeTimeout = -1;
 
     readonly increaseButton: Button;
     readonly decreaseButton: Button;
@@ -77,12 +80,21 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
             this.increase(event.shiftKey);
         else if (event.deltaY > NumberInput.WHEEL_THRESHOLD)
             this.decrease(event.shiftKey);
+		else
+			return;
+
+		clearTimeout(this._changeTimeout);
+		this._changeTimeout = setTimeout(()=> {
+			this._onChange(event);
+		}, NumberInput.CHANGE_DEBOUNCE_DURATION)
     }
     protected _onIncreaseDown(event: MouseEvent) {
         this.increase(event.shiftKey);
+		this._onChange(event);
     }
     protected _onDecreaseDown(event: MouseEvent) {
         this.decrease(event.shiftKey);
+		this._onChange(event);
     }
 
     protected _onKeyDown(event: KeyboardEvent): void {

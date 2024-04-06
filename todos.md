@@ -6,10 +6,8 @@
 - [ ] reordable tabs
 - [ ] floating windows
 - [ ] dashboard/home page
-- [ ] dispatch "change" event in `NumberInput` when increment/decrement buttons are pressed
 - [ ] after closing a tab enter another atomaticly
 - [ ] multi editing
-- [ ] fix: add debounce for brush resizing with range
 - [ ] zoomable int scaling
 
 # PROCESS

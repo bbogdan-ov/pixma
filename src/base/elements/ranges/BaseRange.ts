@@ -8,6 +8,7 @@ import { Clamped, Stepped } from "@base/types/types";
 export class BaseRange extends FocusableElement implements Clamped, Stepped {
     static readonly WHEEL_THRESHOLD = 1;
     static readonly SHIFT_MUL = 5;
+	static readonly CHANGE_DEBOUNCE_DURATION = 200;
 
     readonly state: State<number>;
 
@@ -15,6 +16,8 @@ export class BaseRange extends FocusableElement implements Clamped, Stepped {
     protected _min = 0;
     protected _max = 100;
     protected _step = 1;
+
+	protected _changeTimeout = -1;
 
     constructor(state?: State<number>) {
         super();
@@ -54,22 +57,26 @@ export class BaseRange extends FocusableElement implements Clamped, Stepped {
         if (!this.isChanging) return;
 
         this._isChanging = false;
-        this._onChange();
+        this._onChange(event);
     }
     protected _onWheel(event: WheelEvent) {
-        if (event.deltaY < -BaseRange.WHEEL_THRESHOLD) {
+        if (event.deltaY < -BaseRange.WHEEL_THRESHOLD)
             this.increase(event.shiftKey);
-            this._onInput();
-        } else if (event.deltaY > BaseRange.WHEEL_THRESHOLD) {
+        else if (event.deltaY > BaseRange.WHEEL_THRESHOLD)
             this.decrease(event.shiftKey);
-            this._onInput();
-        }
+        else
+			return;
+
+		clearTimeout(this._changeTimeout);
+		this._changeTimeout = setTimeout(()=> {
+			this._onChange(event);
+		}, BaseRange.CHANGE_DEBOUNCE_DURATION);
     }
 
-	protected _onChange() {
+	protected _onChange(event: Event) {
         this.dispatchEvent(new InputEvent("change"));
 	}
-	protected _onInput() {
+	protected _onInput(event: Event) {
         this.dispatchEvent(new InputEvent("input"));
 	}
 
@@ -84,7 +91,7 @@ export class BaseRange extends FocusableElement implements Clamped, Stepped {
         const step = this.step;
 
         this.setValue(min + Math.ceil(alpha * (max - min) / step) * step);
-        this._onInput();
+        this._onInput(event);
     }
     setWidth(value: string | number): this {
         return this.setStyle("width", value);

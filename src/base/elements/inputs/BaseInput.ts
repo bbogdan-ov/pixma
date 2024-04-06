@@ -76,7 +76,7 @@ export class BaseInput<T extends string | number> extends FocusableElement imple
     protected _onInput(event: Event) {
         this.dispatchEvent(new InputEvent("input"));
     }
-    protected _onChange(event: FocusEvent) {
+    protected _onChange(event: Event) {
         const value = this.applyToValue(this.formatValue(this.editable.textContent || ""));
 
         this.state.set(value);
