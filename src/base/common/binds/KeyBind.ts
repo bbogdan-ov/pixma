@@ -1,6 +1,6 @@
 import { KeyCode } from "@base/types/enums";
 import { Bind } from ".";
-import { Dev, Utils } from "@base/utils";
+import { Dev } from "@base/utils";
 
 export class KeyBind extends Bind {
     readonly code: KeyCode;
@@ -12,7 +12,7 @@ export class KeyBind extends Bind {
     }
 
     test(event: Event): boolean {
-        return Utils.formatKeyCode((event as any).code) == Utils.formatKeyCode(this.code) && super.test(event);
+        return KeyBind.formatKeyCode((event as any).code) == KeyBind.formatKeyCode(this.code) && super.test(event);
     }
 
     // Static
@@ -20,7 +20,7 @@ export class KeyBind extends Bind {
 		const ev = event as KeyboardEvent;
 		if (!ev.code) return null;
 		return new KeyBind(
-			Utils.formatKeyCode(ev.code) as KeyCode,
+			KeyBind.formatKeyCode(ev.code) as KeyCode,
 			ev.ctrlKey,
 			ev.shiftKey,
 			ev.shiftKey
@@ -97,7 +97,22 @@ export class KeyBind extends Bind {
 		}
 		return null;
 	}
-	
+
+	// Utils
+    /**
+     * Makes key code a little shorter
+     *
+     * Examples:
+     * - `"KeyA"` -> `"a"`
+     * - `"Digit5"` -> `"5"`
+     * - `"Numpad1"` -> `"1"`
+     * - `"Space"` -> `"space"`
+     */
+    static formatKeyCode(code: string): string {
+        return code.toLowerCase().replace(/key|digit|numpad/gmi, "");
+    }
+
+	//
     static get A(): KeyBind {
         return new KeyBind(KeyCode.A);
     }

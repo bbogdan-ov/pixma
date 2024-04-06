@@ -98,18 +98,4 @@ export default class Utils {
             return max;
         return value;
     }
-
-    // Key
-    /**
-     * Makes key code a little shorter
-     *
-     * Examples:
-     * - `"KeyA"` -> `"a"`
-     * - `"Digit5"` -> `"5"`
-     * - `"Numpad1"` -> `"1"`
-     * - `"Space"` -> `"space"`
-     */
-    static formatKeyCode(code: string): string {
-        return code.toLowerCase().replace(/key|digit|numpad/gmi, "");
-    }
 }

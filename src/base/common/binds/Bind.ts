@@ -57,4 +57,14 @@ export class Bind {
     setGentle(value=true): this {
         return this.setStrict(!value);
     }
+
+	// Static
+	/** Returns `true` if at least one of the bind's test returns `true`, otherwise returns `false` */
+	static test(event: Event, ...binds: Bind[]): boolean {
+		for (const bind of binds) {
+			if (bind.test(event))
+				return true;
+		}
+		return false;
+	}
 }

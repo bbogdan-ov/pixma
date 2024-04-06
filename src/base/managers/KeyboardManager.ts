@@ -1,6 +1,5 @@
 import { KeyCode } from "@base/types/enums";
 import { Manager } from ".";
-import { EventUtils } from "@base/utils";
 import { KeyBind } from "@base/common/binds";
 
 export class KeyboardManager extends Manager {
@@ -27,7 +26,7 @@ export class KeyboardManager extends Manager {
 
     // On
     onDown(event: KeyboardEvent) {
-        const code = EventUtils.getKeyCode(event);
+        const code = KeyBind.keyCodeFromString(event.code);
 
         this._downEvent = event;
     
