@@ -1,10 +1,11 @@
 import { LayerElement } from "@source/elements/layers";
 import { State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
+import { type Project, ProjectHistoryItem } from "../project";
 import type { Tool } from "../tools";
 import type { IMouseData, ISelectableItem } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
-import { ProjectHistoryItem } from "../project";
+import type { App } from "@source/App";
 
 export interface LayerHistoryItemOpts {
 	canvasChanged?: boolean
@@ -242,5 +243,13 @@ export class Layer implements ISelectableItem {
 	/** If this layer isn't visible for human's eye, why should whe render it? */
 	get hasMeaningToRender(): boolean {
 		return !this.isEmpty && this.isVisible
+	}
+	/** Alias to `layer.manager.project` */
+	get project(): Project {
+		return this.manager.project;
+	}
+	/** Alias to `layer.manager.project.app` */
+	get app(): App {
+		return this.manager.project.app;
 	}
 }
