@@ -112,6 +112,7 @@ export class Layer implements ISelectableItem {
         return this.manager.remove(this);
     }
 	edited() {
+		this._isEmpty = false;
 		this.onDidEdited.trigger(this);
 	}
 
@@ -152,8 +153,6 @@ export class Layer implements ISelectableItem {
     }
     onToolMove(tool: Tool, mouse: IMouseData) {}
     onToolUp(tool: Tool, mouse: IMouseData) {
-        this.onChanged();
-        
         this._isToolDown = false;
         this.onDidToolUp.trigger(tool);
 		this.edited();
@@ -165,10 +164,6 @@ export class Layer implements ISelectableItem {
     onUnselect() {
         this._isSelected = false;
         this.onDidUnselected.trigger(this);
-    }
-    onChanged() {
-        this._isEmpty = false;
-        this.setCanvasElementVisibility(true);
     }
     onIndexChange(newIndex: number) {
 		this._index = newIndex;
@@ -243,5 +238,9 @@ export class Layer implements ISelectableItem {
     }
 	get index(): number | null {
 		return this._index;
+	}
+	/** If this layer isn't visible for human's eye, why should whe render it? */
+	get hasMeaningToRender(): boolean {
+		return !this.isEmpty && this.isVisible
 	}
 }
