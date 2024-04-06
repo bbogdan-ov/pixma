@@ -3,6 +3,7 @@ import { FocusableElement } from "../FocusableElement";
 import { Dev, Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 import { Clamped, Stepped } from "@base/types/types";
+import { KeyBind } from "@base/common/binds";
 
 @FocusableElement.define("base-range")
 export class BaseRange extends FocusableElement implements Clamped, Stepped {
@@ -72,6 +73,16 @@ export class BaseRange extends FocusableElement implements Clamped, Stepped {
 			this._onChange(event);
 		}, BaseRange.CHANGE_DEBOUNCE_DURATION);
     }
+	protected _onKeyDown(event: KeyboardEvent) {
+		if (KeyBind.test(event, KeyBind.ARROW_UP, KeyBind.ARROW_RIGHT))
+			this.increase();
+		else if (KeyBind.test(event, KeyBind.ARROW_DOWN, KeyBind.ARROW_LEFT))
+			this.decrease();
+		else
+			return;
+
+		this._onChange(event);
+	}
 
 	protected _onChange(event: Event) {
         this.dispatchEvent(new InputEvent("change"));
