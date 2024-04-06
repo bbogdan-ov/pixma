@@ -65,6 +65,7 @@ export class Layer implements ISelectableItem {
 
     readonly canvas: Canvas;
 
+	protected _index: number | null = null;
     protected _isEmpty = true;
     protected _isCurrent = false;
     protected _isSelected = false;
@@ -84,7 +85,7 @@ export class Layer implements ISelectableItem {
     readonly onDidEdited = new Trigger<Layer>();
     readonly onDidSelected = new Trigger<Layer>();
     readonly onDidUnselected = new Trigger<Layer>();
-    readonly onDidReordered = new Trigger<number>();
+    readonly onDidIndexChanged = new Trigger<number>();
 
     constructor(name: string, manager: LayersManager) {
         this.id = ++ Layer._id;
@@ -125,6 +126,7 @@ export class Layer implements ISelectableItem {
 
     // On
     onAdd() {
+		this._index = this.manager.getIndex(this);
         this.onDidAdded.trigger(this);
     }
     onRemove() {
@@ -168,8 +170,9 @@ export class Layer implements ISelectableItem {
         this._isEmpty = false;
         this.setCanvasElementVisibility(true);
     }
-    onReorder(newIndex: number) {
-        this.onDidReordered.trigger(newIndex);
+    onIndexChange(newIndex: number) {
+		this._index = newIndex;
+        this.onDidIndexChanged.trigger(newIndex);
     }
     
     // Set
@@ -203,11 +206,8 @@ export class Layer implements ISelectableItem {
     }
     /**
      * Returns index of `layer` in the list if exists, otherwise returns `null`
-     * Alias to `layersManager.getIndexOf`
+     * Alias to `LayersManager.getIndex`
      */
-    getIndex(): number | null {
-        return this.manager.getIndexOf(this);
-    }
     get context(): CanvasRenderingContext2D {
         return this.canvas.context;
     }
@@ -241,4 +241,7 @@ export class Layer implements ISelectableItem {
     get height(): number {
         return this.canvas.height;
     }
+	get index(): number | null {
+		return this._index;
+	}
 }

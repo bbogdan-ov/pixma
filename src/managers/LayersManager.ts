@@ -10,7 +10,7 @@ export class LayersManager extends Manager {
     protected _list: Layer[] = [];
 
     protected _current: Layer | null = null;
-    protected _currentIndex: number = 0;
+    protected _currentIndex: number | null = null;
     readonly previewLayer: PreviewLayer;
 
     readonly onDidAdded = new Trigger<Layer>();
@@ -38,7 +38,11 @@ export class LayersManager extends Manager {
         else
             Utils.insertItem(this._list, layer, index);
 
-        this.choose(layer);
+		const newIndex = index ?? (this.count-1);
+
+		this._updateIndexFrom(newIndex+1);
+
+        this.chooseIndex(newIndex);
 
         layer.onAdd();
         this.onDidAdded.trigger(layer);
@@ -46,42 +50,88 @@ export class LayersManager extends Manager {
 
         return true;
     }
-    remove(layer: Layer): boolean {
-        const removedIndex = Utils.removeItem(this._list, layer);
-        if (!Utils.exists(removedIndex) || removedIndex < 0) return false;
+	addNearCurrent(layer: Layer, above=false): boolean {
+		return this.add(layer, (this.currentIndex ?? 0) + +above)
+	}
+	removeIndex(index: number): boolean {
+		const layer = this.list[index];
+		if (!layer) return false;
 
-        layer.onRemove();
-        this.onDidRemoved.trigger(layer);
-        this.onDidListChanged.trigger(this.list);
-        
-        const nextLayer = this.list[Utils.clamp(removedIndex, 0, this.count-1)];
-        if (nextLayer)
-            this.choose(nextLayer);
-        
-        return true;
+		this._list.splice(index, 1);
+		this._updateIndexFrom(index);
+
+		layer.onRemove();
+		this.onDidRemoved.trigger(layer);
+		this.onDidListChanged.trigger(this.list);
+
+        this.chooseIndex(index);
+
+		return true;
+	}
+	/**
+	 * Slower than `removeIndex()` because it have to search for the index of the layer
+	 * So if you are already know the index of the layer, use `removeIndex()` method instead
+	 */
+    remove(layer: Layer): boolean {
+		const index = this.getIndex(layer);
+		if (index === null) return false;
+        return this.removeIndex(index);
     }
+	removeCurrent(): boolean {
+		if (this.currentIndex === null) return false;
+		return this.removeIndex(this.currentIndex);
+	}
+	chooseIndex(index: number): boolean {
+		const layer = this.list[index];
+		if (!layer || this.current == layer) return false;
+
+		this.unchoose();
+
+		this._current = layer;
+		this._currentIndex = index;
+		this._current.onChoose();
+
+		this.onDidChosen.trigger(this._current);
+		return true;
+	}
+	/** A little bit slower than `chooseIndex()` due to checking that `layer` exists */
     choose(layer: Layer): boolean {
+		// Code here is kind of simular to code in `chooseIndex()`
+		// it was done intentionally for the sake of speed!
         if (!this.getIsExists(layer) || this.current === layer) return false;
 
-        if (this.current)
-            this.unchoose(this.current);
+		this.unchoose();
 
         this._current = layer;
-        this._currentIndex = this.getIndexOf(layer) ?? 0;
+        this._currentIndex = this.getIndex(layer) ?? 0;
         this._current.onChoose();
 
         this.onDidChosen.trigger(layer);
         return true
     }
-    unchoose(layer: Layer): boolean {
-        if (!this._current) return false;
+	/**
+	 * Unchoose current layer
+	 * If `layer` is `null`, just unchoose current layer
+	 * If `layer` is specified, unchoose only if `layer` is current
+	 */
+    unchoose(layer?: Layer | null): boolean {
+        if (!this._current)
+			return false;
+		if (!!layer && this._current !== layer)
+			return false;
 
-        this._current = null;
-        layer.onUnchoose();
+		this._current.onUnchoose();
+		this.onDidUnchosen.trigger(this._current);
 
-        this.onDidUnchosen.trigger(layer);
-        return true;
+		this._current = null;
+		return true;
     }
+
+	protected _updateIndexFrom(index: number) {
+		for (let i = index; i < this.count; i ++) {
+			this.list[i].onIndexChange(i);
+		}
+	}
 
     // Get
     get(index: number): Layer | null {
@@ -100,7 +150,7 @@ export class LayersManager extends Manager {
         return this.project.app.drag.getDraggingItems(Layer.KEY);
     }
     /** Returns index of `layer` in the list if exists, otherwise returns `null` */
-    getIndexOf(layer: Layer): number | null {
+    getIndex(layer: Layer): number | null {
         return Utils.indexOf(this.list, layer);
     }
     getIsSelected(layer: Layer): boolean {
@@ -115,7 +165,7 @@ export class LayersManager extends Manager {
     get current(): Layer | null {
         return this._current;
     }
-    get currentIndex(): number {
+    get currentIndex(): number | null {
         return this._currentIndex;
     }
     get count(): number {

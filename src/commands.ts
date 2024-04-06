@@ -21,13 +21,13 @@ export function initAppCommands(app: App) {
 	regApp(cmd.ENTER_TENTH_TAB,   				()=> app.tabs.enterByIndex(9));
 
 	regProject(cmd.SWAP_COLORS, 				()=> app.brushes.swapColors());
-	regProject(cmd.ADD_DRAWING_LAYER_ABOVE, 	()=> addDrawingLayerBelowCurrent(1));
-	regProject(cmd.ADD_DRAWING_LAYER_BELOW, 	()=> addDrawingLayerBelowCurrent(0));
+	regProject(cmd.ADD_DRAWING_LAYER_ABOVE, 	()=> addDrawingLayerNearCurrent(true));
+	regProject(cmd.ADD_DRAWING_LAYER_BELOW, 	()=> addDrawingLayerNearCurrent(false));
 
 	// Project
-	function addDrawingLayerBelowCurrent(offset: number) {
+	function addDrawingLayerNearCurrent(above: boolean) {
 		const layers = app.currentProject?.layers;
 		if (!layers) return;
-		layers.add(new DrawingLayer(layers), layers.currentIndex+offset);
+		layers.addNearCurrent(new DrawingLayer(layers), above);
 	}
 }

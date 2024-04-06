@@ -65,8 +65,10 @@ export class CanvasZoomable extends Zoomable {
             this._currentCanvas = this.project.layers.current.canvas;
         }
 
+		const curIndex = this.project.layers.currentIndex ?? 0;
+
         // Draw layers that below the current layer on back canvas
-        for (let i = 0; i < this.project.layers.currentIndex; i ++) {
+        for (let i = 0; i < curIndex; i ++) {
             const layer = this.project.layers.list[i];
             // Dont draw invisible layers
             if (!layer.isVisible) continue;
@@ -75,7 +77,7 @@ export class CanvasZoomable extends Zoomable {
         }
 
         // Draw layers that above the current layer on front canvas
-        for (let i = this.project.layers.currentIndex+1; i < this.project.layers.count; i ++) {
+        for (let i = curIndex + 1; i < this.project.layers.count; i ++) {
             const layer = this.project.layers.list[i];
             if (!layer.isVisible) continue;
 

@@ -36,6 +36,10 @@ export class LayerElement extends FocusableElement {
         );
     }
 
+	startRenaming(): this {
+		console.log("Rename!");
+		return this;
+	}
     shake(): this {
         return DOM.shake(this);
     }
@@ -55,7 +59,7 @@ export class LayerElement extends FocusableElement {
             .setIsActive(this.layer.isLocked);
     }
     protected _updateOrder() {
-        const index = this.layer.getIndex();
+        const index = this.layer.index;
         if (index !== null)
             this.setStyle("order", index.toString());
     }    
@@ -70,7 +74,7 @@ export class LayerElement extends FocusableElement {
         this.listen(this.layer.onDidToolDown, this._onToolDown.bind(this));
         this.listen(this.layer.onDidSelected, this._onSelect.bind(this));
         this.listen(this.layer.onDidUnselected, this._onUnselect.bind(this));
-        this.listen(this.layer.manager.onDidListChanged, this._onLayersListChanged.bind(this));
+        this.listen(this.layer.onDidIndexChanged, this._onIndexChange.bind(this));
 
         this.listen(this.layer.displayNameState, this._onNameChange.bind(this), true);
         this.listen(this.layer.isVisibleState, this._onVisibilityChange.bind(this), true);
@@ -111,9 +115,9 @@ export class LayerElement extends FocusableElement {
     protected _onUnselect() {
         this._updateClassList();
     }
-    protected _onLayersListChanged() {
-        this._updateOrder();
-    }
+	protected _onIndexChange() {
+		this._updateOrder();
+	}
     
     protected _onNameChange(name: string) {
         this._nameText.textContent = name;

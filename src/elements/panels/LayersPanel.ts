@@ -75,12 +75,8 @@ class LayersPanelFooter extends PanelFooter {
     }
     protected _onAddClick() {
         const layers = this.project.layers;
-        const index = layers.current?.getIndex();
 
-        layers.add(
-            new DrawingLayer(this.project.layers),
-            Utils.exists(index) ? index + 1 : null
-        );
+        layers.addNearCurrent(new DrawingLayer(layers), true);
     }
     protected _onRemoveClick() {
         const layers = this.project.layers;
@@ -88,6 +84,6 @@ class LayersPanelFooter extends PanelFooter {
             layers.remove(layers.current);
     }
     protected _onRenameClick() {
-        // TODO:
+
     }
 }
