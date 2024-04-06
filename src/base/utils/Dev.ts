@@ -1,6 +1,6 @@
 import { ValueType } from "@base/types/types";
 
-export default class Dev {
+export class Dev {
     static readonly IS_DEV = import.meta.env.DEV;
 
     static todo(message="") {

@@ -1,4 +1,4 @@
-export default class Random {
+export class Random {
     static float(from: number, to: number): number {
         return Math.random() * (to - from) + from;
     }

@@ -1,4 +1,4 @@
-export default class Utils {
+export class Utils {
     // Value
     /** Asserts that value isn't equal to `undefined` or `null` */
     static exists<T>(value: T | undefined | null): value is T {

@@ -1,10 +1,10 @@
-import type { HTMLTagNames, IListener } from "@base/types/types";
 import { ColorState, Listenable, State } from "@base/common/listenable";
+import { Dev } from "./Dev";
+import type { HTMLTagNames, IListener } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
-import Dev from "./Dev";
 import test_img from "../assets/images/test.png";
 
-export default class DOM {
+export class DOM {
 	// May be this is not the best way to store global vars...
 	static focusedInput: HTMLElement | null = null;
 
