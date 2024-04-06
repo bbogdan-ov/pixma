@@ -27,11 +27,11 @@ export class LayerElementWithPreview extends LayerElement {
     onMount(): void {
         super.onMount();
 
+		this.listen(this.layer.onDidEdited, this._onEdit.bind(this));
+
         this._updatePreviewImage();
     }
     protected _onEdit(): void {
-        super._onEdit();
-
         this._updatePreviewImage();
     }
 }

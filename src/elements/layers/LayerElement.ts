@@ -68,7 +68,6 @@ export class LayerElement extends FocusableElement {
         this.listen(this.layer.onDidUnchosen, this._onUnchoose.bind(this));
         this.listen(this.layer.onDidRemoved, this._onRemove.bind(this));
         this.listen(this.layer.onDidToolDown, this._onToolDown.bind(this));
-        this.listen(this.layer.onDidEdited, this._onEdit.bind(this));
         this.listen(this.layer.onDidSelected, this._onSelect.bind(this));
         this.listen(this.layer.onDidUnselected, this._onUnselect.bind(this));
         this.listen(this.layer.manager.onDidListChanged, this._onLayersListChanged.bind(this));
@@ -115,7 +114,6 @@ export class LayerElement extends FocusableElement {
     protected _onLayersListChanged() {
         this._updateOrder();
     }
-    protected _onEdit() {}
     
     protected _onNameChange(name: string) {
         this._nameText.textContent = name;
