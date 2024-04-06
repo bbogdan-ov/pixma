@@ -11,7 +11,7 @@ export class PreviewLayer extends Layer {
 
 		let layerEditedUnlisten: VoidFunction | null = null;
 
-        this.listen(manager.onDidChosen, layer=> {
+        manager.onDidChosen.listen(layer=> {
 			if (layerEditedUnlisten)
 				layerEditedUnlisten();
 
@@ -20,7 +20,7 @@ export class PreviewLayer extends Layer {
 				this.draw(null, null);
 			})
         })
-		this.listen(manager.project.app.tools.onDidChosen, tool=> {
+		manager.project.app.tools.onDidChosen.listen(tool=> {
 			this.draw(tool, null);
 		})
     }

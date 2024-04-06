@@ -1,13 +1,9 @@
 import { LayerElement } from "@source/elements/layers";
-import { Listenable, State, Trigger } from "@base/common/listenable";
+import { State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
-import { DOM } from "@base/utils";
-import { HistoryItem } from "@base/managers";
 import type { Tool } from "../tools";
-import type { IListener, IMouseData, ISelectableItem } from "@base/types/types";
-import type { ListenableListener } from "@base/common/listenable/Listenable";
+import type { IMouseData, ISelectableItem } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
-import type { App } from "@source/App";
 import { ProjectHistoryItem } from "../project";
 
 export interface LayerHistoryItemOpts {
@@ -59,7 +55,7 @@ export class LayerHistoryItem extends ProjectHistoryItem<LayerHistoryItemData> {
 	}
 }
 
-export class Layer implements ISelectableItem, IListener {
+export class Layer implements ISelectableItem {
     static readonly KEY = "layer";
     static _id = 0;
 
@@ -68,7 +64,6 @@ export class Layer implements ISelectableItem, IListener {
     readonly manager: LayersManager;
 
     readonly canvas: Canvas;
-    readonly unlistens: VoidFunction[] = [];
 
     protected _isEmpty = true;
     protected _isCurrent = false;
@@ -115,11 +110,6 @@ export class Layer implements ISelectableItem, IListener {
     remove(): boolean {
         return this.manager.remove(this);
     }
-    unlistenAll(): void {
-        for (const unlisten of this.unlistens) {
-            unlisten();
-        }
-    }
 	edited() {
 		this.onDidEdited.trigger(this);
 	}
@@ -133,13 +123,6 @@ export class Layer implements ISelectableItem, IListener {
         return new LayerElement(this);
     }
 
-    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
-    listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
-        return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
-    }
-
     // On
     onAdd() {
         this.onDidAdded.trigger(this);
@@ -147,7 +130,6 @@ export class Layer implements ISelectableItem, IListener {
     onRemove() {
         this.manager.project.app.selection.deselect(Layer.KEY, this);
         
-        this.unlistenAll();
         this.canvas.element.remove();
         this.onDidRemoved.trigger(this);
     }
