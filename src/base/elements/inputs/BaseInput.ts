@@ -74,7 +74,7 @@ export class BaseInput<T extends string | number> extends FocusableElement imple
     }
 
     protected _onInput(event: Event) {
-        this.dispatchEvent(new InputEvent("input"));
+        this.dispatchEvent(new InputEvent(EventName.INPUT));
     }
     protected _onChange(event: Event) {
         const value = this.applyToValue(this.formatValue(this.editable.textContent || ""));
@@ -82,7 +82,7 @@ export class BaseInput<T extends string | number> extends FocusableElement imple
         this.state.set(value);
         this._updateValueDisplay();
 
-        this.dispatchEvent(new InputEvent("change"));
+        this.dispatchEvent(new InputEvent(EventName.CHANGE));
     }
     // override
     protected _onKeyDown(event: KeyboardEvent): void {

@@ -85,10 +85,10 @@ export class BaseRange extends FocusableElement implements Clamped, Stepped {
 	}
 
 	protected _onChange(event: Event) {
-        this.dispatchEvent(new InputEvent("change"));
+        this.dispatchEvent(new InputEvent(EventName.CHANGE));
 	}
 	protected _onInput(event: Event) {
-        this.dispatchEvent(new InputEvent("input"));
+        this.dispatchEvent(new InputEvent(EventName.INPUT));
 	}
 
 	protected _onStateChange(value: number) {}
