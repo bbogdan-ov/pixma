@@ -15,8 +15,8 @@ export abstract class BaseElement extends HTMLElement implements Listener {
         other.appendChild(this);
         return other;
     }
-    addClassName(value: string): this {
-        this.classList.add(value);
+    addClassName(...names: string[]): this {
+        this.classList.add(...names);
         return this;
     }
     /** Replaces `token` with `newToken` if first is exists in classList, otherwise adds `newToken` to classList */
