@@ -141,7 +141,8 @@ export class Tool {
     }
     onUse(layer: Layer, mouse: IMouseData) {}
     onMove(layer: Layer, mouse: IMouseData) {
-		this.renderBrush(mouse.pressedButton);
+		if (layer.project.canvasZoomable?.isMouseOver)
+			this.renderBrush(mouse.pressedButton);
 	}
     onUp(layer: Layer, mouse: IMouseData) {
         this._isUsing = false;

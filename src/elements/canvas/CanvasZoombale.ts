@@ -138,7 +138,6 @@ export class CanvasZoomable extends Zoomable {
         const layer = this.project.currentLayer;
 		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;
-		if (!this.isToolUsing && !this.isMouseOver) return;
 
         const pos = this.getToolPos(event);
         this.toolMouse.onMove(event, pos.x, pos.y);
