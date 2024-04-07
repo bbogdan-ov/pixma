@@ -2,7 +2,7 @@ import { State } from "@base/common/listenable";
 import { DrawingTool } from ".";
 import type { App } from "@source/App";
 import type { Layer } from "../layers";
-import type { IMouseData } from "@base/types/types";
+import type { MouseData } from "@base/types/types";
 import { ToolParams } from "@source/elements/tools";
 
 export class PenLikeTool extends DrawingTool {
@@ -13,13 +13,13 @@ export class PenLikeTool extends DrawingTool {
 
 	}
 
-	use(layer: Layer, mouse: IMouseData): void {
+	use(layer: Layer, mouse: MouseData): void {
 	    if (this.isPixelPerfect)
 			this.drawPixelPerfect(layer, mouse);
 		else
 			super.use(layer, mouse)
 	}
-	drawPixelPerfect(layer: Layer, mouse: IMouseData) {
+	drawPixelPerfect(layer: Layer, mouse: MouseData) {
 		// TODO:
 	}
 

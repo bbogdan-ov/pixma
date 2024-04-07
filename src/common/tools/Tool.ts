@@ -1,7 +1,7 @@
 import { Trigger } from "@base/common/listenable";
 import { IconName, MouseButton } from "@base/types/enums";
 import { ToolButton, ToolParams } from "@source/elements/tools";
-import { IMouseData } from "@base/types/types";
+import { MouseData } from "@base/types/types";
 import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
 import { AppContext, CompositeOperation } from "@source/types/enums";
@@ -112,14 +112,14 @@ export class Tool {
         return new ToolParams(this);
     }
 
-    draw(context: CanvasRenderingContext2D, mouse: IMouseData) {
+    draw(context: CanvasRenderingContext2D, mouse: MouseData) {
 		this.brush.drawLine(
 			context,
 			mouse.last.x, mouse.last.y,
 			mouse.pos.x, mouse.pos.y
 		);
     }
-    drawPreview(context: CanvasRenderingContext2D, mouse: IMouseData) {
+    drawPreview(context: CanvasRenderingContext2D, mouse: MouseData) {
 		this.brush.draw(context, mouse.pos.x, mouse.pos.y);
     }
 
@@ -132,19 +132,19 @@ export class Tool {
 	}
 
     // On
-    onDown(layer: Layer, mouse: IMouseData) {
+    onDown(layer: Layer, mouse: MouseData) {
         this._isUsing = true;
 		this.renderBrush(mouse.pressedButton);
 
 		if (this.pushToHistory)
 			this.app.history.save(new LayerHistoryItem(layer, "Draw", { canvasChanged: true }));
     }
-    onUse(layer: Layer, mouse: IMouseData) {}
-    onMove(layer: Layer, mouse: IMouseData) {
+    onUse(layer: Layer, mouse: MouseData) {}
+    onMove(layer: Layer, mouse: MouseData) {
 		if (layer.project.canvasZoomable?.isMouseOver)
 			this.renderBrush(mouse.pressedButton);
 	}
-    onUp(layer: Layer, mouse: IMouseData) {
+    onUp(layer: Layer, mouse: MouseData) {
         this._isUsing = false;
 		this.renderBrush(mouse.pressedButton);
 

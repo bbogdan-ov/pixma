@@ -2,11 +2,14 @@ import { State } from "@base/common/listenable";
 import { FocusableElement } from "../FocusableElement";
 import { Dev, Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
-import { Clamped, Stepped } from "@base/types/types";
+import { Clamped, StateValueContained, Stepped } from "@base/types/types";
 import { KeyBind } from "@base/common/binds";
 
 @FocusableElement.define("base-range")
-export class BaseRange extends FocusableElement implements Clamped, Stepped {
+export class BaseRange
+	extends FocusableElement
+	implements StateValueContained<number>, Clamped, Stepped
+{
     static readonly WHEEL_THRESHOLD = 1;
     static readonly SHIFT_MUL = 5;
 	static readonly CHANGE_DEBOUNCE_DURATION = 200;

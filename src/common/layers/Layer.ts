@@ -3,7 +3,7 @@ import { State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { type Project, ProjectHistoryItem } from "../project";
 import type { Tool } from "../tools";
-import type { IMouseData, ISelectableItem } from "@base/types/types";
+import type { MouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
 import type { App } from "@source/App";
 
@@ -56,7 +56,7 @@ export class LayerHistoryItem extends ProjectHistoryItem<LayerHistoryItemData> {
 	}
 }
 
-export class Layer implements ISelectableItem {
+export class Layer {
     static readonly KEY = "layer";
     static _id = 0;
 
@@ -145,15 +145,15 @@ export class Layer implements ISelectableItem {
         this._isCurrent = false;
         this.onDidUnchosen.trigger(this);
     }
-    onToolDown(tool: Tool, mouse: IMouseData) {
+    onToolDown(tool: Tool, mouse: MouseData) {
         this._isToolDown = true;
         this.onDidToolDown.trigger(tool);
     }
-    onToolUse(tool: Tool, mouse: IMouseData) {
+    onToolUse(tool: Tool, mouse: MouseData) {
         this.onDidToolUse.trigger(tool);
     }
-    onToolMove(tool: Tool, mouse: IMouseData) {}
-    onToolUp(tool: Tool, mouse: IMouseData) {
+    onToolMove(tool: Tool, mouse: MouseData) {}
+    onToolUp(tool: Tool, mouse: MouseData) {
         this._isToolDown = false;
         this.onDidToolUp.trigger(tool);
 		this.edited();

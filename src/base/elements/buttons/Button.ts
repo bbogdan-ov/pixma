@@ -2,10 +2,10 @@ import { FocusableElement } from "@base/elements";
 import { AccentName, ColorName, EventName, IconName, SizeName } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { Icon } from "@base/elements/media";
-import { IThemeColorful, IThemeResizeable } from "@base/types/types";
+import { ThemeColorful, ThemeResizeable } from "@base/types/types";
 
 @FocusableElement.define("base-button")
-export class Button extends FocusableElement implements IThemeColorful, IThemeResizeable {
+export class Button extends FocusableElement implements ThemeColorful, ThemeResizeable {
     readonly inner = DOM.div("button-inner");
     readonly content = DOM.div("button-content");
     protected _icon: Icon | null = null;

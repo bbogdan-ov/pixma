@@ -1,5 +1,5 @@
 import { Layer } from ".";
-import { IMouseData } from "@base/types/types";
+import { MouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
 import type { Tool } from "../tools";
 
@@ -25,7 +25,7 @@ export class PreviewLayer extends Layer {
 		})
     }
 
-    draw(tool: Tool | null, mouse: IMouseData | null) {
+    draw(tool: Tool | null, mouse: MouseData | null) {
 		tool = tool ?? this.manager.project.app.currentTool ?? null;
 		mouse = mouse ?? this.manager.project.toolMouse ?? null;
 
@@ -58,17 +58,17 @@ export class PreviewLayer extends Layer {
     }
 
     // On
-    onToolDown(tool: Tool, mouse: IMouseData): void {
+    onToolDown(tool: Tool, mouse: MouseData): void {
         super.onToolDown(tool, mouse);
 
         this.draw(tool, mouse);
     }
-    onToolMove(tool: Tool, mouse: IMouseData): void {
+    onToolMove(tool: Tool, mouse: MouseData): void {
         super.onToolMove(tool, mouse);
 
         this.draw(tool, mouse);
     }
-	onToolUp(tool: Tool, mouse: IMouseData): void {
+	onToolUp(tool: Tool, mouse: MouseData): void {
 	    super.onToolUp(tool, mouse);
 
 		this.draw(tool, mouse);

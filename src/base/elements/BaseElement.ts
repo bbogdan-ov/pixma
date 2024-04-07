@@ -1,9 +1,9 @@
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { Listenable } from "@base/common/listenable";
-import { HTMLTagNames, IListener } from "@base/types/types";
+import { HTMLTagNames, Listener } from "@base/types/types";
 import { DOM } from "@base/utils";
 
-export abstract class BaseElement extends HTMLElement implements IListener {
+export abstract class BaseElement extends HTMLElement implements Listener {
     readonly unlistens: VoidFunction[] = [];
     protected _isMountedOnce = false;
 

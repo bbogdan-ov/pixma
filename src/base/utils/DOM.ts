@@ -1,6 +1,6 @@
 import { ColorState, Listenable, State } from "@base/common/listenable";
 import { Dev } from "./Dev";
-import type { HTMLTagNames, IListener } from "@base/types/types";
+import type { HTMLTagNames, Listener } from "@base/types/types";
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import test_img from "../assets/images/test.png";
 
@@ -16,10 +16,10 @@ export class DOM {
         return () => element.removeEventListener(eventName, listener);
     }
 
-    static listen<K extends keyof GlobalEventHandlersEventMap>(target: IListener, element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    static listen(target: IListener, element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    static listen<T>(target: IListener, listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
-    static listen(target: IListener, lisOrEl: EventTarget | Listenable<any>, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
+    static listen<K extends keyof GlobalEventHandlersEventMap>(target: Listener, element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    static listen(target: Listener, element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
+    static listen<T>(target: Listener, listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
+    static listen(target: Listener, lisOrEl: EventTarget | Listenable<any>, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
         let unlisten = () => {};
 
         if (lisOrEl instanceof Listenable) {

@@ -4,10 +4,13 @@ import { FocusableElement } from "..";
 import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
-import { IThemeColorful, IThemeResizeable } from "@base/types/types";
+import { ThemeColorful, ThemeResizeable, StateValueContained } from "@base/types/types";
 
 @FocusableElement.define("base-input")
-export class BaseInput<T extends string | number> extends FocusableElement implements IThemeColorful, IThemeResizeable {
+export class BaseInput<T extends string | number>
+	extends FocusableElement
+	implements StateValueContained<T>, ThemeColorful, ThemeResizeable
+{
     protected _maxLength = Infinity;
 
     readonly state: State<T>;

@@ -1,9 +1,9 @@
 import { Utils } from "@base/utils";
 import { Manager } from ".";
 import { Trigger } from "@base/common/listenable";
-import { ISelectableItem } from "@base/types/types";
 
-type SelectionItem = ISelectableItem;
+// TODO:
+type SelectionItem = any;
 
 export class SelectionManager extends Manager {
 	protected _selectedKey: string | null = null;

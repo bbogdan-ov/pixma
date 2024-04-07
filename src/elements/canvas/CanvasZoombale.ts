@@ -2,7 +2,7 @@ import { Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { Zoomable } from "@base/elements/layout";
 import { MouseManager } from "@base/managers";
-import { IMouseData } from "@base/types/types";
+import { MouseData } from "@base/types/types";
 import { DOM } from "@base/utils";
 import type { Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
@@ -21,10 +21,10 @@ export class CanvasZoomable extends Zoomable {
     readonly frontCanvas = new Canvas();
     readonly canvasesWrapper = DOM.div("canvases-wrapper");
 
-    readonly onDidToolDown = new Trigger<IMouseData>();
-    readonly onDidToolMove = new Trigger<IMouseData>();
-    readonly onDidToolUse = new Trigger<IMouseData>();
-    readonly onDidToolUp = new Trigger<IMouseData>();
+    readonly onDidToolDown = new Trigger<MouseData>();
+    readonly onDidToolMove = new Trigger<MouseData>();
+    readonly onDidToolUse = new Trigger<MouseData>();
+    readonly onDidToolUp = new Trigger<MouseData>();
 
     constructor(project: Project) {
         super();
