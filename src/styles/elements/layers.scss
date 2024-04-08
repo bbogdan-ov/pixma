@@ -23,6 +23,7 @@
         gap: var(--unit-2);
 
         .layer-name {
+			flex: 1;
             font-weight: 500;
             color: var(--muted-text-color);
         }

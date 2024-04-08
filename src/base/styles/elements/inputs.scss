@@ -163,11 +163,8 @@
 }
 
 .editable {
-	flex: 1;
+	overflow: hidden;
 
-	.editable-input {
-		margin: 0 calc(var(--normal-padding) * -1 - 2px);
-	}
 	.editable-span {
 		padding: .4em 0;
 		display: block;
@@ -176,6 +173,9 @@
 	}
 
 	// States
+	&:has(.editable-span:focus) {
+		outline: 2px solid #f00;
+	}
 	&:not(.editing) {
 		.editable-input {
 			display: none;
