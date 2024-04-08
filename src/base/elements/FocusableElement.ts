@@ -4,24 +4,16 @@ import { KeyBind } from "@base/common/binds";
 import { Focusable } from "@base/types/types";
 
 export interface FocusableOptions {
-	blurOnEsc: boolean
-}
-export interface FocusableInteractOptions {
 	keyboardInteract: boolean
-	interactOnEnter: boolean
-	interactOnSpace: boolean
 }
 
 export abstract class FocusableElement
 	extends BaseElement
-	implements Focusable, FocusableOptions, FocusableInteractOptions
+	implements Focusable, FocusableOptions, FocusableOptions
 {
     protected _isFocused = false;
 
 	keyboardInteract = true;
-	interactOnEnter = true;
-	interactOnSpace = true;
-	blurOnEsc = true;
 
     constructor() {
         super();
@@ -47,15 +39,15 @@ export abstract class FocusableElement
     protected _onKeyDown(event: KeyboardEvent) {
         if (this.keyboardInteract) {
 			if (
-				this.interactOnEnter && KeyBind.ENTER.test(event) ||
-				this.interactOnSpace && KeyBind.SPACE.test(event)
+				KeyBind.ENTER.test(event) ||
+				KeyBind.SPACE.test(event)
 			) {
 				event.preventDefault();
 				this._onInteract(event);
 			}
         }
 
-		if (this.blurOnEsc && KeyBind.ESCAPE.test(event)) {
+		if (KeyBind.ESCAPE.test(event)) {
 			event.preventDefault();
             this.blur();
         }
