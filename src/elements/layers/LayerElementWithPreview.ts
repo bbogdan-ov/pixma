@@ -11,7 +11,7 @@ export class LayerElementWithPreview extends LayerElement {
 
         this.previewImage.classList.add("image");
 
-        this._content.prepend(
+        this.content.prepend(
             DOM.div("layer-preview",
                 this.previewImage
             )

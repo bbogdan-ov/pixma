@@ -9,6 +9,8 @@
 - [ ] after closing a tab enter another atomaticly
 - [ ] multi editing
 - [ ] zoomable int scaling
+- [ ] preview layer/canvas zoomable update canvases on changes 
+- [ ] maybe remove current "layers canvas optimization"...
 
 # PROCESS
 

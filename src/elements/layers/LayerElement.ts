@@ -1,5 +1,6 @@
 import { FocusableElement } from "@base/elements";
 import { Button } from "@base/elements/buttons";
+import { EditableSpan } from "@base/elements/inputs/EditableSpan";
 import { EventName, IconName } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { Layer } from "@source/common/layers";
@@ -11,34 +12,37 @@ export class LayerElement extends FocusableElement {
 
     protected _isFocused = false;
 
-    protected readonly _content = DOM.div("layer-content");
-    protected readonly _nameText = DOM.span("", "layer-name");
-    protected readonly _visibilityButton = Button.action(IconName.VISIBLE);
-    protected readonly _locknessButton = Button.action(IconName.UNLOCKED);
+    readonly content = DOM.div("layer-content");
+    readonly nameEditable: EditableSpan;
+    readonly visibilityButton = Button.action(IconName.VISIBLE);
+    readonly locknessButton = Button.action(IconName.UNLOCKED);
 
     constructor(layer: Layer) {
         super();
 
         this.layer = layer;
 
+		this.nameEditable = new EditableSpan(this.layer.displayNameState)
+			.addClassName("layer-name");
+		this.nameEditable.selectOnFocus = true;
+
         this.id = "layer-" + layer.id;
         this.classList.add("layer", layer.name + "-layer", "focusable");
         this.tabIndex = 0;
 
         //
-        this._content.append(this._nameText);
+        this.content.append(this.nameEditable);
         this.append(
-            this._content,
+            this.content,
             DOM.div("layer-buttons",
-                this._visibilityButton,
-                this._locknessButton
+                this.visibilityButton,
+                this.locknessButton
             )
         );
     }
 
-	startRenaming(): this {
-		console.log("Rename!");
-		return this;
+	startRenaming(): boolean {
+		return this.nameEditable.startEdit();
 	}
     shake(): this {
         return DOM.shake(this);
@@ -51,10 +55,10 @@ export class LayerElement extends FocusableElement {
         this.classList.toggle("layer-locked", this.layer.isLocked);
     }
     protected _updateButtonsState() {
-        this._visibilityButton
+        this.visibilityButton
             .setIcon(this.layer.isVisible ? IconName.VISIBLE : IconName.HIDDEN)
             .setIsActive(!this.layer.isVisible);
-        this._locknessButton
+        this.locknessButton
             .setIcon(this.layer.isLocked ? IconName.LOCKED : IconName.UNLOCKED)
             .setIsActive(this.layer.isLocked);
     }
@@ -76,13 +80,12 @@ export class LayerElement extends FocusableElement {
         this.listen(this.layer.onDidUnselected, this._onUnselect.bind(this));
         this.listen(this.layer.onDidIndexChanged, this._onIndexChange.bind(this));
 
-        this.listen(this.layer.displayNameState, this._onNameChange.bind(this), true);
         this.listen(this.layer.isVisibleState, this._onVisibilityChange.bind(this), true);
         this.listen(this.layer.isLockedState, this._onLocknessChange.bind(this), true);
 
-        this.listen(this._content, EventName.DOWN, this._onContentDown.bind(this));
-        this.listen(this._visibilityButton, EventName.CLICK, this._onVisibilityClick.bind(this));
-        this.listen(this._locknessButton, EventName.CLICK, this._onLocknessClick.bind(this));
+        this.listen(this.content, EventName.DOWN, this._onContentDown.bind(this));
+        this.listen(this.visibilityButton, EventName.CLICK, this._onVisibilityClick.bind(this));
+        this.listen(this.locknessButton, EventName.CLICK, this._onLocknessClick.bind(this));
 
         this._updateClassList();
         this._updateButtonsState();
@@ -119,9 +122,6 @@ export class LayerElement extends FocusableElement {
 		this._updateOrder();
 	}
     
-    protected _onNameChange(name: string) {
-        this._nameText.textContent = name;
-    }
     protected _onVisibilityChange(visible: boolean) {
         this._updateClassList();
         this._updateButtonsState();
@@ -140,4 +140,9 @@ export class LayerElement extends FocusableElement {
     protected _onLocknessClick() {
         this.layer.isLockedState.set(old=> !old);
     }
+
+	// Get
+	get isCurrent(): boolean {
+		return this.layer.isCurrent;
+	}
 }

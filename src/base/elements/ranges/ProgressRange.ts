@@ -60,6 +60,10 @@ export class ProgressRange extends BaseRange {
         if (this.input ? !this.input.isFocused : true)
             super._onWheel(event);
     }
+	protected _onKeyDown(event: KeyboardEvent): void {
+		if (!this.input?.isFocused)
+			super._onKeyDown(event);
+	}
 
     // Set
     removeInput(): this {

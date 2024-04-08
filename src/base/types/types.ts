@@ -53,18 +53,24 @@ export interface ThemeResizeable {
     setSize(name: SizeName): this
 }
 
+export interface Focusable {
+	focus(options?: FocusOptions): void
+	blur(): void
+
+	isFocused: boolean
+}
 export interface Clamped {
-    min: number;
-    max: number;
+    min: number | null
+    max: number | null
     
-    setMax(value: number): this;
-    setMin(value: number): this;
-    setClamp(min: number, max: number): this;
+    setMax(value: number): this
+    setMin(value: number): this
+    setClamp(min: number, max: number): this
 }
 export interface Stepped {
-    step: number;
+    step: number
 
-    setStep(value: number): this;
+    setStep(value: number): this
 }
 export interface ValueContained<T> {
 	value: T

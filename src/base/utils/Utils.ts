@@ -91,10 +91,10 @@ export class Utils {
 
     // Math
     /** Keeps `value` between `min` and `max` */
-    static clamp(value: number, min: number, max: number): number {
-        if (value < min)
+    static clamp(value: number, min: number | null, max: number | null): number {
+        if (min !== null && value < min)
             return min;
-        if (value > max)
+        if (max !== null && value > max)
             return max;
         return value;
     }

@@ -1,6 +1,6 @@
 import { State } from "@base/common/listenable";
 import { BaseInput } from "./BaseInput";
-import { Dev, DOM, Utils } from "@base/utils";
+import { DOM, Utils } from "@base/utils";
 import { Button } from "../buttons";
 import { EventName, IconName } from "@base/types/enums";
 import { KeyBind } from "@base/common/binds";
@@ -13,8 +13,8 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
     static readonly CHANGE_DEBOUNCE_DURATION = 200;
 
     protected _fixed = 2;
-    protected _min = -Infinity;
-    protected _max = Infinity;
+    protected _min: number | null = null;
+    protected _max: number | null = null;
     protected _step = 1;
 
 	protected _changeTimeout = -1;
@@ -27,14 +27,19 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
 
         this.state.set(this.applyToValue(this.state.value), false);
 
-        this.increaseButton = Button.compact(IconName.SMALL_ARROW_UP);
-        this.increaseButton.classList.add("increase", "no-anim");
-        this.decreaseButton = Button.compact(IconName.SMALL_ARROW_DOWN);
-        this.decreaseButton.classList.add("decrease", "no-anim");
+        this.increaseButton = Button
+			.compact(IconName.SMALL_ARROW_UP)
+			.addClassName("increase", "no-anim");
+        this.decreaseButton = Button
+			.compact(IconName.SMALL_ARROW_DOWN)
+			.addClassName("decrease", "no-anim");
 
         this.classList.add("number-input");
 
-        this.append(DOM.div("spin-buttons", this.increaseButton, this.decreaseButton));
+        this.append(DOM.div("spin-buttons",
+			this.increaseButton,
+			this.decreaseButton
+	   	));
     }
 
     increase(isShift=false): this {
@@ -72,6 +77,8 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
         this.listen(this, EventName.WHEEL, this._onWheel.bind(this));
         this.listen(this.increaseButton, EventName.DOWN, this._onIncreaseDown.bind(this));
         this.listen(this.decreaseButton, EventName.DOWN, this._onDecreaseDown.bind(this));
+
+		this._updateButtonsState();
     }
     protected _onWheel(event: WheelEvent) {
         if (!this.isFocused) return;
@@ -99,14 +106,18 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
 
     protected _onKeyDown(event: KeyboardEvent): void {
         super._onKeyDown(event);
-		// TODO: make it simple too
+
         if (KeyBind.ARROW_UP.setGentle().test(event)) {
-            event.preventDefault();
+			this._updateState();
             this.increase(event.shiftKey);
-        } else if (KeyBind.ARROW_DOWN.setGentle().test(event)) {
-            event.preventDefault();
+		} else if (KeyBind.ARROW_DOWN.setGentle().test(event)) {
+			this._updateState();
             this.decrease(event.shiftKey);
-        }
+		} else
+			return;
+
+		event.preventDefault();
+		this._onChange(event);
     }
     protected _onValueChange(value: number): void {
         super._onValueChange(value);
@@ -119,57 +130,47 @@ export class NumberInput extends BaseInput<number> implements Clamped, Stepped {
         return this.setFixed(0);
     }
     setFixed(value: number): this {
-        value = Math.floor(value);
-        if (value < 0)
-            Dev.throwError(`numberInput.fixed must be >= 0!`);
-        if (value > 4)
-            Dev.warn(`numberInput.fixed is too big (${ value }). A value of <= 4 is recommended`)
-
-        this._fixed = value;
+        this._fixed = Math.max(Math.floor(value), 0);
         return this;
     }
     setMin(value: number): this {
-        if (!Dev.assert(value <= this.max, "value <= this.max")) return this;
-
-        this._min = value;
+        this._min = Math.min(value, this.max ?? value);
         return this;
     }
     setMax(value: number): this {
-        if (!Dev.assert(value >= this.min, "value >= this.min")) return this;
-
-        this._max = value;
+        this._max = Math.max(value, this.min ?? value);
         return this;
     }
     setClamp(min: number, max: number): this {
         return this.setMin(min).setMax(max);
     }
     setStep(value: number): this {
-        if (!Dev.assert(value <= 0, "value <= 0")) return this;
-        
-        this._step = value;
+        this._step = Math.max(value, 0);
         return this;
     }
 
     // Get
     get fixed(): number {
-        return this._fixed;
-    }
-    get min(): number {
-        return this._min;
-    }
-    get max(): number {
-        return this._max;
-    }
+		return this._fixed;
+	}
+    get min(): number | null {
+		return this._min;
+	}
+    get max(): number | null {
+		return this._max;
+	}
     get step(): number {
-        return this._step;
-    }
+		return this._step;
+	}
     get isInt(): boolean {
-        return this.fixed == 0;
-    }
+		return this.fixed == 0;
+	}
     get allowIncrease(): boolean {
-        return this.state.value < this.max;
-    }
+		if (this.max === null) return true;
+		return this.value < this.max;
+	}
     get allowDecrease(): boolean {
-        return this.state.value > this.min;
-    }
+		if (this.min === null) return true;
+		return this.value > this.min;
+	}
 }

@@ -17,7 +17,6 @@ export class ColorPickerPanel extends Panel {
         this.colorPicker = new ColorPicker(app.brushes.frontColorState)
 			.hideSaturationRange()
 			.hideValueRange()
-			.hideHsvInputs()
 			.hideRgbInputs();
 
         this.classList.add("color-picker-panel");

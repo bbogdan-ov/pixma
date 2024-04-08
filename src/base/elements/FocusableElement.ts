@@ -1,15 +1,33 @@
 import { EventName } from "@base/types/enums";
 import { BaseElement } from "./BaseElement";
 import { KeyBind } from "@base/common/binds";
+import { Focusable } from "@base/types/types";
 
-export abstract class FocusableElement extends BaseElement {
+export interface FocusableOptions {
+	blurOnEsc: boolean
+}
+export interface FocusableInteractOptions {
+	keyboardInteract: boolean
+	interactOnEnter: boolean
+	interactOnSpace: boolean
+}
+
+export abstract class FocusableElement
+	extends BaseElement
+	implements Focusable, FocusableOptions, FocusableInteractOptions
+{
     protected _isFocused = false;
+
+	keyboardInteract = true;
+	interactOnEnter = true;
+	interactOnSpace = true;
+	blurOnEsc = true;
 
     constructor() {
         super();
 
         this.tabIndex = 0;
-        this.classList.add("focusable");
+		this.classList.add("focusable");
     }
 
     // On
@@ -27,11 +45,18 @@ export abstract class FocusableElement extends BaseElement {
         this._isFocused = false;
     }
     protected _onKeyDown(event: KeyboardEvent) {
-		// TODO: same story
-        if (KeyBind.SPACE.test(event) || KeyBind.ENTER.test(event)) {
-            event.preventDefault();
-            this._onInteract(event);
-        } else if (KeyBind.ESCAPE.test(event)) {
+        if (this.keyboardInteract) {
+			if (
+				this.interactOnEnter && KeyBind.ENTER.test(event) ||
+				this.interactOnSpace && KeyBind.SPACE.test(event)
+			) {
+				event.preventDefault();
+				this._onInteract(event);
+			}
+        }
+
+		if (this.blurOnEsc && KeyBind.ESCAPE.test(event)) {
+			event.preventDefault();
             this.blur();
         }
     }

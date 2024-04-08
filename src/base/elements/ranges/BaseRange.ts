@@ -1,6 +1,6 @@
 import { State } from "@base/common/listenable";
 import { FocusableElement } from "../FocusableElement";
-import { Dev, Utils } from "@base/utils";
+import { Utils } from "@base/utils";
 import { EventName } from "@base/types/enums";
 import { Clamped, StateValueContained, Stepped } from "@base/types/types";
 import { KeyBind } from "@base/common/binds";
@@ -115,27 +115,18 @@ export class BaseRange
         return this;
     }
     setMin(value: number): this {
-        if (!Dev.assert(value <= this.max, "value <= this.max")) return this;
-        if (!Dev.assert(Math.abs(value) < Infinity, "value != +-Infinity")) return this;
-
-        this._min = value;
+        this._min = Math.min(value, this.max);
         return this;
     }
     setMax(value: number): this {
-        if (!Dev.assert(value >= this.min, "value >= this.min")) return this;
-        if (!Dev.assert(Math.abs(value) < Infinity, "value != +-Infinity")) return this;
-
-        this._max = value;
+        this._max = Math.max(value, this.min);
         return this;
     }
     setClamp(min: number, max: number): this {
         return this.setMin(min).setMax(max);
     }
     setStep(value: number): this {
-        if (!Dev.assert(value > 0, "value > 0")) return this;
-        if (!Dev.assert(Math.abs(value) < Infinity, "value != +-Infinity")) return this;
-        
-        this._step = value;
+        this._step = Math.max(value, 0);
         return this;
     }
 

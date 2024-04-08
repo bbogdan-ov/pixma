@@ -42,7 +42,12 @@ export enum EventName {
 
     DOWN = POINTER_DOWN,
     UP = POINTER_UP,
-    MOVE = POINTER_MOVE
+    MOVE = POINTER_MOVE,
+
+	// Custom
+	CHANGE_CANCEL = "changecancel",
+	EDIT_START = "editstart",
+	EDIT_END = "editend",
 }
 export enum KeyCode {
     A = "a",

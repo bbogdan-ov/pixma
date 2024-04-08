@@ -1,21 +1,24 @@
 import { AccentName, ColorName, EventName, SizeName } from "@base/types/enums";
 import { ContentEditableElement } from "../data";
-import { FocusableElement } from "..";
+import { BaseElement } from "..";
 import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
-import { ThemeColorful, ThemeResizeable, StateValueContained } from "@base/types/types";
+import { ThemeColorful, ThemeResizeable, StateValueContained, Focusable } from "@base/types/types";
 
-@FocusableElement.define("base-input")
+@BaseElement.define("base-input")
 export class BaseInput<T extends string | number>
-	extends FocusableElement
-	implements StateValueContained<T>, ThemeColorful, ThemeResizeable
+	extends BaseElement
+	implements StateValueContained<T>, ThemeColorful, ThemeResizeable, Focusable
 {
-    protected _maxLength = Infinity;
-
     readonly state: State<T>;
 
-    protected _selectOnFocus = false;
+	protected _isFocused = false;
+	protected _isChanged = false;
+
+	selectOnFocus = false;
+
+    protected _maxLength = Infinity;
     protected _color: ColorName | AccentName = AccentName.PRIMARY;
     protected _size: SizeName = SizeName.NORMAL;
 
@@ -24,7 +27,6 @@ export class BaseInput<T extends string | number>
 
     constructor(defaultValue: T, state?: State<T>) {
         super();
-
         this.state = state || new State(defaultValue);
 
         this.editable.allowNewLine = false;
@@ -38,7 +40,7 @@ export class BaseInput<T extends string | number>
         this.append(this.editable);
     }
 
-    focus(options?: FocusOptions | undefined): void {
+    focus(options?: FocusOptions): void {
         this.editable.focus(options);
     }
     blur(): void {
@@ -55,6 +57,10 @@ export class BaseInput<T extends string | number>
         return value.toString();
     }
 
+	protected _updateState() {
+        const value = this.applyToValue(this.formatValue(this.editable.textContent || ""));
+        this.state.set(value);
+	}
     protected _updateValueDisplay() {
         this.setDisplay(this.value);
     }
@@ -80,36 +86,46 @@ export class BaseInput<T extends string | number>
         this.dispatchEvent(new InputEvent(EventName.INPUT));
     }
     protected _onChange(event: Event) {
-        const value = this.applyToValue(this.formatValue(this.editable.textContent || ""));
-
-        this.state.set(value);
+		this._updateState();
         this._updateValueDisplay();
-
         this.dispatchEvent(new InputEvent(EventName.CHANGE));
     }
+	protected _onCancel(event: Event) {
+        this._updateValueDisplay();
+        this.dispatchEvent(new InputEvent(EventName.CHANGE));
+        this.dispatchEvent(new InputEvent(EventName.CHANGE_CANCEL));
+	}
     // override
     protected _onKeyDown(event: KeyboardEvent): void {
-        if (
-			KeyBind.SPACE.test(event) ||
-			KeyBind.ENTER.test(event)
-		) {
-            event.preventDefault();
-            this.blur();
-        }
+		if (KeyBind.ENTER.test(event))
+			this._isChanged = true;
+		else if (KeyBind.ESCAPE.test(event)) {
+			// just blur
+		} else
+			return;
+
+		event.preventDefault();
+		this.blur();
     }
 
     protected _onFocus(event: FocusEvent): void {
-        super._onFocus(event);
+		this._isFocused = true;
 
 		DOM.focusedInput = this;
         if (this.selectOnFocus)
             DOM.selectContent(this.editable);
     }
     protected _onBlur(event: FocusEvent): void {
-        super._onBlur(event);
+		this._isFocused = false;
 
 		DOM.focusedInput = null;
-        this._onChange(event);
+
+		if (this._isChanged)
+			this._onChange(event);
+		else
+			this._onCancel(event);
+
+		this._isChanged = false;
     }
 
     // Set
@@ -119,10 +135,6 @@ export class BaseInput<T extends string | number>
     }
     setMaxLength(value: number): this {
         this._maxLength = value;
-        return this;
-    }
-    setSelectOnFocus(value=true): this {
-        this._selectOnFocus = value;
         return this;
     }
     setWidth(value: string | number): this {
@@ -166,9 +178,6 @@ export class BaseInput<T extends string | number>
     get value(): T {
         return this.state.value;
     }
-    get selectOnFocus(): boolean {
-        return this._selectOnFocus;
-    }
     get color(): ColorName | AccentName {
         return this._color;
     }
@@ -177,5 +186,8 @@ export class BaseInput<T extends string | number>
     }
 	get label(): HTMLDivElement | null {
 		return this._label;
+	}
+	get isFocused(): boolean {
+		return this._isFocused;
 	}
 }
