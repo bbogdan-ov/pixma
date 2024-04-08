@@ -97,6 +97,8 @@ export class BaseInput<T extends string | number>
 	}
     // override
     protected _onKeyDown(event: KeyboardEvent): void {
+		event.stopPropagation();
+
 		if (KeyBind.ENTER.test(event))
 			this._isChanged = true;
 		else if (KeyBind.ESCAPE.test(event)) {
@@ -111,14 +113,11 @@ export class BaseInput<T extends string | number>
     protected _onFocus(event: FocusEvent): void {
 		this._isFocused = true;
 
-		DOM.focusedInput = this;
         if (this.selectOnFocus)
             DOM.selectContent(this.editable);
     }
     protected _onBlur(event: FocusEvent): void {
 		this._isFocused = false;
-
-		DOM.focusedInput = null;
 
 		if (this._isChanged)
 			this._onChange(event);

@@ -5,9 +5,6 @@ import type { ListenableListener } from "@base/common/listenable/Listenable";
 import test_img from "../assets/images/test.png";
 
 export class DOM {
-	// May be this is not the best way to store global vars...
-	static focusedInput: HTMLElement | null = null;
-
 	//
     static addEventListener<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
     static addEventListener(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;

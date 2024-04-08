@@ -43,12 +43,14 @@ export abstract class FocusableElement
 				KeyBind.SPACE.test(event)
 			) {
 				event.preventDefault();
+				event.stopPropagation();
 				this._onInteract(event);
 			}
         }
 
 		if (KeyBind.ESCAPE.test(event)) {
 			event.preventDefault();
+			event.stopPropagation();
             this.blur();
         }
     }

@@ -106,7 +106,7 @@ export class KeymapsManager extends Manager {
 
 	// Get
 	getIsPreventKeyDownListen(): boolean {
-		return this.isPreventing || !!DOM.focusedInput;
+		return this.isPreventing;
 	}
 	get isPreventing(): boolean {
 		return this._isPreventing;
