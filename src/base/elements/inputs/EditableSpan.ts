@@ -4,6 +4,7 @@ import { BaseElement } from "..";
 import { DOM } from "@base/utils";
 import { EventName } from "@base/types/enums";
 import { StateValueContained } from "@base/types/types";
+import { KeyBind } from "@base/common/binds";
 
 @BaseElement.define("editable-span")
 export class EditableSpan
@@ -20,6 +21,7 @@ export class EditableSpan
 
 		this.input = input ?? new TextInput(state ?? undefined);
 		this.input.classList.add("editable-input");
+		this.span.tabIndex = 0;
 
 		this.classList.add("editable");
 
@@ -63,6 +65,7 @@ export class EditableSpan
 		this.listen(this.input, EventName.CHANGE, this._onChange.bind(this));
 		this.listen(this.input, EventName.BLUR, this._onBlur.bind(this));
 		this.listen(this.span, EventName.DOUBLE_CLICK, this._onSpanDoubleClick.bind(this));
+		this.listen(this.span, EventName.KEY_DOWN, this._onSpanKeyDown.bind(this));
 
 		this._updateSpanText();
 	}
@@ -82,6 +85,13 @@ export class EditableSpan
 	}
 	protected _onSpanDoubleClick() {
 		this.startEdit();
+	}
+	protected _onSpanKeyDown(event: KeyboardEvent) {
+		if (KeyBind.test(event, KeyBind.ENTER, KeyBind.SPACE)) {
+			event.preventDefault();
+			event.stopPropagation();
+			this.startEdit();
+		}
 	}
 
 	protected _onChange(event: Event) {
