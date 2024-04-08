@@ -1,5 +1,6 @@
 export enum EventName {
     CLICK = "click",
+	DOUBLE_CLICK = "dblclick",
     CONTEXT_MENU = "contextmenu",
 
     POINTER_DOWN = "pointerdown",

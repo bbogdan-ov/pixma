@@ -163,9 +163,14 @@
 }
 
 .editable {
+	flex: 1;
+
 	.editable-input {
+		margin: 0 calc(var(--normal-padding) * -1 - 2px);
 	}
 	.editable-span {
+		padding: .4em 0;
+		display: block;
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}

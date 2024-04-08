@@ -62,6 +62,7 @@ export class EditableSpan
 		this.listen(this.input, EventName.INPUT, this._onInput.bind(this));
 		this.listen(this.input, EventName.CHANGE, this._onChange.bind(this));
 		this.listen(this.input, EventName.BLUR, this._onBlur.bind(this));
+		this.listen(this.span, EventName.DOUBLE_CLICK, this._onSpanDoubleClick.bind(this));
 
 		this._updateSpanText();
 	}
@@ -79,6 +80,10 @@ export class EditableSpan
 	protected _onInput(event: Event) {
 		this.dispatchEvent(new InputEvent(EventName.INPUT));
 	}
+	protected _onSpanDoubleClick() {
+		this.startEdit();
+	}
+
 	protected _onChange(event: Event) {
 		this.endEdit();
 		this.dispatchEvent(new InputEvent(EventName.CHANGE));
