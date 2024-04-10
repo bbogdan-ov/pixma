@@ -1,7 +1,6 @@
 import { EventName } from "@base/types/enums";
 import { BaseElement } from "./BaseElement";
 import { KeyBind } from "@base/common/binds";
-import { Focusable } from "@base/types/types";
 
 export interface FocusableOptions {
 	keyboardInteract: boolean
@@ -9,10 +8,8 @@ export interface FocusableOptions {
 
 export abstract class FocusableElement
 	extends BaseElement
-	implements Focusable, FocusableOptions, FocusableOptions
+	implements FocusableOptions
 {
-    protected _isFocused = false;
-
 	keyboardInteract = true;
 
     constructor() {
@@ -26,15 +23,7 @@ export abstract class FocusableElement
     onMount(): void {
         super.onMount();
 
-        this.listen(this, EventName.FOCUS, this._onFocus.bind(this));
-        this.listen(this, EventName.BLUR, this._onBlur.bind(this));
         this.listen(this, EventName.KEY_DOWN, this._onKeyDown.bind(this));
-    }
-    protected _onFocus(event: FocusEvent) {
-        this._isFocused = true;
-    }
-    protected _onBlur(event: FocusEvent) {
-        this._isFocused = false;
     }
     protected _onKeyDown(event: KeyboardEvent) {
         if (this.keyboardInteract) {
@@ -55,9 +44,4 @@ export abstract class FocusableElement
         }
     }
     protected _onInteract(event: KeyboardEvent) {}
-
-    // Get
-    get isFocused(): boolean {
-        return this._isFocused;
-    }
 }

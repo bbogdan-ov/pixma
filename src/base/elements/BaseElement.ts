@@ -1,9 +1,12 @@
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { Listenable } from "@base/common/listenable";
-import { HTMLTagNames, Listener } from "@base/types/types";
+import { Focusable, HTMLTagNames, Listener } from "@base/types/types";
 import { DOM } from "@base/utils";
 
-export abstract class BaseElement extends HTMLElement implements Listener {
+export abstract class BaseElement
+	extends HTMLElement
+	implements Listener, Focusable
+{
     readonly unlistens: VoidFunction[] = [];
     protected _isMountedOnce = false;
 
@@ -88,6 +91,13 @@ export abstract class BaseElement extends HTMLElement implements Listener {
     get isMounted() {
         return this.isConnected;
     }
+	get isFocused(): boolean {
+		return this === document.activeElement;
+	}
+	/** Returns whether it contains focused children or not */
+	get isFocusedWithin(): boolean {
+		return this.contains(document.activeElement);
+	}
 
     // Static
     static define(name: string, extend?: HTMLTagNames) {
