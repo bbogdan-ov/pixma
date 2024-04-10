@@ -39,7 +39,7 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 		return true;
 	}
 
-	/** Register a new command with "pixma" namespace */
+	/** Register a new command with "app" namespace */
 	registerCommand(context: string, name: string, func: CommandFunc, cond?: CommandCondition | null): boolean {
 		return this.commands.register(name, new Command(BaseApp.NAMESPACE, context, func, cond));
 	}
