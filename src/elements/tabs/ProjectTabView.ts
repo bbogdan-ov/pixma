@@ -4,9 +4,10 @@ import { CanvasZoomable } from "../canvas";
 import { TabView } from "@base/elements/tabs";
 import { PalettePanel, ToolParamsPanel } from "../panels";
 import type { ProjectTab } from "@source/common/tabs";
+import type { App } from "@source/App";
 
 @TabView.define("project-tab-view")
-export class ProjectTabView extends TabView {
+export class ProjectTabView extends TabView<App, ProjectTab> {
     readonly canvasZoomable: CanvasZoomable;
     
     constructor(tab: ProjectTab) {

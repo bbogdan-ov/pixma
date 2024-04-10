@@ -1,10 +1,10 @@
 import { App } from "./App";
 import { Project } from "./common/project";
-import { AppOption, AppOptionCategory } from "./types/enums";
+import { AppOption, AppCategory } from "./types/enums";
 
 export function initAppOptions(app: App) {
 	const opts = app.options;
-	const cat = AppOptionCategory;
+	const cat = AppCategory;
 	const opt = AppOption;
 	const bool = opts.registerBoolean.bind(opts, App.NAMESPACE);
 	const int = opts.registerInt.bind(opts, App.NAMESPACE);

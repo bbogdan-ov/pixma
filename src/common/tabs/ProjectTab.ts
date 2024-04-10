@@ -1,21 +1,20 @@
 import { Tab } from "@base/common/tabs";
 import { ProjectTabElement, ProjectTabView } from "@source/elements/tabs";
-import { AppContext } from "@source/types/enums";
 import type { TabsManager } from "@base/managers";
 import type { Project } from "../project";
+import type { App } from "@source/App";
+import { AppContext } from "@source/types/enums";
 
-export class ProjectTab extends Tab<ProjectTabView> {
+export class ProjectTab extends Tab<App, ProjectTabView> {
     static readonly NAME = "project";
     
     readonly project: Project;
 
-    constructor(manager: TabsManager, project: Project) {
+    constructor(manager: TabsManager<App>, project: Project) {
         super(ProjectTab.NAME, manager, project.titleState);
     
         this.project = project;
         this.project.attachTab(this);
-
-		this._context = AppContext.PROJECT;
 
         this.attachView(new ProjectTabView(this));
     }
@@ -41,4 +40,9 @@ export class ProjectTab extends Tab<ProjectTabView> {
         super.onClose();
         this.project.onClose();
     }
+
+	// Get
+	get contextName(): string | null {
+	    return AppContext.PROJECT;
+	}
 }

@@ -1,12 +1,16 @@
 import type { App } from "./App";
-import { DrawingLayer } from "./common/layers";
 import { AppCommand, AppContext } from "./types/enums";
 
 const cmd = AppCommand;
 
 export function initAppCommands(app: App) {
-	const regApp = app.registerCommand.bind(app, AppContext.APP);
-	const regProject = app.registerCommand.bind(app, AppContext.PROJECT);
+	app.registerCommand(AppContext.PROJECT, cmd.SWAP_COLORS, ()=> app.brushes.swapColors());
+
+	// TODO: cmd
+	/*
+	const reg = app.registerCommand.bind(app);
+	const regApp = reg.bind(app, ctx.APP);
+	const regProject = reg.bind(app, ctx.PROJECT);
 
 	regApp(cmd.HELLO, 							()=> app.hello());
 	regApp(cmd.ENTER_FIRST_TAB,   				()=> app.tabs.enterByIndex(0));
@@ -30,4 +34,5 @@ export function initAppCommands(app: App) {
 		if (!layers) return;
 		layers.addNearCurrent(new DrawingLayer(layers), above);
 	}
+	*/
 }

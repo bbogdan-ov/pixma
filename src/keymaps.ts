@@ -22,4 +22,7 @@ export function initAppKeymaps(app: App) {
 	// Project
 	map("x", 			cmd.SWAP_COLORS);
 	map("ctrl-l", 		cmd.ADD_DRAWING_LAYER_ABOVE);
+
+	// Other
+	map("f2",			cmd.RENAME_CURRENT_LAYER);
 }

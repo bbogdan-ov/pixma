@@ -36,8 +36,9 @@ export class HistoryManager extends Manager {
 	constructor(app: BaseApp) {
 		super();
 
-		app.registerKeymappedCommand(BaseApp.CONTEXT, "ctrl-z", 		"undo", ()=> this.undo());
-		app.registerKeymappedCommand(BaseApp.CONTEXT, "ctrl-shift-z", 	"redo", ()=> this.redo());
+		// TODO:
+		// app.registerKeymappedCommand(BaseApp.CONTEXT, "ctrl-z", 		"undo", ()=> this.undo());
+		// app.registerKeymappedCommand(BaseApp.CONTEXT, "ctrl-shift-z", 	"redo", ()=> this.redo());
 	}
 
 	save(item: HistoryItem): boolean {

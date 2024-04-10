@@ -1,7 +1,7 @@
 import { Manager } from ".";
 import { KeyBind } from "@base/common/binds";
 import { CommandsManager } from "./CommandsManager";
-import { DOM, Dev } from "@base/utils";
+import { Dev } from "@base/utils";
 import { Trigger } from "@base/common/listenable";
 
 export type KeymapBind = KeyBind | string | (KeyBind | string)[];

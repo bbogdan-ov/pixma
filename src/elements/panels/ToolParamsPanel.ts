@@ -4,15 +4,13 @@ import type { App } from "@source/App";
 import type { Tool } from "@source/common/tools";
 
 @Panel.define("tool-params-panel")
-export class ToolParamsPanel extends Panel {
-    readonly app: App;
+export class ToolParamsPanel extends Panel<App> {
+	static readonly NAME = "tool-params";
 
     readonly content = new PanelContent();
 
     constructor(app: App) {
-        super(Orientation.HORIZONTAL);
-
-        this.app = app;
+        super(ToolParamsPanel.NAME, app, Orientation.HORIZONTAL);
 
         this.classList.add("tool-params-panel");
 

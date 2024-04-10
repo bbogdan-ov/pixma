@@ -1,5 +1,5 @@
 import { BaseApp } from "@base/BaseApp";
-import { SelectionManager, TabsManager, KeymapBind, DragManager, KeymapCondition, CommandFunc } from "@base/managers";
+import { SelectionManager, TabsManager, DragManager, HistoryManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import { AppOption } from "./types/enums";
 import AppElement from "@source/elements/AppElement";
@@ -11,7 +11,8 @@ import { initAppKeymaps } from "./keymaps";
 import { initAppOptions } from "./options";
 
 export class App extends BaseApp<AppElement> {
-    readonly tabs: TabsManager;
+    readonly tabs: TabsManager<App>;
+	readonly history: HistoryManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
     readonly tools: ToolsManager;
@@ -23,6 +24,7 @@ export class App extends BaseApp<AppElement> {
 		super();
 
         this.tabs = new TabsManager(this);
+		this.history = new HistoryManager(this);
         this.selection = new SelectionManager();
         this.drag = new DragManager();
         this.brushes = new BrushesManager(this);

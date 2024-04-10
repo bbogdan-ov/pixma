@@ -1,9 +1,9 @@
 import { TabElement } from "@base/elements/tabs";
-import type { Tab } from "@base/common/tabs";
+import { ProjectTab } from "@source/common/tabs";
 
 @TabElement.define("project-tab")
-export class ProjectTabElement extends TabElement {
-    constructor(tab: Tab) {
+export class ProjectTabElement extends TabElement<ProjectTab> {
+    constructor(tab: ProjectTab) {
         super(tab);
     }
 }

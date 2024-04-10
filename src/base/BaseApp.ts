@@ -1,5 +1,5 @@
 import { Trigger } from "./common/listenable";
-import { CommandFunc, CommandsManager, HistoryManager, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
+import { Command, CommandCondition, CommandFunc, CommandsManager, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
 import { OptionsManager } from "./managers/OptionsManager";
 import { Utils } from "./utils";
 
@@ -12,7 +12,6 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 	readonly options: OptionsManager;
 	readonly commands: CommandsManager;
 	readonly keymaps: KeymapsManager;
-	readonly history: HistoryManager;
 
 	readonly activeContexts: string[] = [BaseApp.CONTEXT];
 
@@ -23,7 +22,6 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 		this.options = new OptionsManager();
 		this.commands = new CommandsManager(this);
 		this.keymaps = new KeymapsManager(this.commands);
-		this.history = new HistoryManager(this);
 	}
 
 	addContext(name: string): boolean {
@@ -42,8 +40,8 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 	}
 
 	/** Register a new command with "pixma" namespace */
-	registerCommand(context: string, name: string, func: CommandFunc): boolean {
-		return this.commands.register(BaseApp.NAMESPACE, context, name, func);
+	registerCommand(context: string, name: string, func: CommandFunc, cond?: CommandCondition | null): boolean {
+		return this.commands.register(name, new Command(BaseApp.NAMESPACE, context, func, cond));
 	}
 	/**
 	 * Register a keymap

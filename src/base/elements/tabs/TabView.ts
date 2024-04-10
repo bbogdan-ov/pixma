@@ -1,11 +1,12 @@
-import { BaseElement } from "../BaseElement";
+import type { BaseApp } from "@base/BaseApp";
 import type { Tab } from "@base/common/tabs";
+import { BaseElement } from "..";
 
 @BaseElement.define("base-tab-view")
-export class TabView extends BaseElement {
-    readonly tab: Tab;
+export class TabView<A extends BaseApp=BaseApp, T extends Tab=Tab<A>> extends BaseElement {
+    readonly tab: T;
 
-    constructor(tab: Tab) {
+    constructor(tab: T) {
         super();
 
         this.tab = tab;

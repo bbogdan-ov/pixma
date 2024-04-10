@@ -5,7 +5,46 @@ import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
 import type { LayersManager } from "@source/managers";
-import { LayerElement } from "../layers";
+import { App } from "@source/App";
+import { AppCommand } from "@source/types/enums";
+
+// Layers panel
+@Panel.define("layers-panel")
+export class LayersPanel extends Panel<App> {
+	static readonly NAME = "layers";
+
+    readonly project: Project;
+
+    readonly layersList: LayersList;
+
+    constructor(project: Project) {
+        super(LayersPanel.NAME, project.app, Orientation.VERTICAL);
+
+        this.project = project;
+		this.layersList = new LayersList(project.layers);
+
+        this.classList.add("layers-panel");
+
+        this.append(
+            new PanelContent(
+                this.layersList
+            ).addClassName("scrollable"),
+            new LayersPanelFooter(this.project)
+        );
+    }
+
+    // On
+	onRegister(): void {
+	    super.onRegister();
+
+		this.registerCommand(App.NAMESPACE, AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList.startCurrentRenaming());
+	}
+    protected _onPointerDownOutside(event: PointerEvent): void {
+        super._onPointerDownOutside(event);
+        
+        this.project.app.selection.deselectAll(Layer.KEY);
+    }
+}
 
 // Layers list
 @BaseElement.define("layers-list")
@@ -43,6 +82,12 @@ export class LayersList extends BaseElement {
 		}
 	}
 
+	startCurrentRenaming() {
+		const current: any = this.current;
+		if (current.startRenaming)
+			current.startRenaming();
+	}
+
 	// On
     onMount(): void {
         super.onMount();
@@ -63,37 +108,6 @@ export class LayersList extends BaseElement {
 	get current(): HTMLElement | null {
 		return this._current;
 	}
-}
-
-// Layers panel
-@Panel.define("layers-panel")
-export class LayersPanel extends Panel {
-    readonly project: Project;
-
-    readonly layersList: LayersList;
-
-    constructor(project: Project) {
-        super(Orientation.VERTICAL);
-
-        this.project = project;
-		this.layersList = new LayersList(project.layers);
-
-        this.classList.add("layers-panel");
-
-        this.append(
-            new PanelContent(
-                this.layersList
-            ).addClassName("scrollable"),
-            new LayersPanelFooter(this.project)
-        );
-    }
-
-    // On
-    protected _onPointerDownOutside(event: PointerEvent): void {
-        super._onPointerDownOutside(event);
-        
-        this.project.app.selection.deselectAll(Layer.KEY);
-    }
 }
 
 // Layers panel footer
@@ -138,8 +152,6 @@ class LayersPanelFooter extends PanelFooter {
 		const parent = this.parentElement;
 		if (!(parent instanceof LayersPanel)) return;
 
-		const current: any = parent.layersList.current;
-		if (current.startRenaming)
-			current.startRenaming();
+		parent.layersList.startCurrentRenaming();
     }
 }

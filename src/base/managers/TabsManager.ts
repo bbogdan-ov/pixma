@@ -4,8 +4,8 @@ import { Utils } from "@base/utils";
 import type { Tab } from "@base/common/tabs";
 import type { BaseApp } from "@base/BaseApp";
 
-export class TabsManager extends Manager {
-	readonly app: BaseApp;
+export class TabsManager<A extends BaseApp> extends Manager {
+	readonly app: A;
 
     protected _active: Tab | null = null;
     protected readonly _list: Tab[] = [];
@@ -15,7 +15,7 @@ export class TabsManager extends Manager {
     readonly onDidEntered = new Trigger<Tab>();
     readonly onDidLeaved = new Trigger<Tab>();
 
-    constructor(app: BaseApp) {
+    constructor(app: A) {
         super()
 
 		this.app = app;

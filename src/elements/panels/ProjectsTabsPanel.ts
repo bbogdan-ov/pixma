@@ -3,15 +3,18 @@ import { LagMeter } from "@base/elements/misc";
 import { Panel } from "@base/elements/panels";
 import { TabsManager } from "@base/managers";
 import { Orientation } from "@base/types/enums";
+import type { App } from "@source/App";
 
 @Panel.define("project-tabs-panel")
 export class ProjectsTabsPanel extends Panel {
-    readonly manager: TabsManager;
+	static readonly NAME = "projects-tabs";
+
+    readonly manager: TabsManager<App>;
 
     readonly tabsList: TabsList;
 
-    constructor(manager: TabsManager) {
-        super(Orientation.HORIZONTAL);
+    constructor(manager: TabsManager<App>) {
+        super(ProjectsTabsPanel.NAME, manager.app, Orientation.HORIZONTAL);
 
         this.manager = manager;
 

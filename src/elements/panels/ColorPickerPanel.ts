@@ -4,15 +4,13 @@ import { Orientation } from "@base/types/enums";
 import type { App } from "@source/App";
 
 @Panel.define("color-picker-panel")
-export class ColorPickerPanel extends Panel {
-    readonly app: App;
+export class ColorPickerPanel extends Panel<App> {
+	static readonly NAME = "color-picker";
 
     readonly colorPicker: ColorPicker;
     
     constructor(app: App) {
-        super(Orientation.VERTICAL);
-
-        this.app = app;
+        super(ColorPickerPanel.NAME, app, Orientation.VERTICAL);
 
         this.colorPicker = new ColorPicker(app.brushes.frontColorState)
 			.hideSaturationRange()

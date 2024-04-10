@@ -4,14 +4,14 @@ import { DOM } from "@base/utils";
 import type { App } from "@source/App";
 
 @Panel.define("tools-panel")
-export class ToolsPanel extends Panel {
-    readonly app: App;
+export class ToolsPanel extends Panel<App> {
+	static readonly NAME = "tools";
+
     readonly buttonsList = DOM.div("buttons-list");
     
     constructor(app: App) {
-        super(Orientation.VERTICAL);
+        super(ToolsPanel.NAME, app, Orientation.VERTICAL);
 
-        this.app = app;
         this.classList.add("tools-panel");
 
         this.append(new PanelContent(this.buttonsList));

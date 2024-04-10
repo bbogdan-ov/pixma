@@ -54,6 +54,9 @@ export enum AppCommand {
 	SWAP_COLORS 			= "swap-colors",
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
+
+	// Other
+	RENAME_CURRENT_LAYER	= "rename-current-layer",
 }
 export enum AppOption {
 	HELLO = "hello",
@@ -61,7 +64,7 @@ export enum AppOption {
 	DEFAULT_CANVAS_WIDTH = "default-canvas-width",
 	DEFAULT_CANVAS_HEIGHT = "default-canvas-height",
 }
-export enum AppOptionCategory {
+export enum AppCategory {
 	GENERAL = "general",
 }
 export enum AppContext {

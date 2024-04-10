@@ -4,17 +4,20 @@ import { Panel, PanelContent } from "@base/elements/panels";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { PaletteColor } from "@source/common/colors";
-import { Project } from "@source/common/project";
+import type { Project } from "@source/common/project";
+import type { App } from "@source/App";
 
 @Panel.define("palette-panel")
-export class PalettePanel extends Panel {
+export class PalettePanel extends Panel<App> {
+	static readonly NAME = "palette";
+
     readonly project: Project;
 
     readonly colorsList = DOM.div("colors-list");
     readonly addButton = Button.icon(IconName.ADD_COLOR).setIsGhost().addClassName("add-button");
     
     constructor(project: Project) {
-        super(Orientation.VERTICAL);
+        super(PalettePanel.NAME, project.app, Orientation.VERTICAL);
 
         this.project = project;
         

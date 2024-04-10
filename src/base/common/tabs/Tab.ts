@@ -1,15 +1,15 @@
+import { BaseApp } from "@base/BaseApp";
 import { State, Trigger } from "../listenable";
 import { TabElement } from "@base/elements/tabs";
 import type { TabsManager } from "@base/managers";
 
-export class Tab<V extends HTMLElement=HTMLElement> {
+export class Tab<A extends BaseApp=BaseApp, V extends HTMLElement=HTMLElement> {
     static _id: number = 0;
 
     readonly id: number;
     readonly name: string;
-    readonly manager: TabsManager;
+    readonly manager: TabsManager<A>;
 
-	protected _context: string | null = null;
     protected _viewElement: V | null = null;
 
     readonly titleState: State<string>;
@@ -22,7 +22,7 @@ export class Tab<V extends HTMLElement=HTMLElement> {
     readonly onDidEntered = new Trigger<Tab>();
     readonly onDidLeaved = new Trigger<Tab>();
 
-    constructor(name: string, manager: TabsManager, titleState?: State<string>) {
+    constructor(name: string, manager: TabsManager<A>, titleState?: State<string>) {
         this.id = ++ Tab._id;
         this.name = name;
         this.manager = manager;
@@ -57,15 +57,15 @@ export class Tab<V extends HTMLElement=HTMLElement> {
         this.onDidClosed.trigger(this);
     }
     onEnter() {
-		if (this.context)
-			this.manager.app.addContext(this.context);
+		if (this.contextName)
+			this.manager.app.addContext(this.contextName);
 
         this._isActive = true;
         this.onDidEntered.trigger(this);
     }
     onLeave() {
-		if (this.context)
-			this.manager.app.removeContext(this.context);
+		if (this.contextName)
+			this.manager.app.removeContext(this.contextName);
 
         this._isActive = false;
         this.onDidLeaved.trigger(this);
@@ -90,7 +90,7 @@ export class Tab<V extends HTMLElement=HTMLElement> {
     get isActive() {
         return this._isActive;
     }
-	get context(): string | null {
-		return this._context;
+	get contextName(): string | null {
+		return null;
 	}
 }

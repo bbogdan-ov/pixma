@@ -5,14 +5,14 @@ import { Button } from "../buttons";
 import { EventName, IconName } from "@base/types/enums";
 
 @FocusableElement.define("base-tab")
-export class TabElement extends FocusableElement {
-    readonly tab: Tab;
+export class TabElement<T extends Tab=Tab> extends FocusableElement {
+    readonly tab: T;
 
     protected readonly _content = DOM.div("tab-content");
     protected readonly _titleElement = DOM.span("", "tab-title");
     protected readonly _closeButton = Button.action(IconName.SMALL_CROSS);
         
-    constructor(tab: Tab) {
+    constructor(tab: T) {
         super();
 
         this.tab = tab;
