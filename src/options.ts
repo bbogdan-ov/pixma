@@ -2,7 +2,7 @@ import { App } from "./App";
 import { Project } from "./common/project";
 import { AppOption, AppCategory } from "./types/enums";
 
-export function initAppOptions(app: App) {
+export function registerAppOptions(app: App) {
 	const opts = app.options;
 	const cat = AppCategory;
 	const opt = AppOption;

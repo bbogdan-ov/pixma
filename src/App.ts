@@ -6,12 +6,12 @@ import AppElement from "@source/elements/AppElement";
 import type { Tool } from "./common/tools";
 import type { Layer } from "./common/layers";
 import type { Project } from "./common/project";
-import { initAppCommands } from "./commands";
-import { initAppKeymaps } from "./keymaps";
-import { initAppOptions } from "./options";
+import { registerAppCommands } from "./commands";
+import { registerAppKeymaps } from "./keymaps";
+import { registerAppOptions } from "./options";
 
 export class App extends BaseApp<AppElement> {
-    readonly tabs: TabsManager<App>;
+    readonly tabs: TabsManager<this>;
 	readonly history: HistoryManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -32,9 +32,9 @@ export class App extends BaseApp<AppElement> {
         this.projects = new ProjectsManager(this);
         this.plugins = new PluginsManager(this);
 
-		initAppOptions(this);
-		initAppCommands(this);
-		initAppKeymaps(this);
+		registerAppOptions(this);
+		registerAppCommands(this);
+		registerAppKeymaps(this);
 
 		this._element = new AppElement(this);
     }

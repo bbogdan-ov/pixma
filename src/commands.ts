@@ -3,7 +3,7 @@ import { AppCommand, AppContext } from "./types/enums";
 
 const cmd = AppCommand;
 
-export function initAppCommands(app: App) {
+export function registerAppCommands(app: App) {
 	app.registerCommand(AppContext.PROJECT, cmd.SWAP_COLORS, ()=> app.brushes.swapColors());
 
 	// TODO: cmd

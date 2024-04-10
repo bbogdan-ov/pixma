@@ -3,7 +3,7 @@ import { AppCommand } from "./types/enums";
 
 const cmd = AppCommand;
 
-export function initAppKeymaps(app: App) {
+export function registerAppKeymaps(app: App) {
 	const map = app.registerKeymap.bind(app);
 
 	// App
