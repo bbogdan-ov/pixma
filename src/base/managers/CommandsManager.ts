@@ -26,6 +26,11 @@ export class Command {
 		this.func();
 		return true;
 	}
+
+	/** Create a command with "app" context */
+	static app(namespace: string, func: CommandFunc, condition?: CommandCondition | null): Command {
+		return new Command(namespace, BaseApp.CONTEXT, func, condition);
+	}
 }
 
 export class CommandsManager extends Manager {
