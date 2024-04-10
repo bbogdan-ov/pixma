@@ -39,6 +39,7 @@ export abstract class BaseElement
         for (const unlisten of this.unlistens) {
             unlisten();
         }
+		this.unlistens.splice(0, this.unlistens.length);
     }
 
     // On
