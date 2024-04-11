@@ -64,7 +64,7 @@ export class LayersManager extends Manager {
 		this.onDidRemoved.trigger(layer);
 		this.onDidListChanged.trigger(this.list);
 
-        this.chooseIndex(index);
+        this.chooseIndex(Utils.clamp(index, 0, this.count-1));
 
 		return true;
 	}
