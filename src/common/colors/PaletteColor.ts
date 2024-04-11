@@ -16,8 +16,12 @@ export class PaletteColor {
         this.state = new ColorState(color);
     }
 
-    pick(): this {
+    pickFront(): this {
         this.manager.project.app.brushes.setFrontColor(this.color);
+        return this;
+    }
+    pickBack(): this {
+        this.manager.project.app.brushes.setBackColor(this.color);
         return this;
     }
     remove(): boolean {
@@ -42,48 +46,15 @@ export class PaletteColor {
         return this;
     }
 
-    // Get
-    getRgbString() {
-        return this.state.getRgbString();
-    }
-    getHslString() {
-        return this.state.getHslString();
-    }
-    get color(): Color {
-        return this.state.color;
-    }
-    get rgb() {
-        return this.state.rgb;
-    }
-    get hex() {
-        return this.state.hex;
-    }
-    get hsv() {
-        return this.state.hsv;
-    }
-    get red() {
-        return this.state.red;
-    }
-    get green() {
-        return this.state.green;
-    }
-    get blue() {
-        return this.state.blue;
-    }
-    get hue() {
-        return this.state.hue;
-    }
-    get saturation() {
-        return this.state.saturation;
-    }
-    get value() {
-        return this.state.value;
-    }
-	get alpha(): number {
-		return this.state.alpha;
+	// Get
+	get color(): Color {
+		return this.state.color;
 	}
-	get isTransparent(): boolean {
-		return this.state.isTransparent;
+	get isFront(): boolean {
+		return this.color.compareRgb(this.manager.project.app.brushes.frontColor);
+	}
+	get isBack(): boolean {
+		return this.color.compareRgb(this.manager.project.app.brushes.backColor);
 	}
 
     // Static

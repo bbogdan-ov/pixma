@@ -5,13 +5,30 @@
 
     cursor: pointer;
 
+	// Children
+	.fold {
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		bottom: 0;
+		filter: drop-shadow(0 0 1px #000);
+		visibility: hidden;
+
+		&.front-fold {
+			left: 0;
+		}
+		&.back-fold {
+			right: 0;
+			transform: scaleX(-1);
+		}
+	}
+
     // States
-	&.transparent {
-		background: url(src/assets/images/checkerboard.png);
-        background-repeat: repeat;
-        background-position: 0 0;
-        background-size: 16px 16px;
-        image-rendering: pixelated;
+	&.front .front-fold {
+		visibility: visible;
+	}
+	&.back .back-fold {
+		visibility: visible;
 	}
     &:hover {
         z-index: 1;

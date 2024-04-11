@@ -145,9 +145,9 @@ export const icons = {
         <path d="M8 7L1.58579 13.4142C1.21071 13.7893 1 14.298 1 14.8284V17H3.17157C3.70201 17 4.21071 16.7893 4.58579 16.4142L11 10M8 7L11 10M8 7L7 6L8 5L10 4L11.5858 2.41421C12.3668 1.63316 13.6332 1.63316 14.4142 2.41421L15.5858 3.58579C16.3668 4.36683 16.3668 5.63317 15.5858 6.41421L14 8L13 10L12 11L11 10" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
     </svg>`,
 
-    [IconName.FOLD]: `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12.5858 10.5858L3.41421 1.41421C2.15428 0.154284 0 1.04662 0 2.82843V12C0 13.1046 0.895431 14 2 14H11.1716C12.9534 14 13.8457 11.8457 12.5858 10.5858Z" fill="currentColor"/>
-    </svg>`
+    [IconName.FOLD]: `<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M8.58578 6.58578L3.41421 1.41421C2.15428 0.154284 0 1.04662 0 2.82843V8C0 9.10457 0.895431 10 2 10H7.17157C8.95338 10 9.84571 7.84571 8.58578 6.58578Z" fill="white"/>
+	</svg>`
 }
 
 @BaseElement.define("base-icon")
@@ -162,12 +162,11 @@ export class Icon extends BaseElement {
     setType(type: IconName | null) {
         this.replaceChildren();
         if (type === null) {
-            this.classList.add("empty");
+            this.className = "icon empty";
             return;
         }
 
-        this.classList.remove("empty");
-        this.classList.add("icon-" + type);
+		this.className = "icon icon-" + type;
 
         this.append(...DOM.html(icons[type]));
     }
