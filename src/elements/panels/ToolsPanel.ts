@@ -1,4 +1,4 @@
-import { Panel, PanelContent } from "@base/elements/panels";
+import { Panel, PanelContent } from "@base/elements/windows";
 import { Orientation } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import type { App } from "@source/App";
@@ -10,7 +10,7 @@ export class ToolsPanel extends Panel<App> {
     readonly buttonsList = DOM.div("buttons-list");
     
     constructor(app: App) {
-        super(ToolsPanel.NAME, app, Orientation.VERTICAL);
+        super(ToolsPanel.NAME, app.windows, Orientation.VERTICAL);
 
         this.classList.add("tools-panel");
 

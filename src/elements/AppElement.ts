@@ -18,7 +18,7 @@ export default class AppElement extends BaseElement {
         this.classList.add("app");
         
         this.append(
-            new ProjectsTabsPanel(this.app.tabs),
+            new ProjectsTabsPanel(this.app),
             new TabViewSlot(app.tabs, this)
         );
     }

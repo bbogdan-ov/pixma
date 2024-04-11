@@ -9,6 +9,7 @@ import type { Project } from "./common/project";
 import { registerAppCommands } from "./commands";
 import { registerAppKeymaps } from "./keymaps";
 import { registerAppOptions } from "./options";
+import { WindowsManager } from "@base/managers/WindowsManager";
 
 export class App extends BaseApp<AppElement> {
     readonly tabs: TabsManager<this>;
@@ -18,6 +19,7 @@ export class App extends BaseApp<AppElement> {
     readonly tools: ToolsManager;
     readonly brushes: BrushesManager;
     readonly projects: ProjectsManager;
+	readonly windows: WindowsManager<this>;
     readonly plugins: PluginsManager;
 
     constructor() {
@@ -30,6 +32,7 @@ export class App extends BaseApp<AppElement> {
         this.brushes = new BrushesManager(this);
         this.tools = new ToolsManager(this);
         this.projects = new ProjectsManager(this);
+		this.windows = new WindowsManager(this);
         this.plugins = new PluginsManager(this);
 
 		registerAppOptions(this);

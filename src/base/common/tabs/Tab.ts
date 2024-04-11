@@ -11,6 +11,7 @@ export class Tab<A extends BaseApp=BaseApp, V extends HTMLElement=HTMLElement> {
     readonly manager: TabsManager<A>;
 
     protected _viewElement: V | null = null;
+	protected _contextName: string | null = null;
 
     readonly titleState: State<string>;
 
@@ -57,15 +58,15 @@ export class Tab<A extends BaseApp=BaseApp, V extends HTMLElement=HTMLElement> {
         this.onDidClosed.trigger(this);
     }
     onEnter() {
-		if (this.contextName)
-			this.manager.app.addContext(this.contextName);
+		if (this._contextName)
+			this.manager.app.addContext(this._contextName);
 
         this._isActive = true;
         this.onDidEntered.trigger(this);
     }
     onLeave() {
-		if (this.contextName)
-			this.manager.app.removeContext(this.contextName);
+		if (this._contextName)
+			this.manager.app.removeContext(this._contextName);
 
         this._isActive = false;
         this.onDidLeaved.trigger(this);
@@ -90,7 +91,4 @@ export class Tab<A extends BaseApp=BaseApp, V extends HTMLElement=HTMLElement> {
     get isActive() {
         return this._isActive;
     }
-	get contextName(): string | null {
-		return null;
-	}
 }

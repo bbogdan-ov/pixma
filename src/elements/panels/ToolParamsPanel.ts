@@ -1,4 +1,4 @@
-import { Panel, PanelContent } from "@base/elements/panels";
+import { Panel, PanelContent } from "@base/elements/windows";
 import { Orientation } from "@base/types/enums";
 import type { App } from "@source/App";
 import type { Tool } from "@source/common/tools";
@@ -10,7 +10,7 @@ export class ToolParamsPanel extends Panel<App> {
     readonly content = new PanelContent();
 
     constructor(app: App) {
-        super(ToolParamsPanel.NAME, app, Orientation.HORIZONTAL);
+        super(ToolParamsPanel.NAME, app.windows, Orientation.HORIZONTAL);
 
         this.classList.add("tool-params-panel");
 

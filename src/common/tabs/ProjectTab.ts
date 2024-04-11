@@ -12,6 +12,8 @@ export class ProjectTab extends Tab<App, ProjectTabView> {
 
     constructor(manager: TabsManager<App>, project: Project) {
         super(ProjectTab.NAME, manager, project.titleState);
+
+		this._contextName = AppContext.PROJECT;
     
         this.project = project;
         this.project.attachTab(this);
@@ -40,9 +42,4 @@ export class ProjectTab extends Tab<App, ProjectTabView> {
         super.onClose();
         this.project.onClose();
     }
-
-	// Get
-	get contextName(): string | null {
-	    return AppContext.PROJECT;
-	}
 }

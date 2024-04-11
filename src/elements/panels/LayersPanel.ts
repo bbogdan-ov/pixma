@@ -1,11 +1,11 @@
 import { Button } from "@base/elements/buttons";
-import { Panel, PanelContent, PanelFooter } from "@base/elements/panels";
+import { Panel, PanelContent, PanelFooter } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";
 import type { LayersManager } from "@source/managers";
-import { App } from "@source/App";
+import type { App } from "@source/App";
 import { AppCommand } from "@source/types/enums";
 
 // Layers panel
@@ -18,7 +18,7 @@ export class LayersPanel extends Panel<App> {
     readonly layersList: LayersList;
 
     constructor(project: Project) {
-        super(LayersPanel.NAME, project.app, Orientation.VERTICAL);
+        super(LayersPanel.NAME, project.app.windows, Orientation.VERTICAL);
 
         this.project = project;
 		this.layersList = new LayersList(project.layers);
@@ -34,10 +34,10 @@ export class LayersPanel extends Panel<App> {
     }
 
     // On
-	onRegister(): void {
-	    super.onRegister();
+	onMount(): void {
+	    super.onMount();
 
-		this.registerCommand(App.NAMESPACE, AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList.startCurrentRenaming());
+		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList.startCurrentRenaming());
 	}
     protected _onPointerDownOutside(event: PointerEvent): void {
         super._onPointerDownOutside(event);

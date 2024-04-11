@@ -1,6 +1,6 @@
 import { Color } from "@base/common/misc";
 import { Button } from "@base/elements/buttons";
-import { Panel, PanelContent } from "@base/elements/panels";
+import { Panel, PanelContent } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { PaletteColor } from "@source/common/colors";
@@ -17,7 +17,7 @@ export class PalettePanel extends Panel<App> {
     readonly addButton = Button.icon(IconName.ADD_COLOR).setIsGhost().addClassName("add-button");
     
     constructor(project: Project) {
-        super(PalettePanel.NAME, project.app, Orientation.VERTICAL);
+        super(PalettePanel.NAME, project.app.windows, Orientation.VERTICAL);
 
         this.project = project;
         

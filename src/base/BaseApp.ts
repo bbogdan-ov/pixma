@@ -1,5 +1,5 @@
 import { Trigger } from "./common/listenable";
-import { Command, CommandCondition, CommandFunc, CommandsManager, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
+import { CommandsManager, Keymap, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
 import { OptionsManager } from "./managers/OptionsManager";
 import { Utils } from "./utils";
 
@@ -25,7 +25,7 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 	}
 
 	addContext(name: string): boolean {
-		if (this.getIsContextActive(name)) return false;
+		if (this.activeContexts.includes(name)) return false;
 
 		this.activeContexts.push(name);
 		this.onDidContextAdded.trigger(name);
@@ -39,25 +39,17 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 		return true;
 	}
 
-	/** Register a new command with "app" namespace */
-	registerCommand(context: string, name: string, func: CommandFunc, cond?: CommandCondition | null): boolean {
-		return this.commands.register(name, new Command(BaseApp.NAMESPACE, context, func, cond));
-	}
 	/**
 	 * Register a keymap
-	 * See `keymapsManager.register()` for more info
+	 * See `new Keymap()` for more info
 	 */
-	registerKeymap(binds: KeymapBind, command: string, condition?: KeymapCondition): boolean {
-		return this.keymaps.register(binds, command, condition);
-	}
-	/**
-	 * Register command and keymap at once
-	 */
-	registerKeymappedCommand(context: string, bind: KeymapBind, name: string, func: CommandFunc, condition?: KeymapCondition): boolean {
-		const success = this.registerCommand(context, name, func);
-		if (!success) return false;
+	registerKeymap(binds: KeymapBind | KeymapBind[], command: string, condition?: KeymapCondition) {
+		if (typeof binds != "object")
+			binds = [binds];
 
-		return this.registerKeymap(bind, name, condition);
+		for (const bind of binds as KeymapBind[]) {
+			this.keymaps.register(new Keymap(bind, command, condition));
+		}
 	}
 
 	// Get
@@ -76,9 +68,6 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 	/** Get string option */
 	getString(name: string, defaultValue?: string): string {
 		return this.options.getString(name) ?? defaultValue ?? "";
-	}
-	getIsContextActive(name: string): boolean {
-		return this.activeContexts.includes(name);
 	}
 	get element(): E {
 		return this._element;

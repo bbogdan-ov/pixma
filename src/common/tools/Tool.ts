@@ -6,11 +6,11 @@ import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
 import { AppContext, CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
-import type { ColorState, State } from "@base/common/listenable";
 import { LayerHistoryItem, type Layer } from "../layers";
+import { Utils } from "@base/utils";
+import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
-import { Utils } from "@base/utils";
 
 export class ToolBrush {
 	readonly canvas = Canvas.sized(1, 1);
@@ -100,8 +100,10 @@ export class Tool {
         return this.app.tools.unchoose();
     }
 	/** Create a command and keymap for this tool */
-	keymap(binds: KeymapBind) {
-		this.app.registerCommand(AppContext.PROJECT, this.chooseCommandName, this.choose.bind(this));
+	keymap(binds: KeymapBind | KeymapBind[]) {
+		// TODO: command func
+		this.app.commands.register(this.chooseCommandName);
+		this.app.commands.attach(AppContext.PROJECT, this.chooseCommandName, this.choose.bind(this));
 		this.app.registerKeymap(binds, this.chooseCommandName);
 	}
 

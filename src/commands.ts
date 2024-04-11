@@ -4,8 +4,10 @@ import { AppCommand, AppContext } from "./types/enums";
 const cmd = AppCommand;
 
 export function registerAppCommands(app: App) {
-	app.registerCommand(AppContext.PROJECT, cmd.SWAP_COLORS, ()=> app.brushes.swapColors());
+	app.commands.register(cmd.SWAP_COLORS, AppContext.PROJECT, ()=> app.brushes.swapColors());
 
+	app.commands.register(cmd.RENAME_CURRENT_LAYER);
+	
 	// TODO: cmd
 	/*
 	const reg = app.registerCommand.bind(app);

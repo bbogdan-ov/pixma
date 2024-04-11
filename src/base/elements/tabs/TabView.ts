@@ -1,13 +1,14 @@
 import type { BaseApp } from "@base/BaseApp";
 import type { Tab } from "@base/common/tabs";
 import { BaseElement } from "..";
+import { CmdAttachableElement } from "../CmdAttachableElement";
 
 @BaseElement.define("base-tab-view")
-export class TabView<A extends BaseApp=BaseApp, T extends Tab=Tab<A>> extends BaseElement {
+export class TabView<A extends BaseApp=BaseApp, T extends Tab<A>=Tab<A>> extends CmdAttachableElement<A> {
     readonly tab: T;
 
     constructor(tab: T) {
-        super();
+        super(tab.manager.app);
 
         this.tab = tab;
 
@@ -27,4 +28,9 @@ export class TabView<A extends BaseApp=BaseApp, T extends Tab=Tab<A>> extends Ba
     protected _onTabLeave() {
         this.remove();
     }
+
+	// Get
+	getAllowExecCommands(): boolean {
+	    return this.tab.isActive;
+	}
 }

@@ -1,5 +1,5 @@
 import { ColorPicker } from "@base/elements/data";
-import { Panel, PanelContent } from "@base/elements/panels";
+import { Panel, PanelContent } from "@base/elements/windows";
 import { Orientation } from "@base/types/enums";
 import type { App } from "@source/App";
 
@@ -10,7 +10,7 @@ export class ColorPickerPanel extends Panel<App> {
     readonly colorPicker: ColorPicker;
     
     constructor(app: App) {
-        super(ColorPickerPanel.NAME, app, Orientation.VERTICAL);
+        super(ColorPickerPanel.NAME, app.windows, Orientation.VERTICAL);
 
         this.colorPicker = new ColorPicker(app.brushes.frontColorState)
 			.hideSaturationRange()
