@@ -4,7 +4,7 @@ export class Brush {
     constructor() {}
 
     render(context: CanvasRenderingContext2D, color: Color, size: number) {
-		// TODO:
+		// your implement goes here
     }
 
     // Get
