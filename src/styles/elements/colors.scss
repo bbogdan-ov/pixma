@@ -2,6 +2,7 @@
     background: var(--color, #000);
     border-radius: var(--base-border-radius);
     outline: 0 solid #fff;
+	overflow: hidden;
 
     cursor: pointer;
 
@@ -13,6 +14,7 @@
 		bottom: 0;
 		filter: drop-shadow(0 0 1px #000);
 		visibility: hidden;
+		pointer-events: none;
 
 		&.front-fold {
 			left: 0;
