@@ -4,17 +4,17 @@ import { BaseElement } from "..";
 import { KeyBind } from "@base/common/binds";
 import { State } from "@base/common/listenable";
 import { DOM } from "@base/utils";
-import { ThemeColorful, ThemeResizeable, StateValueContained, Focusable } from "@base/types/types";
+import { ThemeColorful, ThemeResizeable, StateValueContained } from "@base/types/types";
 
 @BaseElement.define("base-input")
 export class BaseInput<T extends string | number>
 	extends BaseElement
-	implements StateValueContained<T>, ThemeColorful, ThemeResizeable, Focusable
+	implements StateValueContained<T>, ThemeColorful, ThemeResizeable
 {
     readonly state: State<T>;
 
-	protected _isFocused = false;
-	protected _isChanged = false;
+	protected _isChanging = false;
+	protected _isCanceling = false;
 
 	selectOnFocus = false;
 
@@ -100,10 +100,10 @@ export class BaseInput<T extends string | number>
 		event.stopPropagation();
 
 		if (KeyBind.ENTER.test(event))
-			this._isChanged = true;
-		else if (KeyBind.ESCAPE.test(event)) {
-			// just blur
-		} else
+			this._isChanging = true;
+		else if (KeyBind.ESCAPE.test(event))
+			this._isChanging = true;
+		else
 			return;
 
 		event.preventDefault();
@@ -111,20 +111,20 @@ export class BaseInput<T extends string | number>
     }
 
     protected _onFocus(event: FocusEvent): void {
-		this._isFocused = true;
-
         if (this.selectOnFocus)
             DOM.selectContent(this.editable);
     }
     protected _onBlur(event: FocusEvent): void {
-		this._isFocused = false;
-
-		if (this._isChanged)
+		if (this._isChanging)
 			this._onChange(event);
-		else
+		else if (this._isChanging)
 			this._onCancel(event);
+		else
+			// Change on blur
+			this._onChange(event);
 
-		this._isChanged = false;
+		this._isChanging = false;
+		this._isCanceling = false;
     }
 
     // Set
@@ -185,8 +185,5 @@ export class BaseInput<T extends string | number>
     }
 	get label(): HTMLDivElement | null {
 		return this._label;
-	}
-	get isFocused(): boolean {
-		return this._isFocused;
 	}
 }
