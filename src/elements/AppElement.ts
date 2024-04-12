@@ -3,7 +3,6 @@ import { ProjectsTabsPanel } from "./panels";
 import { Project } from "@source/common/project";
 import { DrawingLayer } from "@source/common/layers";
 import { EventName } from "@base/types/enums";
-import { TabViewSlot } from "@base/elements/tabs";
 import type { App } from "@source/App";
 
 @BaseElement.define("app-element")
@@ -19,7 +18,7 @@ export default class AppElement extends BaseElement {
         
         this.append(
             new ProjectsTabsPanel(this.app),
-            new TabViewSlot(app.tabs, this)
+			app.editor.element
         );
     }
 
@@ -27,13 +26,13 @@ export default class AppElement extends BaseElement {
         super.onMount();
 
         // TEMP {
-        const a = new Project(this.app, "Project A");
-        const b = new Project(this.app, "Project B");
+        const a = new Project(this.app.projects);
+        const b = new Project(this.app.projects);
         const l = new DrawingLayer(a.layers).setDisplayName("Hey yo");
         a.layers.add(l);
 
-        this.app.projects.open(a);
-        this.app.projects.open(b);
+		a.open();
+		b.open();
         // }
 
 		this.listen(window, EventName.CONTEXT_MENU, this._onContextMenu.bind(this));

@@ -2,10 +2,13 @@ import { FocusableElement } from "@base/elements";
 import { AccentName, ColorName, EventName, IconName, SizeName } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import { Icon } from "@base/elements/media";
-import { ThemeColorful, ThemeResizeable } from "@base/types/types";
+import { Enablable, ThemeColorful, ThemeResizeable } from "@base/types/types";
 
 @FocusableElement.define("base-button")
-export class Button extends FocusableElement implements ThemeColorful, ThemeResizeable {
+export class Button
+	extends FocusableElement
+	implements ThemeColorful, ThemeResizeable, Enablable
+{
     readonly inner = DOM.div("button-inner");
     readonly content = DOM.div("button-content");
     protected _icon: Icon | null = null;
@@ -25,11 +28,13 @@ export class Button extends FocusableElement implements ThemeColorful, ThemeResi
         this.append(this.inner);
     }
 
-    enable() {
+    enable(): this {
         this.classList.remove("disabled");
+		return this;
     }
-    disable() {
+    disable(): this {
         this.classList.add("disabled");
+		return this;
     }
 
     // On
@@ -77,33 +82,31 @@ export class Button extends FocusableElement implements ThemeColorful, ThemeResi
 
         return this;
     }
-    setIsCompact(value: boolean=true): this {
+    setIsCompact(value=true): this {
         if (value)
             this.classList.add("compact");
         else
             this.classList.remove("compact")
         return this;
     }
-    setIsGhost(value: boolean=true): this {
+    setIsGhost(value=true): this {
         if (value)
             this.classList.add("ghost");
         else
             this.classList.remove("ghost")
         return this;
     }
-    setIsActive(value: boolean=true): this {
+    setIsActive(value=true): this {
         if (value)
             this.classList.add("active")
         else
             this.classList.remove("active")
         return this;
     }
-    setIsEnabled(value: boolean=true): this {
+    setIsEnabled(value=true): this {
         if (value)
-            this.enable();
-        else
-            this.disable();
-        return this;
+            return this.enable();
+		return this.disable();
     }
     setColor(name: ColorName | AccentName): this {
         this.replaceClassName(`color-${ this.color }`, `color-${ name }`);

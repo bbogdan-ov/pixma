@@ -10,10 +10,7 @@
     border-radius: 0;
 
     .tabs-list {
-        .tab {
-            --padding: 8px;
-            border-radius: 0;
-        }
+		display: flex;
     }
 }
 

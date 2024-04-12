@@ -1,18 +1,17 @@
 import { State, Trigger } from "@base/common/listenable";
-import { LayersManager, PaletteManager } from "@source/managers";
-import type { App } from "@source/App";
-import type { ProjectTab } from "../tabs";
-import type { ProjectTabView } from "@source/elements/tabs";
-import type { CanvasZoomable } from "@source/elements/canvas";
-import type { PreviewLayer, Layer } from "../layers";
-import { HistoryItem, MouseManager } from "@base/managers";
+import { LayersManager, PaletteManager, ProjectsManager } from "@source/managers";
+import { HistoryItem } from "@base/managers";
 import { AppOption } from "@source/types/enums";
+import { CanvasZoomable } from "@source/elements/canvas";
+import { ProjectTabElement } from "@source/elements/tabs/ProjectTabElement";
+import type { App } from "@source/App";
+import type { PreviewLayer, Layer } from "../layers";
 
 export class ProjectHistoryItem<T=any> extends HistoryItem<T, App> {
 	readonly projectId: number;
 
 	constructor(project: Project, title: string, data: T) {
-		super(project.app, title, data);
+		super(project.manager.app, title, data);
 
 		this.projectId = project.id;
 	}
@@ -29,9 +28,9 @@ export class Project {
 	static readonly MAX_CANVAS_SIZE = 2048;
     
 	readonly id: number;
-    readonly app: App;
-    readonly titleState: State<string>;
-    protected _tab: ProjectTab | null = null;
+    readonly manager: ProjectsManager;
+
+	protected _isActive = false;
 
     readonly layers: LayersManager;
     readonly palette: PaletteManager;
@@ -39,50 +38,63 @@ export class Project {
     readonly canvasWidthState: State<number>;
     readonly canvasHeightState: State<number>;
 
+	readonly canvasZoomable: CanvasZoomable;
+
     readonly onDidOpened = new Trigger<Project>();
     readonly onDidEntered = new Trigger<Project>();
     readonly onDidLeaved = new Trigger<Project>();
     readonly onDidClosed = new Trigger<Project>();
 
-    constructor(app: App, title: string) {
+    constructor(manager: ProjectsManager) {
 		this.id = ++ Project._id;
-        this.app = app;
-        this.titleState = new State(title);
+        this.manager = manager;
 
 		this.canvasWidthState = new State(
-			app.getInt(AppOption.DEFAULT_CANVAS_WIDTH, Project.DEFAULT_CANVAS_WIDTH) 
+			manager.app.getInt(AppOption.DEFAULT_CANVAS_WIDTH, Project.DEFAULT_CANVAS_WIDTH) 
 		);
 		this.canvasHeightState = new State(
-			app.getInt(AppOption.DEFAULT_CANVAS_HEIGHT, Project.DEFAULT_CANVAS_HEIGHT)
+			manager.app.getInt(AppOption.DEFAULT_CANVAS_HEIGHT, Project.DEFAULT_CANVAS_HEIGHT)
 		);
 
         this.layers = new LayersManager(this);
         this.palette = new PaletteManager(this);
+
+		this.canvasZoomable = new CanvasZoomable(this);
     }
 
-    attachTab(tab: ProjectTab): this {
-        if (this._tab) return this;
-        this._tab = tab;
-        return this;
-    }
+	open(): boolean {
+		return this.manager.open(this);
+	}
+	enter(): boolean {
+		return this.manager.enter(this);
+	}
+	leave(): boolean {
+		return this.manager.leave(this);
+	}
+	close(): boolean {
+		return this.manager.close(this);
+	}
+
+	createTabElement(): HTMLElement {
+		return new ProjectTabElement(this);
+	}
 
     // On
     onOpen() {
-		this.app.projects.onOpen(this);
         this.onDidOpened.trigger(this);
     }
+    onClose() {
+        this.onDidClosed.trigger(this);
+    }
 	onEnter() {
-		this.app.projects.onEnter(this);
+		this._isActive = true;
 		this.onDidEntered.trigger(this);
 	}
 	onLeave() {
-		this.app.projects.onLeave(this);
+		this.canvasZoomable.remove();
+		this._isActive = false;
 		this.onDidLeaved.trigger(this);
 	}
-    onClose() {
-		this.app.projects.onClose(this);
-        this.onDidClosed.trigger(this);
-    }
     
     // Set
     setCanvasSize(width: number, height: number): this {
@@ -92,30 +104,15 @@ export class Project {
     }
 
     // Get
-    get title(): string {
-        return this.titleState.value;
-    }
+	get app(): App {
+		return this.manager.app;
+	}
     get canvasWidth() {
         return this.canvasWidthState.value;
     }
     get canvasHeight() {
         return this.canvasHeightState.value;
     }
-    get tab(): ProjectTab | null {
-        return this._tab;
-    }
-    /** Alias to `project.tab.viewElement` */
-    get tabView(): ProjectTabView | null {
-        return this.tab?.viewElement ?? null;
-    }
-    /** Alias to `project.tab.viewElement.canvasZoomable` */
-    get canvasZoomable(): CanvasZoomable | null {
-        return this.tabView?.canvasZoomable ?? null;
-    }
-    /** Alias to `project.tab.viewElement.canvasZoomable.toolMouse` */
-	get toolMouse(): MouseManager | null {
-		return this.canvasZoomable?.toolMouse ?? null;
-	}
 	/** Alias to `project.layers.current` */
 	get currentLayer(): Layer | null {
 		return this.layers.current;
@@ -126,6 +123,6 @@ export class Project {
     }
 	/** Is tab active */
 	get isActive(): boolean {
-		return this.tab?.isActive ?? false;
+		return this._isActive;
 	}
 }

@@ -27,7 +27,8 @@ export class PreviewLayer extends Layer {
 
     draw(tool: Tool | null, mouse: MouseData | null) {
 		tool = tool ?? this.manager.project.app.currentTool ?? null;
-		mouse = mouse ?? this.manager.project.toolMouse ?? null;
+		// TODO:
+		// mouse = mouse ?? this.manager.project.toolMouse ?? null;
 
         this.clear();
         this.drawCurrentLayer();

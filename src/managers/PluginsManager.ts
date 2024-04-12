@@ -1,5 +1,3 @@
-import { Tab } from "@base/common/tabs";
-import { TabElement, TabView } from "@base/elements/tabs";
 import { Manager } from "@base/managers";
 import { DOM, Dev } from "@base/utils";
 import { DrawingLayer } from "@source/common/layers";
@@ -31,9 +29,6 @@ export class PluginsManager extends Manager {
             app: this.app,
             testImage,
             Project,
-            Tab,
-            TabElement,
-            TabView,
             DrawingLayer,
             Button,
             Tool,

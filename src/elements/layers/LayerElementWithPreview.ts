@@ -13,14 +13,14 @@ export class LayerElementWithPreview extends LayerElement {
 
         this.content.prepend(
             DOM.div("layer-preview",
-                this.previewImage
+                // this.previewImage
             )
         )
     }
 
     protected _updatePreviewImage() {
         // PERFOMANCE: this thing is too sloooow
-        this.previewImage.src = this.layer.canvas.getDataUrl();
+        // this.previewImage.src = this.layer.canvas.getDataUrl();
     }
     
     // On

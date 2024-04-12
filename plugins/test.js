@@ -1,44 +1,3 @@
-class CustomTab extends pixma.Tab {
-    constructor(manager) {
-        super("custom", manager)
-
-        this.attachView(new CustomTabView(this));
-        this.setTitle("plugin tab!")
-    }
-}
-class CustomTabView extends pixma.TabView {
-    constructor(tab) {
-        super(tab);
-
-        this.num = 0;
-        this.counter = pixma.DOM.span("0");
-        this.button = new pixma.Button().setContent("click me!").setColor("primary");
-
-        this.append(this.counter, this.button);
-    }
-
-	increment() {
-		this.num ++;
-		this._updateCounter();
-	}
-	decrement() {
-		this.num --;
-		this._updateCounter();
-	}
-
-    _updateCounter() {
-        this.counter.textContent = this.num.toString()
-    }
-    
-    // On
-    onMount() {
-        super.onMount();
-
-        this.listen(this.button, "click", this.increment.bind(this))
-    }
-}
-pixma.DOM.define("custom-tab-view", CustomTabView);
-
 class LineTool extends pixma.Tool {
     constructor(app) {
         super("line", app);
@@ -102,7 +61,6 @@ return {
     author: "bogdanov",
 
     load() {
-        pixma.app.tabs.open(new CustomTab(pixma.app.tabs));
         pixma.app.registerTool("line", new LineTool(pixma.app));
         pixma.app.registerTool("rainbow", new RainbowTool(pixma.app));
 

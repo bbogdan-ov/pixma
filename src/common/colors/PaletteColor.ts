@@ -17,11 +17,11 @@ export class PaletteColor {
     }
 
     pickFront(): this {
-        this.manager.project.app.brushes.setFrontColor(this.color);
+        this.manager.project.manager.app.brushes.setFrontColor(this.color);
         return this;
     }
     pickBack(): this {
-        this.manager.project.app.brushes.setBackColor(this.color);
+        this.manager.project.manager.app.brushes.setBackColor(this.color);
         return this;
     }
     remove(): boolean {
@@ -51,10 +51,10 @@ export class PaletteColor {
 		return this.state.color;
 	}
 	get isFront(): boolean {
-		return this.color.compareRgb(this.manager.project.app.brushes.frontColor);
+		return this.color.compareRgb(this.manager.project.manager.app.brushes.frontColor);
 	}
 	get isBack(): boolean {
-		return this.color.compareRgb(this.manager.project.app.brushes.backColor);
+		return this.color.compareRgb(this.manager.project.manager.app.brushes.backColor);
 	}
 
     // Static

@@ -132,7 +132,7 @@ export class Layer {
         this.onDidAdded.trigger(this);
     }
     onRemove() {
-        this.manager.project.app.selection.deselect(Layer.KEY, this);
+        this.manager.project.manager.app.selection.deselect(Layer.KEY, this);
         
         this.canvas.element.remove();
         this.onDidRemoved.trigger(this);
@@ -250,6 +250,6 @@ export class Layer {
 	}
 	/** Alias to `layer.manager.project.app` */
 	get app(): App {
-		return this.manager.project.app;
+		return this.manager.project.manager.app;
 	}
 }

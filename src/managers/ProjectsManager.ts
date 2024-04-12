@@ -3,13 +3,12 @@ import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
 import type { App } from "@source/App";
 import type { Project } from "@source/common/project";
-import { ProjectTab } from "@source/common/tabs";
 
 export class ProjectsManager extends Manager {
 	readonly app: App;
 
 	protected _current: Project | null = null;
-	protected readonly _list: Project[] = [];
+	readonly list: Project[] = [];
 
 	readonly onDidOpened = new Trigger<Project>();
 	readonly onDidEntered = new Trigger<Project>();
@@ -22,40 +21,43 @@ export class ProjectsManager extends Manager {
 		this.app = app;
 	}
 
-	/** Open project tab */
 	open(project: Project): boolean {
-		return this.app.tabs.open(new ProjectTab(this.app.tabs, project));
-	}
-	/** Close project tab */
-	close(project: Project): boolean {
-		if (!project.tab) return false;
-		return project.tab.close();
-	}
-
-	// On
-	onOpen(project: Project) {
-		if (this.getIsExists(project)) return;
+		if (this.getIsExists(project)) return false;
 
 		this.list.push(project);
+		project.onOpen();
 		this.onDidOpened.trigger(project);
+		return true;
 	}
-	onEnter(project: Project) {
-		if (this.current === project) return;
+	close(project: Project): boolean {
+		const removeIndex = Utils.removeItem(this.list, project);
+		if (removeIndex === null) return false;
+
+		this.leave(project);
+
+		project.onClose();
+		this.onDidClosed.trigger(project);
+		return true;
+	}
+	enter(project: Project): boolean {
+		if (this.current === project) return false;
+
+		this.leave(null);
 
 		this._current = project;
+		project.onEnter();
 		this.onDidEntered.trigger(project);
+		return true;
 	}
-	onLeave(project: Project) {
-		if (this.current === project)
-			this._current = null;
+	leave(project: Project | null): boolean {
+		if (!this.current) return false;
+		if (project && this.current !== project)
+			return false;
 
-		this.onDidLeaved.trigger(project);
-	}
-	onClose(project: Project) {
-		const removeIndex = Utils.removeItem(this.list, project);
-		if (removeIndex === null) return;
-
-		this.onDidClosed.trigger(project);
+		this.current.onLeave();
+		this.onDidLeaved.trigger(this.current);
+		this._current = null;
+		return true;
 	}
 
 	// Get
@@ -67,8 +69,5 @@ export class ProjectsManager extends Manager {
 	}
 	get current(): Project | null {
 		return this._current;
-	}
-	get list(): Project[] {
-		return this._list;
 	}
 }

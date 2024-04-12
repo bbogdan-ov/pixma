@@ -3,7 +3,6 @@
 @import "./variables.scss";
 
 @import "./elements/panels.scss";
-@import "./elements/tab-views.scss";
 @import "./elements/layers.scss";
 @import "./elements/colors.scss";
 @import "./elements/canvas.scss";
@@ -11,11 +10,11 @@
 
 @import "./utils.scss";
 
-.app {
-    width: 100vw;
-    height: 100vh;
-    
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+.editor {
+	display: flex;
+
+	.canvas-zoomable-wrapper {
+		width: 100%;
+		height: 100%;
+	}
 }

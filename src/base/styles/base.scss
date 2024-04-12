@@ -40,10 +40,13 @@ body {
     @include normal-text-style;
 }
 
-.app,
-.editor {
+.app {
+    width: 100vw;
+    height: 100vh;
+
     display: flex;
-    flex-direction: column;
+	flex-direction: column;
+	overflow: hidden;
 
     .panels-col {
         width: 100%;

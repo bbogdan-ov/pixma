@@ -1,74 +1,63 @@
 import { DOM } from "@base/utils";
 import { FocusableElement } from "../FocusableElement";
-import type { Tab } from "@base/common/tabs";
 import { Button } from "../buttons";
 import { EventName, IconName } from "@base/types/enums";
 
 @FocusableElement.define("base-tab")
-export class TabElement<T extends Tab=Tab> extends FocusableElement {
-    readonly tab: T;
-
-    protected readonly _content = DOM.div("tab-content");
-    protected readonly _titleElement = DOM.span("", "tab-title");
-    protected readonly _closeButton = Button.action(IconName.SMALL_CROSS);
+export class TabElement extends FocusableElement {
+    readonly content = DOM.div("tab-content");
+    readonly titleElement = DOM.span("Tab", "tab-title");
+    readonly closeButton = Button.action(IconName.SMALL_CROSS);
         
-    constructor(tab: T) {
+    constructor() {
         super();
 
-        this.tab = tab;
+        this.classList.add("tab");
 
-        this.id = "tab-" + tab.id;
-        this.classList.add("tab", tab.name + "-tab");
-
-        this._content.append(this._titleElement);
+        this.content.append(this.titleElement);
         this.append(
-            this._content,
+            this.content,
             DOM.div("tab-close-button-wrapper",
-                this._closeButton
+                this.closeButton
             )
         )
     }
 
-    setTitle(value: string): this {
-        this._titleElement.textContent = value;
-        return this;
-    }
+	enter() {}
+	close() {}
 
     // On
     onMount(): void {
         super.onMount();
 
-        this.listen(this._content, EventName.POINTER_DOWN, this._onContentDown.bind(this));
-        this.listen(this._closeButton, EventName.CLICK, this._onCloseButtonClick.bind(this));
-
-        this.listen(this.tab.titleState, this._onTabTitleChange.bind(this), true);
-
-        this.listen(this.tab.onDidEntered, this._onTabEntered.bind(this));
-        this.listen(this.tab.onDidLeaved, this._onTabLeaved.bind(this));
-        this.listen(this.tab.onDidClosed, this._onTabClosed.bind(this));
+        this.listen(this.content, EventName.POINTER_DOWN, this._onContentDown.bind(this));
+        this.listen(this.closeButton, EventName.CLICK, this._onCloseButtonClick.bind(this));
     }
     protected _onInteract(event: KeyboardEvent): void {
         super._onInteract(event);
 
-        this.tab.enter();
+        this.enter();
     }
     protected _onContentDown() {
-        this.tab.enter();
+        this.enter();
     }
     protected _onCloseButtonClick() {
-        this.tab.close();
+        this.close();
     }
 
-    protected _onTabTitleChange(value: string) {
-        this.setTitle(value);
-    }
-    protected _onTabEntered() {
+    protected _onEnter() {
         this.classList.add("active");
     }
-    protected _onTabLeaved() {
+    protected _onLeave() {
         this.classList.remove("active");
     }
-    protected _onTabClosed() {
+    protected _onClose() {
         this.remove();
+    }
+
+	// Set
+    setTitle(value: string): this {
+        this.titleElement.textContent = value;
+        return this;
     }
 }

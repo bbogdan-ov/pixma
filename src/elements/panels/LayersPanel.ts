@@ -1,35 +1,31 @@
 import { Button } from "@base/elements/buttons";
-import { Panel, PanelContent, PanelFooter } from "@base/elements/windows";
+import { PanelContent, PanelFooter } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
+import { AppCommand } from "@source/types/enums";
+import { ProjectPanel } from "./ProjectPanel";
 import type { Project } from "@source/common/project";
 import type { LayersManager } from "@source/managers";
 import type { App } from "@source/App";
-import { AppCommand } from "@source/types/enums";
 
 // Layers panel
-@Panel.define("layers-panel")
-export class LayersPanel extends Panel<App> {
+@ProjectPanel.define("layers-panel")
+export class LayersPanel extends ProjectPanel {
 	static readonly NAME = "layers";
 
-    readonly project: Project;
+    readonly layersList = new LayersList(null);
 
-    readonly layersList: LayersList;
-
-    constructor(project: Project) {
-        super(LayersPanel.NAME, project.app.windows, Orientation.VERTICAL);
-
-        this.project = project;
-		this.layersList = new LayersList(project.layers);
+    constructor(app: App) {
+        super(LayersPanel.NAME, app.windows, Orientation.VERTICAL);
 
         this.classList.add("layers-panel");
 
         this.append(
-            new PanelContent(
-                this.layersList
-            ).addClassName("scrollable"),
-            new LayersPanelFooter(this.project)
+			new PanelContent(
+				this.layersList
+			).addClassName("scrollable"),
+            new LayersPanelFooter(this)
         );
     }
 
@@ -39,8 +35,19 @@ export class LayersPanel extends Panel<App> {
 
 		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList.startCurrentRenaming());
 	}
+	protected _onProjectEnter(project: Project): void {
+	    super._onProjectEnter(project);
+
+		this.layersList.setManager(project.layers);
+	}
+	protected _onProjectLeave(project: Project): void {
+	    super._onProjectLeave(project);
+
+		this.layersList.setManager(null);
+	}
     protected _onPointerDownOutside(event: PointerEvent): void {
         super._onPointerDownOutside(event);
+		if (!this.project) return;
         
         this.project.app.selection.deselectAll(Layer.KEY);
     }
@@ -49,23 +56,38 @@ export class LayersPanel extends Panel<App> {
 // Layers list
 @BaseElement.define("layers-list")
 export class LayersList extends BaseElement {
-	readonly manager: LayersManager;
+	protected _manager: LayersManager | null;
 
 	protected _current: HTMLElement | null = null;
 
-	constructor(manager: LayersManager) {
+	constructor(manager: LayersManager | null) {
 		super();
 
-		this.manager = manager;
+		this._manager = manager;
 
 		this.classList.add("layers-list");
+	}
 
-        for (const layer of this.manager.list) {
+	setManager(manager: LayersManager | null) {
+		this._manager = manager;
+		this.replaceChildren();
+		this.unlistenAll();
+
+		if (!this.manager)
+			return;
+
+		for (const layer of this.manager.list) {
 			this.appendLayer(layer);
-        }
+		}
+
+        this.listen(this.manager.onDidChosen, this._onLayerChoose.bind(this));
+        this.listen(this.manager.onDidAdded, this._onLayerAdd.bind(this));
+
+		this.findCurrentLayerElement(this.manager.current);
 	}
 
 	appendLayer(layer: Layer) {
+		// this.append(...DOM.html("<h1>layer</h1>"));
 		this.append(layer.createElement());
 	}
 	findCurrentLayerElement(layer: Layer | null) {
@@ -92,10 +114,7 @@ export class LayersList extends BaseElement {
     onMount(): void {
         super.onMount();
 
-        this.listen(this.manager.onDidChosen, this._onLayerChoose.bind(this));
-        this.listen(this.manager.onDidAdded, this._onLayerAdd.bind(this));
-
-		this.findCurrentLayerElement(this.manager.current);
+		this.setManager(this.manager);
     }
 	protected _onLayerChoose(layer: Layer) {
 		this.findCurrentLayerElement(layer);
@@ -105,6 +124,9 @@ export class LayersList extends BaseElement {
     }
 
 	// Get
+	get manager(): LayersManager | null {
+		return this._manager;
+	}
 	get current(): HTMLElement | null {
 		return this._current;
 	}
@@ -113,16 +135,16 @@ export class LayersList extends BaseElement {
 // Layers panel footer
 @PanelFooter.define("layers-panel-footer")
 class LayersPanelFooter extends PanelFooter {
-    readonly project: Project;
-    
+	readonly panel: LayersPanel;
+
     readonly addButton = Button.compact(IconName.ADD_LAYER).setIsGhost();
     readonly removeButton = Button.compact(IconName.REMOVE_LAYER).setIsGhost();
     readonly renameButton = Button.compact(IconName.EDIT_LAYER).setIsGhost();
     
-    constructor(project: Project) {
+    constructor(panel: LayersPanel) {
         super();
 
-        this.project = project;
+		this.panel = panel;
 
         this.append(
             this.addButton,
@@ -139,12 +161,15 @@ class LayersPanelFooter extends PanelFooter {
         this.listen(this.renameButton, EventName.CLICK, this._onRenameClick.bind(this));
     }
     protected _onAddClick() {
-        const layers = this.project.layers;
+		if (!this.panel.project) return;
 
+        const layers = this.panel.project.layers;
         layers.addNearCurrent(new DrawingLayer(layers), true);
     }
     protected _onRemoveClick() {
-        const layers = this.project.layers;
+		if (!this.panel.project) return;
+
+        const layers = this.panel.project.layers;
         if (layers.current)
             layers.remove(layers.current);
     }

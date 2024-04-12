@@ -113,7 +113,7 @@ export class CanvasZoomable extends Zoomable {
         if (this.isPanning) return;
 
         // TODO: catch missed tool and layer
-        const tool = this.project.app.currentTool;
+        const tool = this.project.manager.app.currentTool;
         const layer = this.project.currentLayer;
 		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;
@@ -134,7 +134,7 @@ export class CanvasZoomable extends Zoomable {
     protected _onWindowMove(event: PointerEvent): void {
         super._onWindowMove(event);
 
-        const tool = this.project.app.currentTool;
+        const tool = this.project.manager.app.currentTool;
         const layer = this.project.currentLayer;
 		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;
@@ -161,7 +161,7 @@ export class CanvasZoomable extends Zoomable {
         super._onWindowUp(event);
         if (!this.isToolUsing) return;
 
-        const tool = this.project.app.currentTool;
+        const tool = this.project.manager.app.currentTool;
         const layer = this.project.currentLayer;
 		const previewLayer = this.project.previewLayer;
         if (!tool || !layer) return;

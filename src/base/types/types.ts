@@ -52,6 +52,11 @@ export interface ThemeResizeable {
     size: SizeName
     setSize(name: SizeName): this
 }
+export interface Enablable {
+	enable(): this
+	disable(): this
+	setIsEnabled(value: boolean): this
+}
 
 export interface Focusable {
 	focus(options?: FocusOptions): void

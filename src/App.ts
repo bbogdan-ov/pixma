@@ -1,5 +1,5 @@
 import { BaseApp } from "@base/BaseApp";
-import { SelectionManager, TabsManager, DragManager, HistoryManager } from "@base/managers";
+import { SelectionManager, DragManager, HistoryManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import { AppOption } from "./types/enums";
 import AppElement from "@source/elements/AppElement";
@@ -10,9 +10,9 @@ import { registerAppCommands } from "./commands";
 import { registerAppKeymaps } from "./keymaps";
 import { registerAppOptions } from "./options";
 import { WindowsManager } from "@base/managers/WindowsManager";
+import { Editor } from "./Editor";
 
 export class App extends BaseApp<AppElement> {
-    readonly tabs: TabsManager<this>;
 	readonly history: HistoryManager;
     readonly selection: SelectionManager;
     readonly drag: DragManager;
@@ -22,10 +22,11 @@ export class App extends BaseApp<AppElement> {
 	readonly windows: WindowsManager<this>;
     readonly plugins: PluginsManager;
 
+	readonly editor: Editor;
+
     constructor() {
 		super();
 
-        this.tabs = new TabsManager(this);
 		this.history = new HistoryManager(this);
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -38,6 +39,8 @@ export class App extends BaseApp<AppElement> {
 		registerAppOptions(this);
 		registerAppCommands(this);
 		registerAppKeymaps(this);
+
+		this.editor = new Editor(this);
 
 		this._element = new AppElement(this);
     }
