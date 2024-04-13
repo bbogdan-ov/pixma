@@ -12,8 +12,6 @@ export class ToolParamsPanel extends Panel<App> {
     constructor(app: App) {
         super(ToolParamsPanel.NAME, app.windows, Orientation.HORIZONTAL);
 
-        this.classList.add("tool-params-panel");
-
         this.append(this.content);
     }
 

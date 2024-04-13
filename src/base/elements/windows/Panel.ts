@@ -15,7 +15,7 @@ export class Panel<A extends BaseApp=BaseApp>
     constructor(name: string, manager: WindowsManager<A>, orientation: Orientation) {
         super(name, manager);
 
-        this.classList.add("panel", "orientation-" + orientation);
+        this.classList.add("panel", this.name + "-panel", "orientation-" + orientation);
     }
 
 	enable(): this {

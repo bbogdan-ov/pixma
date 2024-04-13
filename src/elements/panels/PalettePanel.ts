@@ -20,8 +20,6 @@ export class PalettePanel extends Panel<App> {
         super(PalettePanel.NAME, project.app.windows, Orientation.VERTICAL);
 
         this.project = project;
-        
-        this.classList.add("palette-panel");
 
         this.append(new PanelContent(
             this.colorsList,

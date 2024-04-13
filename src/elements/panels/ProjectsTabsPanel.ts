@@ -18,7 +18,7 @@ export class ProjectsTabsPanel extends Panel {
 
 		this.tabsList = new ProjectsTabsList(app.projects);
 
-        this.classList.add("projects-tabs-panel", "row", "justify-between");
+        this.classList.add("row", "justify-between");
         this.append(
 			this.tabsList,
             // TEMP

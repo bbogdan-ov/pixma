@@ -17,8 +17,6 @@ export class ColorPickerPanel extends Panel<App> {
 			.hideValueRange()
 			.hideRgbInputs();
 
-        this.classList.add("color-picker-panel");
-
         this.append(new PanelContent(this.colorPicker));
     }
 }

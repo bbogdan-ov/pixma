@@ -20,8 +20,6 @@ export class LayersPanel extends ProjectPanel {
     constructor(app: App) {
         super(LayersPanel.NAME, app.windows, Orientation.VERTICAL);
 
-        this.classList.add("layers-panel");
-
         this.append(
 			this.content,
             new LayersPanelFooter(this)

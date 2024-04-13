@@ -12,8 +12,6 @@ export class ToolsPanel extends Panel<App> {
     constructor(app: App) {
         super(ToolsPanel.NAME, app.windows, Orientation.VERTICAL);
 
-        this.classList.add("tools-panel");
-
         this.append(new PanelContent(this.buttonsList));
 
         for (const tool of Object.values(this.app.tools.tools)) {
