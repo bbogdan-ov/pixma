@@ -36,12 +36,16 @@
             background: var(--darkgray);
             border-radius: 2px;
 
-            .image {
+            img {
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
                 image-rendering: pixelated;
                 pointer-events: none;
+
+				&.empty {
+					visibility: hidden;
+				}
             }
         }
     }

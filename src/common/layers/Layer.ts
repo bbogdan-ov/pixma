@@ -65,12 +65,15 @@ export class Layer {
     readonly manager: LayersManager;
 
     readonly canvas: Canvas;
+	protected _previewDataUrl: string | null = null;
 
 	protected _index: number | null = null;
     protected _isEmpty = true;
     protected _isCurrent = false;
     protected _isSelected = false;
     protected _isToolDown = false;
+
+	protected _renderPreviewOnEdit = true;
     
     readonly displayNameState = new State<string>("Layer");
     readonly isVisibleState = new State<boolean>(true);
@@ -113,10 +116,16 @@ export class Layer {
         return this.manager.remove(this);
     }
 	edited() {
+		if (this._renderPreviewOnEdit)
+			this.renderPreview();
+
 		this._isEmpty = false;
 		this.onDidEdited.trigger(this);
 	}
 
+	renderPreview() {
+		this._previewDataUrl = this.getDataUrl();
+	}
     clear(): this {
         this.context.clearRect(0, 0, this.width, this.height);
         return this;
@@ -251,5 +260,8 @@ export class Layer {
 	/** Alias to `layer.manager.project.app` */
 	get app(): App {
 		return this.manager.project.manager.app;
+	}
+	get previewDataUrl() {
+		return this._previewDataUrl;
 	}
 }

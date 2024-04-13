@@ -9,18 +9,21 @@ export class LayerElementWithPreview extends LayerElement {
     constructor(layer: Layer) {
         super(layer);
 
-        this.previewImage.classList.add("image");
+        this.previewImage.classList.add("empty");
 
         this.content.prepend(
             DOM.div("layer-preview",
-                // this.previewImage
+                this.previewImage
             )
         )
     }
 
     protected _updatePreviewImage() {
-        // PERFOMANCE: this thing is too sloooow
-        // this.previewImage.src = this.layer.canvas.getDataUrl();
+		const url = this.layer.previewDataUrl;
+		if (url) {
+			this.previewImage.src = url;
+			this.previewImage.classList.remove("empty");
+		}
     }
     
     // On
