@@ -72,6 +72,7 @@ export class Layer {
     protected _isCurrent = false;
     protected _isSelected = false;
     protected _isToolDown = false;
+	protected _isEditing = false;
 
 	protected _renderPreviewOnEdit = true;
     
@@ -115,6 +116,15 @@ export class Layer {
     remove(): boolean {
         return this.manager.remove(this);
     }
+	startEdit(pushToHistory: boolean) {
+		// TODO: stash to history
+		this._isEditing = true;
+	}
+	endEdit() {
+		// TODO: push to history
+		this._isEditing = false;
+		this.edited();
+	}
 	edited() {
 		if (this._renderPreviewOnEdit)
 			this.renderPreview();
@@ -165,7 +175,6 @@ export class Layer {
     onToolUp(tool: Tool, mouse: MouseData) {
         this._isToolDown = false;
         this.onDidToolUp.trigger(tool);
-		this.edited();
     }
     onSelect(key: string) {
         this._isSelected = true;
@@ -240,6 +249,9 @@ export class Layer {
     get isEmpty(): boolean {
         return this._isEmpty;
     }
+	get isEditing(): boolean {
+		return this._isEditing;
+	}
     get width(): number {
         return this.canvas.width;
     }

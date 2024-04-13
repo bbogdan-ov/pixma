@@ -6,7 +6,7 @@ import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
 import { AppContext, CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
-import { LayerHistoryItem, type Layer } from "../layers";
+import { type Layer } from "../layers";
 import { Utils } from "@base/utils";
 import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
@@ -138,8 +138,7 @@ export class Tool {
         this._isUsing = true;
 		this.renderBrush(mouse.pressedButton);
 
-		if (this.pushToHistory)
-			this.app.history.save(new LayerHistoryItem(layer, "Draw", { canvasChanged: true }));
+		layer.startEdit(this.pushToHistory);
     }
     onUse(layer: Layer, mouse: MouseData) {}
     onMove(layer: Layer, mouse: MouseData) {
@@ -150,7 +149,7 @@ export class Tool {
         this._isUsing = false;
 		this.renderBrush(mouse.pressedButton);
 
-		this.app.history.push();
+		layer.endEdit();
     }
     onChoose() {
         this._isChosen = true;
