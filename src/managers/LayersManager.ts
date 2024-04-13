@@ -33,12 +33,15 @@ export class LayersManager extends Manager {
     add(layer: Layer, index: number | null=null): boolean {
         if (this.getIsExists(layer)) return false;
 
-        if (!Utils.exists(index) || index < 0)
-            this._list.push(layer);
-        else
-            Utils.insertItem(this._list, layer, index);
+		let newIndex = 0;
 
-		const newIndex = index ?? (this.count-1);
+        if (!Utils.exists(index) || index < 0) {
+            this._list.push(layer);
+			newIndex = this.count - 1;
+		} else {
+            Utils.insertItem(this._list, layer, index);
+			newIndex = index;
+		}
 
 		this._updateIndexFrom(newIndex+1);
 
