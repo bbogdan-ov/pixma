@@ -6,7 +6,7 @@ import { CanvasZoomable } from "@source/elements/canvas";
 import { ProjectTabElement } from "@source/elements/tabs/ProjectTabElement";
 import type { App } from "@source/App";
 import { type PreviewLayer, type Layer } from "../layers";
-import { LayersList } from "@source/elements/panels";
+import { LayersList, PaletteList } from "@source/elements/panels";
 
 export class ProjectHistoryItem<T=any> extends HistoryItem<T, App> {
 	readonly projectId: number;
@@ -41,6 +41,7 @@ export class Project {
 
 	readonly canvasZoomable: CanvasZoomable;
 	readonly layersList: LayersList;
+	readonly paletteList: PaletteList;
 
     readonly onDidOpened = new Trigger<Project>();
     readonly onDidEntered = new Trigger<Project>();
@@ -63,6 +64,7 @@ export class Project {
 
 		this.canvasZoomable = new CanvasZoomable(this);
 		this.layersList = new LayersList(this.layers);
+		this.paletteList = new PaletteList(this.palette);
     }
 
 	open(): boolean {
