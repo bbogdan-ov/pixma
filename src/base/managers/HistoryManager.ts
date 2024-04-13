@@ -41,7 +41,7 @@ export class HistoryManager extends Manager {
 		// app.registerKeymappedCommand(BaseApp.CONTEXT, "ctrl-shift-z", 	"redo", ()=> this.redo());
 	}
 
-	save(item: HistoryItem): boolean {
+	stash(item: HistoryItem): boolean {
 		this._stashedItem = item;
 		return true;
 	}
