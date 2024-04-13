@@ -32,7 +32,7 @@ export class LayersPanel extends ProjectPanel {
 
 		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList?.startCurrentRenaming());
 	}
-	// !TODO: perfomance when changing current project is so fucking terrible
+	// FIXME: perfomance when changing current project is so fucking terrible
 	protected _onProjectEnter(project: Project): void {
 	    super._onProjectEnter(project);
 

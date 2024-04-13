@@ -35,7 +35,7 @@ export class PaletteColorElement extends BaseElement {
 
         this.listen(this.paletteColor.state, this._onStateChange.bind(this));
         this.listen(this.paletteColor.onDidRemoved, this._onRemove.bind(this));
-		// FIX: this is very bad for performance
+		// FIXME: this is very bad for performance
 		// TODO: i should do something with this long lines
 		this.listen(this.paletteColor.manager.project.app.brushes.frontColorState, this._onFrontColorChange.bind(this));
 		this.listen(this.paletteColor.manager.project.app.brushes.backColorState, this._onBackColorChange.bind(this));

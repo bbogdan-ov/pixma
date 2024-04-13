@@ -35,7 +35,7 @@ export class PalettePanel extends ProjectPanel {
 
         this.listen(this.addButton, EventName.CLICK, this._onAddButtonClick.bind(this));
     }
-	// !FIXME: there is also bad perfomance when changing current project
+	// FIXME: there is also bad perfomance when changing current project
 	protected _onProjectEnter(project: Project): void {
 	    super._onProjectEnter(project);
 
