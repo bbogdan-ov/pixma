@@ -1,26 +1,12 @@
 import { State, Trigger } from "@base/common/listenable";
 import { LayersManager, PaletteManager, ProjectsManager } from "@source/managers";
-import { HistoryItem, MouseManager } from "@base/managers";
+import { MouseManager } from "@base/managers";
 import { AppOption } from "@source/types/enums";
 import { CanvasZoomable } from "@source/elements/canvas";
 import { ProjectTabElement } from "@source/elements/tabs/ProjectTabElement";
 import type { App } from "@source/App";
 import { type PreviewLayer, type Layer } from "../layers";
 import { LayersList, PaletteList } from "@source/elements/panels";
-
-export class ProjectHistoryItem<T=any> extends HistoryItem<T, App> {
-	readonly projectId: number;
-
-	constructor(project: Project, title: string, data: T) {
-		super(project.manager.app, title, data);
-
-		this.projectId = project.id;
-	}
-
-	condition(): boolean {
-	    return this.app.currentProject?.id !== this.projectId;
-	}
-}
 
 export class Project {
 	static _id = 0;
