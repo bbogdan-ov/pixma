@@ -5,7 +5,8 @@ import { AppOption } from "@source/types/enums";
 import { CanvasZoomable } from "@source/elements/canvas";
 import { ProjectTabElement } from "@source/elements/tabs/ProjectTabElement";
 import type { App } from "@source/App";
-import type { PreviewLayer, Layer } from "../layers";
+import { type PreviewLayer, type Layer } from "../layers";
+import { LayersList } from "@source/elements/panels";
 
 export class ProjectHistoryItem<T=any> extends HistoryItem<T, App> {
 	readonly projectId: number;
@@ -39,6 +40,7 @@ export class Project {
     readonly canvasHeightState: State<number>;
 
 	readonly canvasZoomable: CanvasZoomable;
+	readonly layersList: LayersList;
 
     readonly onDidOpened = new Trigger<Project>();
     readonly onDidEntered = new Trigger<Project>();
@@ -60,6 +62,7 @@ export class Project {
         this.palette = new PaletteManager(this);
 
 		this.canvasZoomable = new CanvasZoomable(this);
+		this.layersList = new LayersList(this.layers);
     }
 
 	open(): boolean {

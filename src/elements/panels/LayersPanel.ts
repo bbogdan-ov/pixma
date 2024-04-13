@@ -14,7 +14,8 @@ import type { App } from "@source/App";
 export class LayersPanel extends ProjectPanel {
 	static readonly NAME = "layers";
 
-    readonly layersList = new LayersList(null);
+    protected _layersList: LayersList | null = null;
+	readonly content = new PanelContent().addClassName("scrollable");
 
     constructor(app: App) {
         super(LayersPanel.NAME, app.windows, Orientation.VERTICAL);
@@ -22,9 +23,7 @@ export class LayersPanel extends ProjectPanel {
         this.classList.add("layers-panel");
 
         this.append(
-			new PanelContent(
-				this.layersList
-			).addClassName("scrollable"),
+			this.content,
             new LayersPanelFooter(this)
         );
     }
@@ -33,17 +32,20 @@ export class LayersPanel extends ProjectPanel {
 	onMount(): void {
 	    super.onMount();
 
-		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList.startCurrentRenaming());
+		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList?.startCurrentRenaming());
 	}
+	// !TODO: perfomance when changing current project is so fucking terrible
 	protected _onProjectEnter(project: Project): void {
 	    super._onProjectEnter(project);
 
-		this.layersList.setManager(project.layers);
+		this._layersList = project.layersList;
+		this.content.appendChild(this._layersList);
 	}
 	protected _onProjectLeave(project: Project): void {
 	    super._onProjectLeave(project);
 
-		this.layersList.setManager(null);
+		this._layersList?.remove();
+		this._layersList = null;
 	}
     protected _onPointerDownOutside(event: PointerEvent): void {
         super._onPointerDownOutside(event);
@@ -51,43 +53,29 @@ export class LayersPanel extends ProjectPanel {
         
         this.project.app.selection.deselectAll(Layer.KEY);
     }
+
+	// Get
+	get layersList(): LayersList | null {
+		return this._layersList;
+	}
 }
 
 // Layers list
 @BaseElement.define("layers-list")
 export class LayersList extends BaseElement {
-	protected _manager: LayersManager | null;
+	readonly manager: LayersManager
 
 	protected _current: HTMLElement | null = null;
 
-	constructor(manager: LayersManager | null) {
+	constructor(manager: LayersManager) {
 		super();
 
-		this._manager = manager;
+		this.manager = manager;
 
 		this.classList.add("layers-list");
 	}
 
-	setManager(manager: LayersManager | null) {
-		this._manager = manager;
-		this.replaceChildren();
-		this.unlistenAll();
-
-		if (!this.manager)
-			return;
-
-		for (const layer of this.manager.list) {
-			this.appendLayer(layer);
-		}
-
-        this.listen(this.manager.onDidChosen, this._onLayerChoose.bind(this));
-        this.listen(this.manager.onDidAdded, this._onLayerAdd.bind(this));
-
-		this.findCurrentLayerElement(this.manager.current);
-	}
-
 	appendLayer(layer: Layer) {
-		// this.append(...DOM.html("<h1>layer</h1>"));
 		this.append(layer.createElement());
 	}
 	findCurrentLayerElement(layer: Layer | null) {
@@ -114,7 +102,16 @@ export class LayersList extends BaseElement {
     onMount(): void {
         super.onMount();
 
-		this.setManager(this.manager);
+		if (!this.isMountedOnce) {
+			for (const layer of this.manager.list) {
+				this.appendLayer(layer);
+			}
+		}
+
+        this.listen(this.manager.onDidChosen, this._onLayerChoose.bind(this));
+        this.listen(this.manager.onDidAdded, this._onLayerAdd.bind(this));
+
+		this.findCurrentLayerElement(this.manager.current);
     }
 	protected _onLayerChoose(layer: Layer) {
 		this.findCurrentLayerElement(layer);
@@ -124,9 +121,6 @@ export class LayersList extends BaseElement {
     }
 
 	// Get
-	get manager(): LayersManager | null {
-		return this._manager;
-	}
 	get current(): HTMLElement | null {
 		return this._current;
 	}
@@ -177,6 +171,6 @@ class LayersPanelFooter extends PanelFooter {
 		const parent = this.parentElement;
 		if (!(parent instanceof LayersPanel)) return;
 
-		parent.layersList.startCurrentRenaming();
+		parent.layersList?.startCurrentRenaming();
     }
 }
