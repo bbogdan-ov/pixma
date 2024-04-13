@@ -1,6 +1,6 @@
 import { State, Trigger } from "@base/common/listenable";
 import { LayersManager, PaletteManager, ProjectsManager } from "@source/managers";
-import { HistoryItem } from "@base/managers";
+import { HistoryItem, MouseManager } from "@base/managers";
 import { AppOption } from "@source/types/enums";
 import { CanvasZoomable } from "@source/elements/canvas";
 import { ProjectTabElement } from "@source/elements/tabs/ProjectTabElement";
@@ -124,5 +124,8 @@ export class Project {
 	/** Is tab active */
 	get isActive(): boolean {
 		return this._isActive;
+	}
+	get toolMouse(): MouseManager {
+		return this.canvasZoomable.toolMouse;
 	}
 }
