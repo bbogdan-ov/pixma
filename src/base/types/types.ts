@@ -1,8 +1,8 @@
-import type { ListenableListener } from "@base/common/listenable/Listenable";
-import type { Listenable, State } from "@base/common/listenable";
+import type { State } from "@base/common/listenable";
 import type { AccentName, ColorName, MouseButton, SizeName } from "./enums";
 
 export type HTMLTagNames = keyof HTMLElementTagNameMap;
+export type HTMLEventsMap = GlobalEventHandlersEventMap;
 
 export type ValueType = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
 
@@ -37,13 +37,6 @@ export type HslaStringColor = `hsla(${ string })`;
 export type AnyStringColor = `#${ string }` | RgbStringColor | RgbaStringColor | HslStringColor | HslaStringColor;
 export type ArrayColor = RgbColor | RgbaColor | HsvColor | HsvaColor | HslColor | HslaColor;
 
-export interface Listener {
-    unlistens: VoidFunction[]
-    unlistenAll(): void
-    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
-}
 export interface ThemeColorful {
     color: ColorName | AccentName
     setColor(name: ColorName | AccentName): this

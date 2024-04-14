@@ -1,7 +1,4 @@
-import { ColorState, Listenable, State } from "@base/common/listenable";
-import { Dev } from "./Dev";
-import type { HTMLTagNames, Listener } from "@base/types/types";
-import type { ListenableListener } from "@base/common/listenable/Listenable";
+import type { HTMLTagNames } from "@base/types/types";
 import test_img from "../assets/images/test.png";
 
 export class DOM {
@@ -11,31 +8,6 @@ export class DOM {
     static addEventListener(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction {
         element.addEventListener(eventName, listener, options);
         return () => element.removeEventListener(eventName, listener);
-    }
-
-    static listen<K extends keyof GlobalEventHandlersEventMap>(target: Listener, element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    static listen(target: Listener, element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    static listen<T>(target: Listener, listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
-    static listen(target: Listener, lisOrEl: EventTarget | Listenable<any>, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
-        let unlisten = () => {};
-
-        if (lisOrEl instanceof Listenable) {
-            // Listenable
-            unlisten = lisOrEl.listen(eventOrListener);
-            if (listenerOrInvoke) {
-                if (lisOrEl instanceof State) eventOrListener(lisOrEl.value);
-                else if (lisOrEl instanceof ColorState) eventOrListener(lisOrEl.color);
-                else eventOrListener();
-            }
-        } else if (lisOrEl instanceof EventTarget) {
-            // Element
-            unlisten = DOM.addEventListener(lisOrEl, eventOrListener, listenerOrInvoke, options);
-        } else {
-            Dev.throwError("Unable to listen listenable or element!");
-        }
-
-        target.unlistens.push(unlisten);
-        return unlisten;
     }
 
     static create<K extends keyof HTMLElementTagNameMap>(tag: K, className?: string, htmlContent?: string): HTMLElementTagNameMap[K];

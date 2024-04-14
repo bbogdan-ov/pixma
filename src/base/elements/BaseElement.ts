@@ -1,13 +1,14 @@
 import type { ListenableListener } from "@base/common/listenable/Listenable";
 import type { Listenable } from "@base/common/listenable";
-import { Focusable, HTMLTagNames, Listener } from "@base/types/types";
+import { Focusable, HTMLEventsMap, HTMLTagNames } from "@base/types/types";
 import { DOM } from "@base/utils";
+import { IListener, ListenOptions, Listener } from "@base/common/listenable/Listener";
 
 export abstract class BaseElement
 	extends HTMLElement
-	implements Listener, Focusable
+	implements IListener, Focusable
 {
-    readonly unlistens: VoidFunction[] = [];
+    protected _unlistens: VoidFunction[] = [];
     protected _isMountedOnce = false;
 
     constructor() {
@@ -28,24 +29,27 @@ export abstract class BaseElement
         return this;
     }
 
-    listen<K extends keyof GlobalEventHandlersEventMap>(element: EventTarget, eventName: K, listener: (event: GlobalEventHandlersEventMap[K]) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen(element: EventTarget, eventName: string, listener: (event: Event) => void, options?: boolean | AddEventListenerOptions): VoidFunction;
-    listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
-    listen(lisOrEl: any, eventOrListener: any, listenerOrInvoke?: any, options?: any): VoidFunction {
-        return DOM.listen(this, lisOrEl, eventOrListener, listenerOrInvoke, options);
-    }
+	listen(callback: VoidFunction): VoidFunction;
+	listen<K extends keyof HTMLEventsMap>(element: EventTarget, event: K, callback: (event: HTMLEventsMap[K]) => void, options?: ListenOptions): VoidFunction;
+	listen(element: EventTarget, event: string, callback: (event: Event) => void, options?: ListenOptions): VoidFunction;
+	listen<T>(listenable: Listenable<T>, listener: ListenableListener<T>, invoke?: boolean): VoidFunction;
+	listen(element: any, event?: any, callback?: any, options?: any): VoidFunction {
+	    const unlisten = Listener.listen(element, event, callback, options);
+		this._unlistens.push(unlisten);
+		return unlisten;
+	}
 
-    unlistenAll() {
-        for (const unlisten of this.unlistens) {
+    unlisten(): this {
+        for (const unlisten of this._unlistens)
             unlisten();
-        }
-		this.unlistens.splice(0, this.unlistens.length);
+		this._unlistens = []
+		return this;
     }
 
     // On
     onMount() {}
     onDismount() {
-        this.unlistenAll();
+        this.unlisten();
     }
     connectedCallback() {
         this.onMount();

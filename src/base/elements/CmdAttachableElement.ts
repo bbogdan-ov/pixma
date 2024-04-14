@@ -18,7 +18,7 @@ export class CmdAttachableElement<A extends BaseApp=BaseApp>
 		const unlisten = this.app.commands.attach(this, name, func, cond);
 		if (!unlisten) return false;
 
-		this.unlistens.push(unlisten);
+		this._unlistens.push(unlisten);
 		return true;
 	}
 
