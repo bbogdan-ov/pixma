@@ -11,11 +11,11 @@ export class ColorState extends Listenable<Color> {
         this.color = color;
     }
 
-    listen(listener: ListenableListener<Color>, invoke?: boolean, key?: string | undefined, override?: boolean): VoidFunction {
+    listen(listener: ListenableListener<Color>, invoke?: boolean): VoidFunction {
         if (invoke)
             listener(this.color);
         
-        return super.listen(listener, invoke, key, override);
+        return super.listen(listener, invoke);
     }
     notify(): this {
         return this._notify(this.color);

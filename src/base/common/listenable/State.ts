@@ -17,25 +17,22 @@ export class State<T> extends Listenable<T> {
         return this._value;
     }
     set(callbackOrValue: StateCallbackOrValue<T>, notify=true): this {
-        this._value = this.apply(this._parseValue(callbackOrValue));
+        if (typeof callbackOrValue == "function")
+			this._value = (callbackOrValue as any)(this._value);
+		else
+			this._value = callbackOrValue;
 
         if (notify) this.notify();
         return this;
     }
 
-    listen(listener: ListenableListener<T>, invoke?: boolean, key?: string | undefined, override?: boolean): VoidFunction {
+    listen(listener: ListenableListener<T>, invoke?: boolean): VoidFunction {
         if (invoke)
             listener(this.value);
 
-        return super.listen(listener, invoke, key, override);
+        return super.listen(listener, invoke);
     }
     notify(): this {
         return this._notify(this.value);
-    }
-
-    //
-    protected _parseValue(callbackOrValue: StateCallbackOrValue<T>): T {
-        if (typeof callbackOrValue == "function") return (callbackOrValue as any)(this._value);
-        return callbackOrValue;
     }
 }

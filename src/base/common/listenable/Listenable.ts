@@ -1,37 +1,28 @@
-import { Dev } from "@base/utils";
-
 export type ListenableListener<T> = (value: T) => void;
-type ListenableListeners<T> = {
-    [key: string]: ListenableListener<T>;
-};
 
 export class Listenable<T> {
-    static key = 0;
-
-    listeners: ListenableListeners<T> = {};
+    listeners: ListenableListener<T>[] = [];
 
     constructor() {}
 
-    listen(listener: ListenableListener<T>, invoke=false, key?: string, override=true): VoidFunction {
-        key = key || (Listenable.key++).toString();
-
-        if (!!this.listeners[key]) {
-            if (override) {
-                Dev.warn(`LISTENER with key (${key}) was override`);
-            } else {
-                Dev.throwError(`LISTENER with key (${key}) already exists`);
-            }
-        }
-
-        this.listeners[key] = listener;
-        return () => this.unlisten(key!);
+    listen(listener: ListenableListener<T>, invoke=false): VoidFunction {
+        this.listeners.push(listener);
+        return () => this.unlistenIndex(this.listeners.length-1);
     }
-    unlisten(key: string): this {
-        delete this.listeners[key];
-        return this;
+	/** Use `unlistenIndex()` instead if you know index of the listener */
+	unlisten(listener: ListenableListener<T>): boolean {
+		const index = this.listeners.indexOf(listener);
+		if (index < 0) return false;
+		return this.unlistenIndex(index);
+	}
+    unlistenIndex(index: number): boolean {
+		if (index < 0 || index >= this.listeners.length)
+			return false;
+		this.listeners.splice(index, 1);
+		return true;
     }
     protected _notify(value: T): this {
-        for (const listener of Object.values(this.listeners)) {
+        for (const listener of this.listeners) {
             listener(value);
         }
         return this;
