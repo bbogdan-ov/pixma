@@ -1,6 +1,5 @@
 import { KeyCode } from "@base/types/enums";
 import { Bind } from ".";
-import { Dev } from "@base/utils";
 
 export class KeyBind extends Bind {
     readonly code: KeyCode;
@@ -73,7 +72,7 @@ export class KeyBind extends Bind {
 				keyCode = KeyBind.keyCodeFromString(key);
 
 				if (!keyCode) {
-					Dev.throwError(`Unable to parse key bind. Unknown key "${ key }" in key bind "${ value }"`);
+					console.warn(`Unable to parse key bind. Unknown key "${ key }" in key bind "${ value }"`);
 					return null;
 				}
 			}
