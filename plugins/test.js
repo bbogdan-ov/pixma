@@ -1,6 +1,8 @@
+const NAMESPACE = "my-plugin";
+
 class LineTool extends pixma.Tool {
     constructor(app) {
-        super("line", app);
+        super(NAMESPACE, "line", app);
 
         this._iconName = "line-tool";
         this.customSizeState = new pixma.State(1);
@@ -26,7 +28,7 @@ class LineTool extends pixma.Tool {
 
 class RainbowTool extends pixma.DrawingTool {
     constructor(app) {
-        super("rainbow", app);
+        super(NAMESPACE, "rainbow", app);
 
 		this.keymap(["4"]);
     }
