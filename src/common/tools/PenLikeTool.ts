@@ -8,9 +8,8 @@ import { ToolParams } from "@source/elements/tools";
 export class PenLikeTool extends DrawingTool {
 	readonly isPixelPerfectState = new State<boolean>(false);
 
-	constructor(name: string, app: App) {
-		super(name, app);
-
+	constructor(namespace: string, name: string, app: App) {
+		super(namespace, name, app);
 	}
 
 	use(layer: Layer, mouse: MouseData): void {

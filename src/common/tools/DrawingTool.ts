@@ -4,8 +4,8 @@ import type { Layer } from "../layers";
 import type { App } from "@source/App";
 
 export class DrawingTool extends Tool {
-    constructor(name: string, app: App) {
-        super(name, app);
+    constructor(namespace: string, name: string, app: App) {
+        super(namespace, name, app);
     }
 
     use(layer: Layer, mouse: MouseData) {

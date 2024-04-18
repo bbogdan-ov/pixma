@@ -1,13 +1,13 @@
 import { IconName } from "@base/types/enums";
 import { PenLikeTool } from "./PenLikeTool";
 import type { ColorState } from "@base/common/listenable";
-import type { App } from "@source/App";
+import { App } from "@source/App";
 
 export class EraseTool extends PenLikeTool {
     static readonly NAME = "erase";
 
     constructor(app: App) {
-        super(EraseTool.NAME, app);
+        super(App.NAMESPACE, EraseTool.NAME, app);
 
         this._iconName = IconName.ERASE_TOOL;
 

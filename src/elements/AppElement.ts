@@ -13,15 +13,17 @@ export default class AppElement extends ActionAttachableElement<App> {
         super(app);
 
         this.classList.add("app");
-        
-        this.append(
-            new ProjectsTabsPanel(this.app),
-			app.editor.element
-        );
     }
 
     onMount(): void {
         super.onMount();
+
+		// CRUTCH: this thing doesn't work in constructor(), but should be there
+		if (!this.isMountedOnce)
+			this.append(
+				new ProjectsTabsPanel(this.app),
+				this.app.editor.element
+			);
 
         // TEMP {
         const a = new Project(this.app.projects);

@@ -11,7 +11,19 @@ import { Utils } from "@base/utils";
 import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
+import { ActionAppContainedAttachable, AppContainedAction } from "@source/actions";
 
+// Actions
+export class ChooseToolAction extends AppContainedAction {
+	constructor(readonly tool: Tool, attachable: ActionAppContainedAttachable) { super(attachable) }
+
+	execute(): boolean {
+	    super.execute();
+		return this.app.tools.choose(this.tool);
+	}
+}
+
+// Tool brush
 export class ToolBrush {
 	readonly canvas = Canvas.sized(1, 1);
 
@@ -69,7 +81,9 @@ export class ToolBrush {
 	}
 }
 
+// Tool
 export class Tool {
+	readonly namespace: string;
     readonly name: string;
     readonly app: App;
 
@@ -85,7 +99,8 @@ export class Tool {
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
 
-    constructor(name: string, app: App) {
+    constructor(namespace: string, name: string, app: App) {
+		this.namespace = namespace;
         this.name = name;
         this.app = app;
     }
@@ -101,7 +116,8 @@ export class Tool {
     }
 	/** Create a command and keymap for this tool */
 	keymap(binds: KeymapBind | KeymapBind[]) {
-		// TODO: register a command
+		this.app.registerCommand(this.chooseCommandName)
+		this.app.element.attachAction(this.chooseCommandName, new ChooseToolAction(this, this.app.element));
 		this.app.registerKeymap(binds, this.chooseCommandName);
 	}
 

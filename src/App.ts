@@ -28,6 +28,8 @@ export class App extends BaseApp<AppElement> {
     constructor() {
 		super();
 
+		this._element = new AppElement(this);
+
 		this.history = new HistoryManager(this);
         this.selection = new SelectionManager();
         this.drag = new DragManager();
@@ -42,8 +44,6 @@ export class App extends BaseApp<AppElement> {
 		registerAppKeymaps(this);
 
 		this.editor = new Editor(this);
-
-		this._element = new AppElement(this);
     }
 
 	hello(): boolean {
