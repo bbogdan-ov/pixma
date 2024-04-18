@@ -1,5 +1,6 @@
 import type { State } from "@base/common/listenable";
 import type { AccentName, ColorName, MouseButton, SizeName } from "./enums";
+import { BaseApp } from "@base/BaseApp";
 
 export type HTMLTagNames = keyof HTMLElementTagNameMap;
 export type HTMLEventsMap = GlobalEventHandlersEventMap;
@@ -75,4 +76,7 @@ export interface ValueContained<T> {
 }
 export interface StateValueContained<T> extends ValueContained<T> {
 	state: State<T>
+}
+export interface AppContained<A extends BaseApp=BaseApp> {
+	app: A
 }
