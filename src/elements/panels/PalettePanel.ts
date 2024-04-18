@@ -1,6 +1,6 @@
 import { Color } from "@base/common/misc";
 import { Button } from "@base/elements/buttons";
-import { Panel, PanelContent, PanelFooter } from "@base/elements/windows";
+import { Panel, WindowContent, WindowFooter } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { PaletteColor } from "@source/common/colors";
 import type { Project } from "@source/common/project";
@@ -14,7 +14,7 @@ import { ProjectPanel } from "./ProjectPanel";
 export class PalettePanel extends ProjectPanel {
 	static readonly NAME = "palette";
 
-    readonly content = new PanelContent();
+    readonly content = new WindowContent();
     protected _paletteList: PaletteList | null = null;
     readonly addButton = Button.icon(IconName.ADD_COLOR).setIsGhost().addClassName("add-button");
     
@@ -23,7 +23,7 @@ export class PalettePanel extends ProjectPanel {
 
         this.append(
             this.content,
-			new PanelFooter(
+			new WindowFooter(
 				this.addButton
 			)
         );

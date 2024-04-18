@@ -1,5 +1,5 @@
 import { Button } from "@base/elements/buttons";
-import { PanelContent, PanelFooter } from "@base/elements/windows";
+import { WindowContent, WindowFooter } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
@@ -25,7 +25,7 @@ export class LayersPanel extends ProjectPanel {
 	static readonly NAME = "layers";
 
     protected _layersList: LayersList | null = null;
-	readonly content = new PanelContent().addClassName("scrollable");
+	readonly content = new WindowContent().addClassName("scrollable");
 
     constructor(app: App) {
         super(LayersPanel.NAME, app.windows, Orientation.VERTICAL);
@@ -137,8 +137,8 @@ export class LayersList extends BaseElement {
 }
 
 // Layers panel footer
-@PanelFooter.define("layers-panel-footer")
-class LayersPanelFooter extends PanelFooter {
+@WindowFooter.define("layers-panel-footer")
+class LayersPanelFooter extends WindowFooter {
 	readonly panel: LayersPanel;
 
     readonly addButton = Button.compact(IconName.ADD_LAYER).setIsGhost();

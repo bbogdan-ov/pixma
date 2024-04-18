@@ -18,7 +18,7 @@
 .tools-panel {
     --buttons-size: 36px;
 
-    .panel-content {
+    .window-content {
         .buttons-list {
             display: flex;
             flex-direction: column;
@@ -49,7 +49,7 @@
 
     min-width: 260px;
 
-    .panel-content {
+    .window-content {
         padding: var(--unit-2);
 
         .layers-list {
@@ -58,7 +58,7 @@
             gap: var(--layers-gap);
         }
     }
-    .panel-footer {
+    .window-footer {
         padding: var(--unit-1) var(--unit-2);
     }
 }

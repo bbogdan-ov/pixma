@@ -1,6 +1,6 @@
 import { BaseApp } from "@base/BaseApp";
 import { Manager } from ".";
-import { BaseWindow } from "@base/elements/windows/BaseWindow";
+import { BaseWindow } from "@base/elements/windows";
 
 export type RegisteredWindow = ()=> BaseWindow;
 

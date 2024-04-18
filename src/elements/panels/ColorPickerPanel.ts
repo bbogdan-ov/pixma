@@ -1,5 +1,5 @@
 import { ColorPicker } from "@base/elements/data";
-import { Panel, PanelContent } from "@base/elements/windows";
+import { Panel, WindowContent } from "@base/elements/windows";
 import { Orientation } from "@base/types/enums";
 import type { App } from "@source/App";
 
@@ -17,6 +17,6 @@ export class ColorPickerPanel extends Panel<App> {
 			.hideValueRange()
 			.hideRgbInputs();
 
-        this.append(new PanelContent(this.colorPicker));
+        this.append(new WindowContent(this.colorPicker));
     }
 }

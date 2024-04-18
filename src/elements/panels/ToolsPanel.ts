@@ -1,4 +1,4 @@
-import { Panel, PanelContent } from "@base/elements/windows";
+import { Panel, WindowContent } from "@base/elements/windows";
 import { Orientation } from "@base/types/enums";
 import { DOM } from "@base/utils";
 import type { App } from "@source/App";
@@ -12,7 +12,7 @@ export class ToolsPanel extends Panel<App> {
     constructor(app: App) {
         super(ToolsPanel.NAME, app.windows, Orientation.VERTICAL);
 
-        this.append(new PanelContent(this.buttonsList));
+        this.append(new WindowContent(this.buttonsList));
 
         for (const tool of Object.values(this.app.tools.tools)) {
             this.addToolButton(tool.createButton());

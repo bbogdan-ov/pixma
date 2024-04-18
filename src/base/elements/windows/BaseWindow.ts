@@ -3,6 +3,7 @@ import { EventName } from "@base/types/enums";
 import type { WindowsManager } from "@base/managers/WindowsManager";
 import type { BaseApp } from "@base/BaseApp";
 
+// Window
 @BaseElement.define("base-window")
 export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableElement<A> {
 	static _id = 0;
@@ -56,5 +57,38 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
 	}
     get isMouseOver(): boolean {
         return this._isMouseOver;
+    }
+}
+
+// Header
+@BaseElement.define("window-header")
+export class WindowHeader extends BaseElement {
+    constructor(...content: Node[]) {
+        super();
+
+        this.classList.add("window-header");
+        this.append(...content);
+    }
+}
+
+// Content
+@BaseElement.define("window-content")
+export class WindowContent extends BaseElement {
+    constructor(...content: Node[]) {
+        super();
+
+        this.classList.add("window-content");
+        this.append(...content);
+    }
+}
+
+// Footer
+@BaseElement.define("window-footer")
+export class WindowFooter extends BaseElement {
+    constructor(...content: Node[]) {
+        super();
+
+        this.classList.add("window-footer");
+        this.append(...content);
     }
 }
