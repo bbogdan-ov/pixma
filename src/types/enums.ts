@@ -50,12 +50,13 @@ export enum AppCommand {
 	UNDO 				= "undo",
 	REDO 				= "redo",
 	
-	// Project
+	// Editor
 	SWAP_COLORS 			= "swap-colors",
 	ADD_DRAWING_LAYER_BELOW = "add-drawing-layer-below",
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
+	REMOVE_CURRENT_LAYER 	= "remove-current-layer", 
 
-	// Other
+	// Local
 	RENAME_CURRENT_LAYER	= "rename-current-layer",
 }
 export enum AppOption {
@@ -66,8 +67,4 @@ export enum AppOption {
 }
 export enum AppCategory {
 	GENERAL = "general",
-}
-export enum AppContext {
-	APP = "app",
-	PROJECT = "project"
 }

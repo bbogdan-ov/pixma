@@ -1,15 +1,10 @@
-import { BaseElement } from "..";
+import { ActionAttachableElement, BaseElement } from "..";
 import { EventName } from "@base/types/enums";
 import type { WindowsManager } from "@base/managers/WindowsManager";
 import type { BaseApp } from "@base/BaseApp";
-import { CommandAttachable } from "@base/managers";
-import { CmdAttachableElement } from "../CmdAttachableElement";
 
 @BaseElement.define("base-window")
-export class BaseWindow<A extends BaseApp=BaseApp>
-	extends CmdAttachableElement<A>
-	implements CommandAttachable
-{
+export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableElement<A> {
 	static _id = 0;
 
 	readonly name: string;

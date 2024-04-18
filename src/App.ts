@@ -12,6 +12,7 @@ import { registerAppOptions } from "./options";
 import { WindowsManager } from "@base/managers/WindowsManager";
 import { Editor } from "./Editor";
 
+// App
 export class App extends BaseApp<AppElement> {
 	readonly history: HistoryManager;
     readonly selection: SelectionManager;

@@ -4,7 +4,7 @@ import { ToolButton, ToolParams } from "@source/elements/tools";
 import { MouseData } from "@base/types/types";
 import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
-import { AppContext, CompositeOperation } from "@source/types/enums";
+import { CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 import { type Layer } from "../layers";
 import { Utils } from "@base/utils";
@@ -101,9 +101,7 @@ export class Tool {
     }
 	/** Create a command and keymap for this tool */
 	keymap(binds: KeymapBind | KeymapBind[]) {
-		// TODO: command func
-		this.app.commands.register(this.chooseCommandName);
-		this.app.commands.attach(AppContext.PROJECT, this.chooseCommandName, this.choose.bind(this));
+		// TODO: register a command
 		this.app.registerKeymap(binds, this.chooseCommandName);
 	}
 

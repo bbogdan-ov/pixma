@@ -3,11 +3,21 @@ import { PanelContent, PanelFooter } from "@base/elements/windows";
 import { EventName, IconName, Orientation } from "@base/types/enums";
 import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
-import { AppCommand } from "@source/types/enums";
 import { ProjectPanel } from "./ProjectPanel";
+import { App } from "@source/App";
 import type { Project } from "@source/common/project";
 import type { LayersManager } from "@source/managers";
-import type { App } from "@source/App";
+import { CommandAction } from "@base/managers";
+import { AppCommand } from "@source/types/enums";
+
+// Actions
+class RenameCurrentLayerAction extends CommandAction<LayersPanel> {
+	execute(): boolean {
+	    super.execute();
+
+		return this.attachable.layersList?.startCurrentRenaming() ?? false;
+	}
+}
 
 // Layers panel
 @ProjectPanel.define("layers-panel")
@@ -30,7 +40,7 @@ export class LayersPanel extends ProjectPanel {
 	onMount(): void {
 	    super.onMount();
 
-		this.attachCommand(AppCommand.RENAME_CURRENT_LAYER, ()=> this.layersList?.startCurrentRenaming());
+		this.attachAction(AppCommand.RENAME_CURRENT_LAYER, new RenameCurrentLayerAction(this));
 	}
 	// FIXME: perfomance when changing current project is so fucking terrible
 	protected _onProjectEnter(project: Project): void {
@@ -90,10 +100,12 @@ export class LayersList extends BaseElement {
 		}
 	}
 
-	startCurrentRenaming() {
+	startCurrentRenaming(): boolean {
 		const current: any = this.current;
-		if (current.startRenaming)
-			current.startRenaming();
+		if (!current.startRenaming) return false;
+
+		current.startRenaming();
+		return true;
 	}
 
 	// On

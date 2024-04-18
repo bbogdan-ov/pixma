@@ -1,72 +1,70 @@
-import { Dev } from "@base/utils";
 import { Manager } from ".";
 import { BaseApp } from "@base/BaseApp";
 import { Trigger } from "@base/common/listenable";
 
 export type CommandFunc = VoidFunction;
 export type CommandCondition = ()=> boolean;
-export interface CommandAttachable {
+export interface ActionAttachable {
 	getAllowExecCommands(): boolean
 }
 
-export class CommandAttached {
-	constructor(
-		public attachable: CommandAttachable | null,
-		public context: string | null,
-		public func: CommandFunc,
-		public condition: CommandCondition | null
-	) {}
+// Command action
+export class CommandAction<A extends ActionAttachable=ActionAttachable> {
+	constructor(readonly attachable: A) {}
 
-	test(contexts: string[] | null): boolean {
-		if (this.attachable instanceof HTMLElement)
-			if (!this.attachable.isConnected)
-				return false;
-
-		const isCond = (this.condition ? this.condition() : true);
-
-		if (this.attachable)
-			return this.attachable.getAllowExecCommands() && isCond;
-		else if (this.context && contexts)
-			return contexts.includes(this.context) && isCond;
-
+	execute(): boolean {
 		return false;
 	}
-	execute(contexts: string[] | null): boolean {
-		if (!this.test(contexts)) return false;
+	test(): boolean {
+		if (this.attachable instanceof Element && !this.attachable.isConnected)
+			return false;
 
-		this.func();
-		return true;
+		return this.attachable.getAllowExecCommands();
 	}
 }
+
+// Command
 export class Command {
-	attached: CommandAttached[] = [];
-	
-	constructor() {}
+	readonly namespace: string;
+	readonly name: string;
+	readonly condition: CommandCondition | null;
 
-	execute(contexts: string[] | null) {
-		for (const cmd of this.attached) {
-			cmd.execute(contexts);
+	readonly actions: CommandAction[] = []
+
+	constructor(
+		namespace: string,
+		name: string,
+		condition?: CommandCondition
+	) {
+		this.namespace = namespace;
+		this.name = name;
+		this.condition = condition || null;
+	}
+
+	/**
+	 * Add a command action
+	 * Returns remove action function
+	 */
+	add(action: CommandAction): VoidFunction {
+		this.actions.push(action);
+		return ()=> this.actions.splice(this.actions.length-1, 1);
+	}
+
+	test(): boolean {
+		return this.condition ? this.condition() : true;
+	}
+	execute(): boolean {
+		if (!this.test()) return false;
+
+		for (const action of this.actions) {
+			if (action.test())
+				action.execute();
 		}
-	}
-
-	attach(attachableOrContext: CommandAttachable | string, func: CommandFunc, cond?: CommandCondition | null) {
-		let context    = typeof attachableOrContext == "string" ? attachableOrContext : null;
-		let attachable = typeof attachableOrContext == "object" ? attachableOrContext : null;
-
-		this.attached.push(new CommandAttached(attachable, context, func, cond ?? null));
-	}
-	unattach(attachableOrContext: CommandAttachable | string): boolean {
-		const index = this.attached.findIndex(a=>
-			a.attachable === attachableOrContext ||
-			a.context === attachableOrContext
-		);
-		if (index < 0) return false;
-
-		this.attached.splice(index, 1);
 		return true;
 	}
 }
 
+// Commands manager
 export class CommandsManager extends Manager {
 	readonly app: BaseApp;
 	readonly registered: Record<string, Command> = {};
@@ -80,30 +78,34 @@ export class CommandsManager extends Manager {
 		this.app = app;
 	}
 	
+	execute(name: string): boolean {
+		const cmd = this.get(name);
+		if (!cmd) {
+			console.warn(`A command named "${ name }" cannot be executed. No such command is registered`);
+			return false;
+		}
+		return cmd.execute();
+	}
+
 	/**
-	* Register a command
-	* If `override` is `true` overrides the existing command
-	* Returns successfully or not
-	*/
-	register(name: string, attachToContext?: string, func?: CommandFunc, override=false): boolean {
-		if (!override && this.get(name)) {
-			Dev.warn(`Command with name "${ name }" already exists`);
+	 * Register a command
+	 * If `override` is `true` overrides the existing command
+	 * Returns successfully or not
+	 */
+	register(command: Command, override=false): boolean {
+		if (!override && this.get(command.name)) {
+			console.warn(`A command named "${ name }" already exists`);
 			return false;
 		}
 
-		const cmd = new Command();
-		this.registered[name] = cmd;
-
-		if (attachToContext && func)
-			cmd.attach(attachToContext, func)
-
-		this.onDidRegistered.trigger(name);
+		this.registered[command.name] = command;
+		this.onDidRegistered.trigger(command.name);
 		return true;
 	}
 	/**
-	* Remove/unregister the command
-	* Returns successfully or not
-	*/
+	 * Remove/unregister the command
+	 * Returns successfully or not
+	 */
 	unregister(name: string): boolean {
 		if (!this.get(name)) return false;
 		this.onDidUnregistered.trigger(name);
@@ -111,23 +113,18 @@ export class CommandsManager extends Manager {
 		return true;
 	}
 
-	attach(attachableOrContext: CommandAttachable | string, name: string, func: CommandFunc, cond?: CommandCondition | null): VoidFunction | null {
-		const command = this.get(name);
-		if (!command) {
-			Dev.warn(`No command with name "${ name }" found. Register it first`);
+	/**
+	 * Add an action to the command
+	 * Returns remove action function if command exists, otherwise return `null`
+	 */
+	add(commandName: string, action: CommandAction): VoidFunction | null {
+		const cmd = this.get(commandName);
+		if (!cmd) {
+			console.warn(`The action connot be added to a command named "${ commandName }". No such command is registered`);
 			return null;
 		}
 
-		command.attach(attachableOrContext, func, cond);
-
-		return ()=> this.unattach(name, attachableOrContext);
-	}
-	unattach(name: string, attachableOrContext: CommandAttachable | string): boolean {
-		return this.get(name)?.unattach(attachableOrContext) ?? false;
-	}
-
-	execute(name: string): boolean {
-		return this.get(name)?.execute(this.app.activeContexts) ?? false;
+		return cmd.add(action);
 	}
 
 	get(name: string): Command | null {

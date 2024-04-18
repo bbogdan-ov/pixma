@@ -19,10 +19,11 @@ export function registerAppKeymaps(app: App) {
 	map("alt-9", 		cmd.ENTER_NINETH_TAB);
 	map("alt-0", 		cmd.ENTER_TENTH_TAB);
 
-	// Project
+	// Editor
 	map("x", 			cmd.SWAP_COLORS);
 	map("ctrl-l", 		cmd.ADD_DRAWING_LAYER_ABOVE);
+	map("shift-delete", cmd.REMOVE_CURRENT_LAYER);
 
-	// Other
+	// Local
 	map("f2",			cmd.RENAME_CURRENT_LAYER);
 }

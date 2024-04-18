@@ -1,17 +1,21 @@
-import { BaseElement } from "@base/elements";
+import { ActionAttachableElement, BaseElement } from "@base/elements";
 import { DOM } from "@base/utils";
 import type { Editor } from "@source/Editor";
 import type { Project } from "@source/common/project";
 import { ColorPickerPanel, LayersPanel, PalettePanel, ToolParamsPanel, ToolsPanel } from "./panels";
+import { App } from "@source/App";
+import { AppCommand } from "@source/types/enums";
+import { AddDrawingLayerAction, RemoveCurrentLayer, SwapColorsAction } from "@source/actions";
 
+// Editor
 @BaseElement.define("editor-element")
-export class EditorElement extends BaseElement {
+export class EditorElement extends ActionAttachableElement<App> {
 	readonly editor: Editor;
 
 	readonly canvasZoomableWrapper = DOM.div("canvas-zoomable-wrapper");
     
 	constructor(editor: Editor) {
-		super();
+		super(editor.app);
 
 		this.editor = editor;
 
@@ -47,9 +51,21 @@ export class EditorElement extends BaseElement {
 	onMount(): void {
 	    super.onMount();
 
+		// Actions
+		this.attachAction(AppCommand.SWAP_COLORS, 				new SwapColorsAction(this));
+		this.attachAction(AppCommand.ADD_DRAWING_LAYER_ABOVE, 	new AddDrawingLayerAction(true, this));
+		this.attachAction(AppCommand.ADD_DRAWING_LAYER_BELOW, 	new AddDrawingLayerAction(false, this));
+		this.attachAction(AppCommand.REMOVE_CURRENT_LAYER,	 	new RemoveCurrentLayer(this));
+
+		// Events
 		this.listen(this.editor.app.projects.onDidEntered, this._onProjectEnter.bind(this));
 	}
 	protected _onProjectEnter(project: Project) {
 		this.canvasZoomableWrapper.append(project.canvasZoomable)
+	}
+
+	// Get
+	getAllowExecCommands(): boolean {
+		return true;
 	}
 }

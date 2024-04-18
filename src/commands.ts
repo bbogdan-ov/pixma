@@ -1,40 +1,30 @@
-import type { App } from "./App";
-import { AppCommand, AppContext } from "./types/enums";
+import { App } from "./App";
+import { AppCommand } from "./types/enums";
 
 const cmd = AppCommand;
 
 export function registerAppCommands(app: App) {
-	app.commands.register(cmd.SWAP_COLORS, AppContext.PROJECT, ()=> app.brushes.swapColors());
-
-	app.commands.register(cmd.RENAME_CURRENT_LAYER);
-	
-	// TODO: cmd
-	/*
 	const reg = app.registerCommand.bind(app);
-	const regApp = reg.bind(app, ctx.APP);
-	const regProject = reg.bind(app, ctx.PROJECT);
 
-	regApp(cmd.HELLO, 							()=> app.hello());
-	regApp(cmd.ENTER_FIRST_TAB,   				()=> app.tabs.enterByIndex(0));
-	regApp(cmd.ENTER_SECOND_TAB,  				()=> app.tabs.enterByIndex(1));
-	regApp(cmd.ENTER_THIRD_TAB,   				()=> app.tabs.enterByIndex(2));
-	regApp(cmd.ENTER_FOURTH_TAB,  				()=> app.tabs.enterByIndex(3));
-	regApp(cmd.ENTER_FIFTH_TAB,   				()=> app.tabs.enterByIndex(4));
-	regApp(cmd.ENTER_SIXTH_TAB,   				()=> app.tabs.enterByIndex(5));
-	regApp(cmd.ENTER_SEVENTH_TAB, 				()=> app.tabs.enterByIndex(6));
-	regApp(cmd.ENTER_EIGHTH_TAB,  				()=> app.tabs.enterByIndex(7));
-	regApp(cmd.ENTER_NINETH_TAB,  				()=> app.tabs.enterByIndex(8));
-	regApp(cmd.ENTER_TENTH_TAB,   				()=> app.tabs.enterByIndex(9));
+	// App
+	reg(cmd.HELLO);
+	reg(cmd.ENTER_FIRST_TAB);
+	reg(cmd.ENTER_SECOND_TAB);
+	reg(cmd.ENTER_THIRD_TAB);
+	reg(cmd.ENTER_FOURTH_TAB);
+	reg(cmd.ENTER_FIFTH_TAB);
+	reg(cmd.ENTER_SIXTH_TAB);
+	reg(cmd.ENTER_SEVENTH_TAB);
+	reg(cmd.ENTER_EIGHTH_TAB);
+	reg(cmd.ENTER_NINETH_TAB);
+	reg(cmd.ENTER_TENTH_TAB);
 
-	regProject(cmd.SWAP_COLORS, 				()=> app.brushes.swapColors());
-	regProject(cmd.ADD_DRAWING_LAYER_ABOVE, 	()=> addDrawingLayerNearCurrent(true));
-	regProject(cmd.ADD_DRAWING_LAYER_BELOW, 	()=> addDrawingLayerNearCurrent(false));
+	// Editor
+	reg(cmd.SWAP_COLORS);
+	reg(cmd.ADD_DRAWING_LAYER_ABOVE);
+	reg(cmd.ADD_DRAWING_LAYER_BELOW);
+	reg(cmd.REMOVE_CURRENT_LAYER);
 
-	// Project
-	function addDrawingLayerNearCurrent(above: boolean) {
-		const layers = app.currentProject?.layers;
-		if (!layers) return;
-		layers.addNearCurrent(new DrawingLayer(layers), above);
-	}
-	*/
+	// Local
+	reg(cmd.RENAME_CURRENT_LAYER);
 }

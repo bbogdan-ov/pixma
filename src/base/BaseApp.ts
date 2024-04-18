@@ -1,7 +1,6 @@
 import { Trigger } from "./common/listenable";
-import { CommandsManager, Keymap, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
+import { Command, CommandCondition, CommandsManager, Keymap, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
 import { OptionsManager } from "./managers/OptionsManager";
-import { Utils } from "./utils";
 
 export class BaseApp<E extends HTMLElement=HTMLElement> {
 	static readonly NAMESPACE = "app";
@@ -13,8 +12,6 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 	readonly commands: CommandsManager;
 	readonly keymaps: KeymapsManager;
 
-	readonly activeContexts: string[] = [BaseApp.CONTEXT];
-
 	readonly onDidContextAdded = new Trigger<string>();
 	readonly onDidContextRemoved = new Trigger<string>();
 
@@ -24,21 +21,13 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 		this.keymaps = new KeymapsManager(this.commands);
 	}
 
-	addContext(name: string): boolean {
-		if (this.activeContexts.includes(name)) return false;
-
-		this.activeContexts.push(name);
-		this.onDidContextAdded.trigger(name);
-		return true;
+	/**
+	 * Register a command
+	 * See `new Command()` for more info
+	 */
+	registerCommand(name: string, condition?: CommandCondition): boolean {
+		return this.commands.register(new Command(BaseApp.NAMESPACE, name, condition));
 	}
-	removeContext(name: string): boolean {
-		const removedIndex = Utils.removeItem(this.activeContexts, name);
-		if (removedIndex === null) return false;
-
-		this.onDidContextRemoved.trigger(name);
-		return true;
-	}
-
 	/**
 	 * Register a keymap
 	 * See `new Keymap()` for more info

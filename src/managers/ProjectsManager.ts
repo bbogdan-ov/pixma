@@ -29,18 +29,26 @@ export class ProjectsManager extends Manager {
 		this.onDidOpened.trigger(project);
 		return true;
 	}
-	close(project: Project): boolean {
-		const removeIndex = Utils.removeItem(this.list, project);
-		if (removeIndex === null) return false;
+	closeIndex(index: number): boolean {
+		const project = this.list[index];
+		if (!project) return false;
 
+		this.list.splice(index, 1);
+		
 		this.leave(project);
 
 		project.onClose();
 		this.onDidClosed.trigger(project);
 		return true;
 	}
-	enter(project: Project): boolean {
-		if (this.current === project) return false;
+	close(project: Project): boolean {
+		const index = this.getIndex(project);
+		if (index === null) return false;
+		return this.closeIndex(index);
+	}
+	enterIndex(index: number): boolean {
+		const project = this.list[index];
+		if (!project) return false;
 
 		this.leave(null);
 
@@ -48,6 +56,11 @@ export class ProjectsManager extends Manager {
 		project.onEnter();
 		this.onDidEntered.trigger(project);
 		return true;
+	}
+	enter(project: Project): boolean {
+		const index = this.getIndex(project);
+		if (index === null) return false;
+		return this.enterIndex(index);
 	}
 	leave(project: Project | null): boolean {
 		if (!this.current) return false;
@@ -66,6 +79,9 @@ export class ProjectsManager extends Manager {
 	}
 	getById(id: number): Project | null {
 		return this.list.find(p=> p.id == id) ?? null;
+	}
+	getIndex(project: Project): number | null {
+		return Utils.indexOf(this.list, project);
 	}
 	get current(): Project | null {
 		return this._current;
