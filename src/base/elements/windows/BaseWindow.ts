@@ -12,6 +12,7 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
 	readonly windowId: number;
 	readonly manager: WindowsManager<A>;
 
+	protected _isActive = false;
     protected _isMouseOver = false;
 
 	constructor(name: string, manager: WindowsManager<A>) {
@@ -25,15 +26,32 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
 		this.classList.add("window");
 	}
 
+	protected _updateStyles() {
+		this.classList.toggle("active", this.isActive);
+	}
+
     // On
     onMount(): void {
         super.onMount();
 
+        this.listen(this, EventName.DOWN, this._onDown.bind(this));
         this.listen(this, EventName.POINTER_ENTER, this._onPointerEnter.bind(this));
         this.listen(this, EventName.POINTER_LEAVE, this._onPointerLeave.bind(this));
         this.listen(window, EventName.CLICK, this._onWindowClick.bind(this));
         this.listen(window, EventName.DOWN, this._onWindowDown.bind(this));
     }
+
+	protected _onActivate() {
+		this._updateStyles();
+	}
+	protected _onDisactivate() {
+		this._updateStyles();
+	}
+
+	protected _onDown(event: PointerEvent) {
+		this._isActive = true;
+		this._onActivate();
+	}
     protected _onPointerEnter(event: PointerEvent) {
         this._isMouseOver = true;
     }
@@ -49,15 +67,21 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
             this._onPointerDownOutside(event);
     }
     protected _onClickOutside(event: MouseEvent) {}
-    protected _onPointerDownOutside(event: PointerEvent) {}
+    protected _onPointerDownOutside(event: PointerEvent) {
+		this._isActive = false;
+		this._onDisactivate();
+	}
 
     // Get
 	getAllowExecCommands(): boolean {
-	    return this.isMouseOver;
+	    return this.isMouseOver || this.isActive;
 	}
     get isMouseOver(): boolean {
         return this._isMouseOver;
     }
+	get isActive(): boolean {
+		return this._isActive;
+	}
 }
 
 // Header
