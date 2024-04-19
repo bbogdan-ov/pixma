@@ -36,6 +36,9 @@ export class Panel<A extends BaseApp=BaseApp>
 	}
 
 	// Get
+	getAllowExecCommands(): boolean {
+	    return this.isMouseOver;
+	}
 	get isEnabled(): boolean {
 		return this._isEnabled;
 	}
