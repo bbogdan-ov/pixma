@@ -1,7 +1,6 @@
 import { BaseApp } from "@base/BaseApp";
 import { SelectionManager, DragManager, HistoryManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
-import { AppOption } from "./types/enums";
 import AppElement from "@source/elements/AppElement";
 import type { Tool } from "./common/tools";
 import type { Layer } from "./common/layers";
@@ -11,6 +10,7 @@ import { registerAppKeymaps } from "./keymaps";
 import { registerAppOptions } from "./options";
 import { WindowsManager } from "@base/managers/WindowsManager";
 import { Editor } from "./Editor";
+import { HelloWindow } from "./elements/windows/HelloWindow";
 
 // App
 export class App extends BaseApp<AppElement> {
@@ -20,7 +20,7 @@ export class App extends BaseApp<AppElement> {
     readonly tools: ToolsManager;
     readonly brushes: BrushesManager;
     readonly projects: ProjectsManager;
-	readonly windows: WindowsManager<this>;
+	readonly windows: WindowsManager<App>;
     readonly plugins: PluginsManager;
 
 	readonly editor: Editor;
@@ -36,7 +36,7 @@ export class App extends BaseApp<AppElement> {
         this.brushes = new BrushesManager(this);
         this.tools = new ToolsManager(this);
         this.projects = new ProjectsManager(this);
-		this.windows = new WindowsManager(this);
+		this.windows = new WindowsManager<App>(this);
         this.plugins = new PluginsManager(this);
 
 		registerAppOptions(this);
@@ -47,14 +47,7 @@ export class App extends BaseApp<AppElement> {
     }
 
 	hello(): boolean {
-		if (!this.options.getBoolean(AppOption.HELLO)) {
-			alert("goodbye pixma...");
-			return false;
-		}
-
-		const msg = this.options.getString(AppOption.HELLO_MESSAGE) ?? "no message...";
-		alert(msg);
-		return true;
+		return new HelloWindow(this.windows).open();
 	}
 
     /** Alias to `app.toolsRegistries.register()` */

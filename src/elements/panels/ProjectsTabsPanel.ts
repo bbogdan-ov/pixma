@@ -8,7 +8,7 @@ import type { ProjectsManager } from "@source/managers";
 
 // Projects tabs panel
 @Panel.define("project-tabs-panel")
-export class ProjectsTabsPanel extends Panel {
+export class ProjectsTabsPanel extends Panel<App> {
 	static readonly NAME = "projects-tabs";
 
     readonly tabsList: ProjectsTabsList;

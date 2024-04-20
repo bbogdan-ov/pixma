@@ -2,6 +2,7 @@ import { ActionAttachableElement, BaseElement } from "..";
 import { EventName } from "@base/types/enums";
 import type { WindowsManager } from "@base/managers/WindowsManager";
 import type { BaseApp } from "@base/BaseApp";
+import { Trigger } from "@base/common/listenable";
 
 // Window
 @BaseElement.define("base-window")
@@ -12,8 +13,12 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
 	readonly windowId: number;
 	readonly manager: WindowsManager<A>;
 
-	protected _isActive = false;
     protected _isMouseOver = false;
+
+	readonly onDidOpened = new Trigger<BaseWindow<A>>();
+	readonly onDidClosed = new Trigger<BaseWindow<A>>();
+	readonly onDidActivated = new Trigger<BaseWindow<A>>();
+	readonly onDidDisactivated = new Trigger<BaseWindow<A>>();
 
 	constructor(name: string, manager: WindowsManager<A>) {
 		super(manager.app);
@@ -26,8 +31,11 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
 		this.classList.add("window");
 	}
 
-	protected _updateStyles() {
-		this.classList.toggle("active", this.isActive);
+	activate(): boolean {
+		return this.manager.activate(this);
+	}
+	disactivate(): boolean {
+		return this.manager.disactivate(this);
 	}
 
     // On
@@ -41,16 +49,23 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
         this.listen(window, EventName.DOWN, this._onWindowDown.bind(this));
     }
 
-	protected _onActivate() {
-		this._updateStyles();
+	onOpen() {
+		this.onDidOpened.trigger(this);
 	}
-	protected _onDisactivate() {
-		this._updateStyles();
+	onClose() {
+		this.onDidClosed.trigger(this);
+	}
+	onActivate() {
+		this.classList.add("active");
+		this.onDidActivated.trigger(this);
+	}
+	onDisactivate() {
+		this.classList.remove("active");
+		this.onDidDisactivated.trigger(this);
 	}
 
 	protected _onDown(event: PointerEvent) {
-		this._isActive = true;
-		this._onActivate();
+		this.activate();
 	}
     protected _onPointerEnter(event: PointerEvent) {
         this._isMouseOver = true;
@@ -68,19 +83,21 @@ export class BaseWindow<A extends BaseApp=BaseApp> extends ActionAttachableEleme
     }
     protected _onClickOutside(event: MouseEvent) {}
     protected _onPointerDownOutside(event: PointerEvent) {
-		this._isActive = false;
-		this._onDisactivate();
+		this.disactivate();
 	}
 
     // Get
 	getAllowExecCommands(): boolean {
 	    return this.isMouseOver || this.isActive;
 	}
+	get allowClose(): boolean {
+		return true;
+	}
     get isMouseOver(): boolean {
         return this._isMouseOver;
     }
 	get isActive(): boolean {
-		return this._isActive;
+		return this.manager.active === this;
 	}
 }
 

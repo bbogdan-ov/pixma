@@ -56,6 +56,9 @@ export enum AppCommand {
 	ADD_DRAWING_LAYER_ABOVE = "add-drawing-layer-above",
 	REMOVE_CURRENT_LAYER 	= "remove-current-layer", 
 
+	// Windows
+	CLOSE_WINDOW 			= "close-window",
+
 	// Local
 	RENAME_CURRENT_LAYER	= "rename-current-layer",
 }

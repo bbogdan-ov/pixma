@@ -22,7 +22,8 @@ export default class AppElement extends ActionAttachableElement<App> {
 		if (!this.isMountedOnce)
 			this.append(
 				new ProjectsTabsPanel(this.app),
-				this.app.editor.element
+				this.app.editor.element,
+				this.app.windows.floatingWrapper
 			);
 
         // TEMP {

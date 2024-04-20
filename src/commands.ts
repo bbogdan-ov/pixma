@@ -25,6 +25,9 @@ export function registerAppCommands(app: App) {
 	reg(cmd.ADD_DRAWING_LAYER_BELOW);
 	reg(cmd.REMOVE_CURRENT_LAYER);
 
+	// Windows
+	reg(cmd.CLOSE_WINDOW);
+
 	// Local
 	reg(cmd.RENAME_CURRENT_LAYER);
 }
