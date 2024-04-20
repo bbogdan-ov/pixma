@@ -1,8 +1,8 @@
-import { ActionAppContainedAttachable, AppContainedAction } from ".";
-import type { Command } from "@base/managers";
+import { AppActionAttachable, AppContainedAction, type Command } from "@base/managers";
+import type { App } from "@source/App";
 
 // Hello
-export class HelloAction extends AppContainedAction {
+export class HelloAction extends AppContainedAction<App> {
 	execute(command: Command): boolean {
 	    super.execute(command);
 		return this.app.hello();
@@ -10,8 +10,8 @@ export class HelloAction extends AppContainedAction {
 }
 
 // Enter project
-export class EnterProjectAction extends AppContainedAction {
-	constructor(public index: number, attachable: ActionAppContainedAttachable) { super(attachable) }
+export class EnterProjectAction extends AppContainedAction<App> {
+	constructor(public index: number, attachable: AppActionAttachable<App>) { super(attachable) }
 
 	execute(command: Command): boolean {
 	    super.execute(command);

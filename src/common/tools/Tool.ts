@@ -7,16 +7,15 @@ import { KeymapBind } from "@base/managers/KeymapsManager";
 import { CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
 import { Utils } from "@base/utils";
-import { ActionAppContainedAttachable, AppContainedAction } from "@source/actions";
 import type { Layer } from "../layers";
 import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
-import type { Command } from "@base/managers";
+import { AppActionAttachable, AppContainedAction, type Command } from "@base/managers";
 
 // Actions
-export class ChooseToolAction extends AppContainedAction {
-	constructor(readonly tool: Tool, attachable: ActionAppContainedAttachable) { super(attachable) }
+export class ChooseToolAction extends AppContainedAction<App> {
+	constructor(readonly tool: Tool, attachable: AppActionAttachable<App>) { super(attachable) }
 
 	execute(command: Command): boolean {
 	    super.execute(command);

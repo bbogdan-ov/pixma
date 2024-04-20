@@ -1,6 +1,7 @@
 import { Manager } from ".";
 import { BaseApp } from "@base/BaseApp";
 import { Trigger } from "@base/common/listenable";
+import { AppContained } from "@base/types/types";
 
 export type CommandFunc = VoidFunction;
 export type CommandCondition = ()=> boolean;
@@ -8,6 +9,7 @@ export interface ActionAttachable {
 	onCommandExecute(command: Command, action: CommandAction): void
 	getAllowExecCommands(): boolean
 }
+export type AppActionAttachable<A extends BaseApp> = AppContained<A> & ActionAttachable;
 
 // Command action
 export class CommandAction<A extends ActionAttachable=ActionAttachable> {
@@ -22,6 +24,16 @@ export class CommandAction<A extends ActionAttachable=ActionAttachable> {
 			return false;
 
 		return this.attachable.getAllowExecCommands();
+	}
+}
+
+// App contained action
+export class AppContainedAction<
+	A extends BaseApp=BaseApp,
+	C extends AppActionAttachable<A>=AppActionAttachable<A>
+> extends CommandAction<C> {
+	get app(): A {
+		return this.attachable.app;
 	}
 }
 
