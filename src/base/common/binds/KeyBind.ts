@@ -47,8 +47,8 @@ export class KeyBind extends Bind {
 	 * - `"1"` -> ONE
 	 * - `"one"` -> ONE
 	 * - `"pageup"` -> PAGE_UP
-	 * - `"a-b"` -> Throws an error!
-	 * - `"abc"`, `"ctrl-!"` -> Also throws an error
+	 * - `"a-b"` -> This is wrong
+	 * - `"abc"`, `"ctrl-!"` -> This is also wrong
 	 */
 	static fromString(value: string): KeyBind | null {
 		value = value.toLowerCase().trim();
