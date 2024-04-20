@@ -5,6 +5,7 @@ import { Trigger } from "@base/common/listenable";
 export type CommandFunc = VoidFunction;
 export type CommandCondition = ()=> boolean;
 export interface ActionAttachable {
+	onActionExecuted(action: CommandAction): void
 	getAllowExecCommands(): boolean
 }
 
@@ -13,6 +14,7 @@ export class CommandAction<A extends ActionAttachable=ActionAttachable> {
 	constructor(readonly attachable: A) {}
 
 	execute(): boolean {
+		this.attachable.onActionExecuted(this);
 		return false;
 	}
 	test(): boolean {
@@ -69,8 +71,9 @@ export class CommandsManager extends Manager {
 	readonly app: BaseApp;
 	readonly registered: Record<string, Command> = {};
 
-	readonly onDidRegistered = new Trigger<string>();
-	readonly onDidUnregistered = new Trigger<string>();
+	readonly onDidExecuted = new Trigger<Command>();
+	readonly onDidRegistered = new Trigger<Command>();
+	readonly onDidUnregistered = new Trigger<Command>();
 
 	constructor(app: BaseApp) {
 		super();
@@ -84,7 +87,11 @@ export class CommandsManager extends Manager {
 			console.warn(`A command named "${ name }" cannot be executed. No such command is registered`);
 			return false;
 		}
-		return cmd.execute();
+
+		const success = cmd.execute();
+		if (success)
+			this.onDidExecuted.trigger(cmd);
+		return success;
 	}
 
 	/**
@@ -99,7 +106,7 @@ export class CommandsManager extends Manager {
 		}
 
 		this.registered[command.name] = command;
-		this.onDidRegistered.trigger(command.name);
+		this.onDidRegistered.trigger(command);
 		return true;
 	}
 	/**
@@ -107,9 +114,11 @@ export class CommandsManager extends Manager {
 	 * Returns successfully or not
 	 */
 	unregister(name: string): boolean {
-		if (!this.get(name)) return false;
-		this.onDidUnregistered.trigger(name);
+		const cmd = this.get(name);
+		if (!cmd) return false;
+
 		delete this.registered[name];
+		this.onDidUnregistered.trigger(cmd);
 		return true;
 	}
 

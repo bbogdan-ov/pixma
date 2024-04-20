@@ -22,6 +22,9 @@ export class ActionAttachableElement<A extends BaseApp=BaseApp>
 		return true;
 	}
 
+	// On
+	onActionExecuted(action: CommandAction) { }
+
 	// Get
 	getAllowExecCommands(): boolean {
 	    return true;
