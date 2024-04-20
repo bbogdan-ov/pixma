@@ -5,7 +5,7 @@ import { Trigger } from "@base/common/listenable";
 export type CommandFunc = VoidFunction;
 export type CommandCondition = ()=> boolean;
 export interface ActionAttachable {
-	onActionExecuted(action: CommandAction): void
+	onCommandExecute(command: Command, action: CommandAction): void
 	getAllowExecCommands(): boolean
 }
 
@@ -13,8 +13,8 @@ export interface ActionAttachable {
 export class CommandAction<A extends ActionAttachable=ActionAttachable> {
 	constructor(readonly attachable: A) {}
 
-	execute(): boolean {
-		this.attachable.onActionExecuted(this);
+	execute(command: Command): boolean {
+		this.attachable.onCommandExecute(command, this);
 		return false;
 	}
 	test(): boolean {
@@ -60,7 +60,7 @@ export class Command {
 
 		for (const action of this.actions) {
 			if (action.test())
-				action.execute();
+				action.execute(this);
 		}
 		return true;
 	}

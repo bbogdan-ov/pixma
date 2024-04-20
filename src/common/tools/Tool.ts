@@ -6,19 +6,20 @@ import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
 import { CompositeOperation } from "@source/types/enums";
 import { Algorithms } from "@source/utils";
-import { type Layer } from "../layers";
 import { Utils } from "@base/utils";
+import { ActionAppContainedAttachable, AppContainedAction } from "@source/actions";
+import type { Layer } from "../layers";
 import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";
-import { ActionAppContainedAttachable, AppContainedAction } from "@source/actions";
+import type { Command } from "@base/managers";
 
 // Actions
 export class ChooseToolAction extends AppContainedAction {
 	constructor(readonly tool: Tool, attachable: ActionAppContainedAttachable) { super(attachable) }
 
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 		return this.app.tools.choose(this.tool);
 	}
 }

@@ -1,7 +1,7 @@
-import { ActionAttachable, CommandAction } from "@base/managers";
 import { BaseElement } from ".";
-import { BaseApp } from "@base/BaseApp";
 import { AppContained } from "@base/types/types";
+import type { BaseApp } from "@base/BaseApp";
+import type { ActionAttachable, Command, CommandAction } from "@base/managers";
 
 export class ActionAttachableElement<A extends BaseApp=BaseApp>
 	extends BaseElement
@@ -23,7 +23,7 @@ export class ActionAttachableElement<A extends BaseApp=BaseApp>
 	}
 
 	// On
-	onActionExecuted(action: CommandAction) { }
+	onCommandExecute(command: Command, action: CommandAction) { }
 
 	// Get
 	getAllowExecCommands(): boolean {

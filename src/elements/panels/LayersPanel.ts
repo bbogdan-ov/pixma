@@ -4,16 +4,16 @@ import { EventName, IconName, Orientation } from "@base/types/enums";
 import { BaseElement } from "@base/elements";
 import { DrawingLayer, Layer } from "@source/common/layers";
 import { ProjectPanel } from "./ProjectPanel";
-import { App } from "@source/App";
+import { Command, CommandAction } from "@base/managers";
+import { AppCommand } from "@source/types/enums";
+import type { App } from "@source/App";
 import type { Project } from "@source/common/project";
 import type { LayersManager } from "@source/managers";
-import { CommandAction } from "@base/managers";
-import { AppCommand } from "@source/types/enums";
 
 // Actions
 class RenameCurrentLayerAction extends CommandAction<LayersPanel> {
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 
 		return this.attachable.layersList?.startCurrentRenaming() ?? false;
 	}

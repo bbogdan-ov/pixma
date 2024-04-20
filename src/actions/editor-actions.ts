@@ -1,10 +1,11 @@
 import { ActionAppContainedAttachable, AppContainedAction } from ".";
 import { DrawingLayer } from "@source/common/layers";
+import type { Command } from "@base/managers";
 
 // Swap colors
 export class SwapColorsAction extends AppContainedAction {
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 
 		return this.app.brushes.swapColors();
 	}
@@ -14,8 +15,8 @@ export class SwapColorsAction extends AppContainedAction {
 export class AddDrawingLayerAction extends AppContainedAction {
 	constructor(public above: boolean, attachable: ActionAppContainedAttachable) { super(attachable) }
 
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 		const layers = this.app.currentProject?.layers;
 		if (!layers) return false;
 
@@ -25,8 +26,8 @@ export class AddDrawingLayerAction extends AppContainedAction {
 
 // Remove cur layer
 export class RemoveCurrentLayer extends AppContainedAction {
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 		return this.app.currentProject?.layers.removeCurrent() ?? false;
 	}
 }

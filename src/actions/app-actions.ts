@@ -1,9 +1,10 @@
 import { ActionAppContainedAttachable, AppContainedAction } from ".";
+import type { Command } from "@base/managers";
 
 // Hello
 export class HelloAction extends AppContainedAction {
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 		return this.app.hello();
 	}
 }
@@ -12,8 +13,8 @@ export class HelloAction extends AppContainedAction {
 export class EnterProjectAction extends AppContainedAction {
 	constructor(public index: number, attachable: ActionAppContainedAttachable) { super(attachable) }
 
-	execute(): boolean {
-	    super.execute();
+	execute(command: Command): boolean {
+	    super.execute(command);
 		return this.app.projects.enterIndex(this.index);
 	}
 }
