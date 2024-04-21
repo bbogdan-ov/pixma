@@ -55,12 +55,6 @@ export class LayersPanel extends ProjectPanel {
 		this._layersList?.remove();
 		this._layersList = null;
 	}
-    protected _onPointerDownOutside(event: PointerEvent): void {
-        super._onPointerDownOutside(event);
-		if (!this.project) return;
-        
-        this.project.app.selection.deselectAll(Layer.KEY);
-    }
 
 	// Get
 	get layersList(): LayersList | null {

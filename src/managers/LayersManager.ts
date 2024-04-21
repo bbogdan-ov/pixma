@@ -146,21 +146,9 @@ export class LayersManager extends Manager {
     getIsExists(layer: Layer): boolean {
         return this.list.includes(layer);
     }
-    getSelected(): Layer[] {
-        return this.project.app.selection.getSelectedItems(Layer.KEY);
-    }
-    getDragging(): Layer[] {
-        return this.project.app.drag.getDraggingItems(Layer.KEY);
-    }
     /** Returns index of `layer` in the list if exists, otherwise returns `null` */
     getIndex(layer: Layer): number | null {
         return Utils.indexOf(this.list, layer);
-    }
-    getIsSelected(layer: Layer): boolean {
-        return this.project.app.selection.getIsSelected(Layer.KEY, layer);
-    }
-    getIsDragging(layer: Layer): boolean {
-        return this.project.app.drag.getIsDragging(Layer.KEY, layer);
     }
     get list(): Layer[] {
         return this._list;

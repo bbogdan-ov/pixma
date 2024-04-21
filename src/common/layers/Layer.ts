@@ -8,7 +8,6 @@ import type { LayersManager } from "@source/managers";
 import type { App } from "@source/App";
 
 export class Layer {
-    static readonly KEY = "layer";
     static _id = 0;
 
     readonly id: number;
@@ -102,8 +101,6 @@ export class Layer {
         this.onDidAdded.trigger(this);
     }
     onRemove() {
-        this.manager.project.manager.app.selection.deselect(Layer.KEY, this);
-        
         this.canvas.element.remove();
         this.onDidRemoved.trigger(this);
     }

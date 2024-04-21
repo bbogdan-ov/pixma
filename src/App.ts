@@ -1,5 +1,4 @@
 import { BaseApp } from "@base/BaseApp";
-import { SelectionManager, DragManager, HistoryManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import AppElement from "@source/elements/AppElement";
 import type { Tool } from "./common/tools";
@@ -15,8 +14,6 @@ import { HelloWindow } from "./elements/windows/HelloWindow";
 // App
 export class App extends BaseApp<AppElement> {
 	readonly history: HistoryManager;
-    readonly selection: SelectionManager;
-    readonly drag: DragManager;
     readonly tools: ToolsManager;
     readonly brushes: BrushesManager;
     readonly projects: ProjectsManager;
@@ -31,8 +28,6 @@ export class App extends BaseApp<AppElement> {
 		this._element = new AppElement(this);
 
 		this.history = new HistoryManager(this);
-        this.selection = new SelectionManager();
-        this.drag = new DragManager();
         this.brushes = new BrushesManager(this);
         this.tools = new ToolsManager(this);
         this.projects = new ProjectsManager(this);
