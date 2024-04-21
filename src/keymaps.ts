@@ -24,9 +24,6 @@ export function registerAppKeymaps(app: App) {
 	map("ctrl-l", 		cmd.ADD_DRAWING_LAYER_ABOVE);
 	map("shift-delete", cmd.REMOVE_CURRENT_LAYER);
 
-	// Windows
-	map("escape",		cmd.CLOSE_WINDOW);
-
 	// Local
 	map("f2",			cmd.RENAME_CURRENT_LAYER);
 }

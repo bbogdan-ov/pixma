@@ -3,7 +3,6 @@ import { Command, CommandAction, Manager } from ".";
 import { BaseWindow } from "@base/elements/windows";
 import { Trigger } from "@base/common/listenable";
 import { ActionAttachableElement } from "@base/elements";
-import { AppCommand } from "@source/types/enums";
 
 export type RegisteredWindow = ()=> BaseWindow;
 
@@ -26,13 +25,15 @@ export class FloatingWindowsWrapper<A extends BaseApp=BaseApp> extends ActionAtt
 		this.manager = manager;
 
 		this.classList.add("windows-wrapper")
+
+		this.app.registerKeymap("escape", "close-window");
 	}
 
 	// On
 	onMount(): void {
 	    super.onMount();
 
-		this.attachAction(AppCommand.CLOSE_WINDOW, new CloseWindowAction(this));
+		this.attachAction("close-window", new CloseWindowAction(this));
 	}
 }
 
