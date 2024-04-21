@@ -3,9 +3,10 @@ import { ProjectsTabsPanel } from "./panels";
 import { Project } from "@source/common/project";
 import { DrawingLayer } from "@source/common/layers";
 import { EventName } from "@base/types/enums";
-import type { App } from "@source/App";
 import { AppCommand } from "@source/types/enums";
 import { EnterProjectAction, HelloAction } from "@source/actions";
+import type { App } from "@source/App";
+import type { CommandAction } from "@base/managers";
 
 @BaseElement.define("app-element")
 export default class AppElement extends ActionAttachableElement<App> {
@@ -15,6 +16,14 @@ export default class AppElement extends ActionAttachableElement<App> {
         this.classList.add("app");
     }
 
+	attachAction(commandName: string, action: CommandAction): boolean {
+		// Do not detach action on app dismount
+		const remove = this.app.commands.add(commandName, action);
+		if (!remove) return false;
+		return true;
+	}
+
+	//
     onMount(): void {
         super.onMount();
 

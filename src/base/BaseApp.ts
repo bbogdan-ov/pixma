@@ -1,5 +1,6 @@
 import { Trigger } from "./common/listenable";
-import { Command, CommandCondition, CommandsManager, Keymap, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
+import { ActionAttachableElement } from "./elements";
+import { Command, CommandAction, CommandCondition, CommandsManager, Keymap, KeymapBind, KeymapCondition, KeymapsManager } from "./managers";
 import { OptionsManager } from "./managers/OptionsManager";
 
 export class BaseApp<E extends HTMLElement=HTMLElement> {
@@ -21,6 +22,14 @@ export class BaseApp<E extends HTMLElement=HTMLElement> {
 		this.keymaps = new KeymapsManager(this.commands);
 	}
 
+	/** Register a command and attach an action to app element */
+	attachCommand(name: string, action: CommandAction): boolean {
+		if (!(this.element instanceof ActionAttachableElement)) return false;
+
+		this.registerCommand(name);
+		this.element.attachAction(name, action);
+		return true;
+	}
 	/**
 	 * Register a command
 	 * See `new Command()` for more info
