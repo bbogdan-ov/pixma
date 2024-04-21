@@ -45,11 +45,11 @@ export class LayersManager extends Manager {
 
 		this._updateIndexFrom(newIndex+1);
 
-        this.chooseIndex(newIndex);
-
         layer.onAdd();
         this.onDidAdded.trigger(layer);
         this.onDidListChanged.trigger(this.list);
+
+        this.chooseIndex(newIndex);
 
         return true;
     }
