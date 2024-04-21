@@ -1,6 +1,6 @@
 const NAMESPACE = "my-plugin";
 
-class LineTool extends pixma.Tool {
+class LineTool extends pixma.DrawingTool {
     constructor(app) {
         super(NAMESPACE, "line", app);
 
@@ -8,6 +8,8 @@ class LineTool extends pixma.Tool {
         this.customSizeState = new pixma.State(1);
 		this.keymap(["3", "l"]);
     }
+
+	use() {}
 
     onUp(layer, mouse) {
         super.onUp(layer, mouse);

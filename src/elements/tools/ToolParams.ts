@@ -25,14 +25,6 @@ export class ToolParams<T extends Tool=Tool> extends BaseElement {
         this.classList.add("tool-params");
 
         this.append(this.colorsBubble);
-
-		if (tool.sizeState)
-			this.addProgressRange(tool.sizeState)
-				.setWidth(200)
-				.setIsInt()
-				.setClamp(1, ToolParams.SIZE_RANGE_MAX_VALUE)
-				// TODO: change max input value based on tool's brush max size
-				.input?.setMax(64);
     }
 
 	addProgressRange(state: State<number>): ProgressRange {

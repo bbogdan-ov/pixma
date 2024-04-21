@@ -1,17 +1,12 @@
 import { Trigger } from "@base/common/listenable";
-import { IconName, MouseButton } from "@base/types/enums";
+import { IconName } from "@base/types/enums";
 import { ToolButton, ToolParams } from "@source/elements/tools";
 import { MouseData } from "@base/types/types";
-import { Canvas, Color } from "@base/common/misc";
 import { KeymapBind } from "@base/managers/KeymapsManager";
-import { CompositeOperation } from "@source/types/enums";
-import { Algorithms } from "@source/utils";
-import { Utils } from "@base/utils";
 import type { Layer } from "../layers";
-import type { ColorState, State } from "@base/common/listenable";
 import type { App } from "@source/App";
-import type { Brush } from "../brushes";
 import { AppActionAttachable, AppContainedAction, type Command } from "@base/managers";
+import { Draw } from "@source/utils";
 
 // Actions
 export class ChooseToolAction extends AppContainedAction<App> {
@@ -20,64 +15,6 @@ export class ChooseToolAction extends AppContainedAction<App> {
 	execute(command: Command): boolean {
 	    super.execute(command);
 		return this.app.tools.choose(this.tool);
-	}
-}
-
-// Tool brush
-export class ToolBrush {
-	readonly canvas = Canvas.sized(1, 1);
-
-	protected _color: Color = Color.BLACK;
-	protected _size: number = 1;
-
-	readonly onDidRendered = new Trigger<ToolBrush>();
-
-	constructor() {}
-
-    draw(context: CanvasRenderingContext2D, x: number, y: number) {
-        const half = Math.floor(this._size/2);
-        const rem = (this._size%2)/2;
-        
-		context.globalCompositeOperation = this.getCompositeOperation();
-
-        context.drawImage(
-            this.image,
-            Math.round(x - half - rem),
-            Math.round(y - half - rem)
-        );
-
-        context.globalCompositeOperation = CompositeOperation.DEFAULT;
-    }
-    drawLine(context: CanvasRenderingContext2D, fromX: number, fromY: number, toX: number, toY: number) {
-        Algorithms.line(
-            fromX, fromY,
-            toX, toY,
-            (x, y)=> this.draw(context, x, y)
-        )
-    }
-    
-	render(brush: Brush, color: Color, size: number): boolean {
-		size = Utils.clamp(Math.floor(size), 1, brush.maxSize);
-
-		if (this._color.compareHsl(color) && this._size == size)
-			return false;
-
-		this._color.copy(color);
-		this._size = size;
-		brush.render(this.canvas.context, color, size);
-
-		this.onDidRendered.trigger(this);
-		return true;
-	}
-
-	// Get
-	getCompositeOperation(): CompositeOperation {
-        if (this._color.isTransparent)
-            return CompositeOperation.ERASE;
-		return CompositeOperation.DEFAULT;
-	}
-	get image(): CanvasImageSource {
-		return this.canvas.element;
 	}
 }
 
@@ -94,7 +31,6 @@ export class Tool {
 
     /** Cache params, so we dont need to create another one */
     protected _paramsElement: ToolParams | null = null;
-	readonly brush = new ToolBrush();
 
     readonly onDidChosen = new Trigger<Tool>();
     readonly onDidUnchosen = new Trigger<Tool>();
@@ -128,41 +64,20 @@ export class Tool {
         return new ToolParams(this);
     }
 
-    draw(context: CanvasRenderingContext2D, mouse: MouseData) {
-		this.brush.drawLine(
-			context,
-			mouse.last.x, mouse.last.y,
-			mouse.pos.x, mouse.pos.y
-		);
-    }
     drawPreview(context: CanvasRenderingContext2D, mouse: MouseData) {
-		this.brush.draw(context, mouse.pos.x, mouse.pos.y);
+		Draw.pixel(context, Math.floor(mouse.pos.x), Math.floor(mouse.pos.y), 1, "#f00");
     }
-
-	renderBrush(button: MouseButton | null) {
-		const curBrush = this.app.brushes.current;
-
-		// TODO: somehow store current app brush
-		if (curBrush)
-			this.brush.render(curBrush, this.getColor(button), this.size);
-	}
 
     // On
     onDown(layer: Layer, mouse: MouseData) {
         this._isUsing = true;
-		this.renderBrush(mouse.pressedButton);
-
 		layer.startEdit(this.pushToHistory);
     }
     onUse(layer: Layer, mouse: MouseData) {}
     onMove(layer: Layer, mouse: MouseData) {
-		if (this.isUsing || layer.project.canvasZoomable?.isMouseOver)
-			this.renderBrush(mouse.pressedButton);
 	}
     onUp(layer: Layer, mouse: MouseData) {
         this._isUsing = false;
-		this.renderBrush(mouse.pressedButton);
-
 		layer.endEdit();
     }
     onChoose() {
@@ -175,30 +90,6 @@ export class Tool {
     }
 
     // Get
-	getColor(button: MouseButton | null): Color {
-		if (button == MouseButton.RIGHT)
-			return this.backColor;
-		return this.frontColor;
-	}
-    get frontColor(): Color {
-        return this.frontColorState?.color ?? Color.TRANSPARENT;
-    }
-    get backColor(): Color {
-        return this.backColorState?.color ?? Color.TRANSPARENT;
-    }
-    /** Value from `sizeState` */
-    get size(): number {
-        return this.sizeState?.value ?? 1;
-    }
-	get frontColorState(): ColorState | null {
-		return this.app.brushes.frontColorState;
-	}
-	get backColorState(): ColorState | null {
-		return this.app.brushes.backColorState;
-	}
-    get sizeState(): State<number> | null {
-        return this.app.brushes.sizeState;
-    }
     get isChosen(): boolean {
         return this._isChosen;
     }
