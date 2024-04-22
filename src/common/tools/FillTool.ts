@@ -5,6 +5,7 @@ import { MouseData } from "@base/types/types";
 import { Layer } from "../layers";
 import { Algorithms, ImageUtils } from "@source/utils";
 import { Point } from "@base/common/math";
+import { CompositeOperation } from "@source/types/enums";
 
 export class FillTool extends ColorfulTool {
 	static readonly NAME = "fill";
@@ -28,9 +29,14 @@ export class FillTool extends ColorfulTool {
 
 		const c = ImageUtils.getColorAt(data, (x + y * layer.width)*4);
 
+		if (color.isTransparent)
+			layer.context.globalCompositeOperation = CompositeOperation.ERASE;
+
 		layer.context.fillStyle = color.getRgbString();
 		Algorithms.linearFill(data, layer.width, layer.height, x, y, c, false, (x, y)=> {
 			layer.context.fillRect(x, y, 1, 1);
 		})
+
+		layer.context.globalCompositeOperation = CompositeOperation.DEFAULT;
 	}
 }
