@@ -50,27 +50,25 @@ export class Algorithms {
         return res;
     }
 
-    static linearFill(data: Uint8Array, fieldWidth: number, fieldHeight: number, atX: number, atY: number, rgbaColorToFill: RgbaColor, diagonally: boolean, pixel: ImageDataPixelCallback, checkVisitedPixels: boolean=true) {
+    static linearFill(data: Uint8ClampedArray, fieldWidth: number, fieldHeight: number, atX: number, atY: number, rgbaColorToFill: RgbaColor, diagonally: boolean, pixel: ImageDataPixelCallback, checkVisitedPixels: boolean=true) {
         atX = Math.floor(atX);
         atY = Math.floor(atY);
 
-        if (!new Point(atX, atY).inBounds(0, 0, fieldWidth-1, fieldHeight-1)) return 0;
-        
-        if (checkVisitedPixels) {
-            data = [...data] as any;
-        }
+        if (!new Point(atX, atY).inBounds(0, 0, fieldWidth-1, fieldHeight-1)) return;
         
         const queue: [x: number, y: number][] = [[atX, atY]];
         let isLeft = false;
         let isRight = false;
     
         function compareColorAt(pixelIndex: number, color: RgbaColor): boolean {
-            let r = data[pixelIndex];
-            let g = data[pixelIndex + 1];
-            let b = data[pixelIndex + 2];
-            let a = data[pixelIndex + 3];
+            const r = data[pixelIndex];
+            const g = data[pixelIndex + 1];
+            const b = data[pixelIndex + 2];
+            const a = data[pixelIndex + 3];
             
-            return (r == color[0] && g == color[1] && b == color[2] && a == color[3]);
+			if (a == color[3])
+				return true;
+            return (r == color[0] && g == color[1] && b == color[2]);
         }
         
         while (queue.length > 0) {
@@ -95,75 +93,20 @@ export class Algorithms {
                 pixel(posX, posY, curPixelIndex);
                 
                 if (posX > 0) {
-                    if (compareColorAt(curPixelIndex-4, rgbaColorToFill)) {
-                        if (!isLeft) {
-                            queue.push([posX - 1, posY]);
-                            isLeft = true;
-                        }
-                    }
-                    else if (isLeft) {
+                    if (!isLeft && compareColorAt(curPixelIndex-4, rgbaColorToFill)) {
+						queue.push([posX - 1, posY]);
+						isLeft = true;
+                    } else if (isLeft) {
                         isLeft = false;
                     }
                 }
     
                 if (posX < fieldWidth - 1) {
-                    if (compareColorAt(curPixelIndex+4, rgbaColorToFill)) {
-                        if (!isRight) {
-                            queue.push([posX + 1, posY]);
-                            isRight = true;
-                        }
-                    }
-                    else if (isRight) {
+					if (!isRight && compareColorAt(curPixelIndex+4, rgbaColorToFill)) {
+						queue.push([posX + 1, posY]);
+						isRight = true;
+                    } else if (isRight) {
                         isRight = false;
-                    }
-                }
-    
-                // TODO: 8-neighbors fill is awful
-                if (diagonally) {
-                    if (posX > 0 && posY > 0) {
-                        if (compareColorAt(curPixelIndex-fieldWidth*4-4, rgbaColorToFill)) {
-                            if (!isLeft) {
-                                queue.push([posX-1, posY-1]);
-                                isLeft = true;
-                            }
-                        }
-                        else if (isLeft) {
-                            isLeft = false;
-                        }
-                    }
-                    if (posX < fieldWidth - 1 && posY > 0) {
-                        if (compareColorAt(curPixelIndex-fieldWidth*4+4, rgbaColorToFill)) {
-                            if (!isRight) {
-                                queue.push([posX+1, posY-1]);
-                                isRight = true;
-                            }
-                        }
-                        else if (isRight) {
-                            isRight = false;
-                        }
-                    }
-    
-                    if (posX > 0 && posY < fieldHeight-1) {
-                        if (compareColorAt(curPixelIndex+fieldWidth*4-4, rgbaColorToFill)) {
-                            if (!isLeft) {
-                                queue.push([posX-1, posY+1]);
-                                isLeft = true;
-                            }
-                        }
-                        else if (isLeft) {
-                            isLeft = false;
-                        }
-                    }
-                    if (posX < fieldWidth-1 && posY < fieldHeight-1) {
-                        if (compareColorAt(curPixelIndex+fieldWidth*4+4, rgbaColorToFill)) {
-                            if (!isRight) {
-                                queue.push([posX+1, posY+1]);
-                                isRight = true;
-                            }
-                        }
-                        else if (isRight) {
-                            isRight = false;
-                        }
                     }
                 }
     
@@ -177,7 +120,7 @@ export class Algorithms {
             }
         }
     }
-    static fillSame(data: Uint8Array, fieldWidth: number, rgbaColorToFill: RgbaColor, pixel: ImageDataPixelCallback) {
+    static fillSame(data: Uint8ClampedArray, fieldWidth: number, rgbaColorToFill: RgbaColor, pixel: ImageDataPixelCallback) {
         for (let pixelIndex = 0; pixelIndex < Math.floor(data.length/4); pixelIndex ++) {
             const pixelPos = Point.fromIndex(pixelIndex, fieldWidth);
             const pixelColor = ImageUtils.getColorAt(data, pixelIndex*4);

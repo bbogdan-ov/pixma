@@ -1,7 +1,7 @@
 import { RgbaColor } from "@base/types/types";
 
 export class ImageUtils {
-    static getColorAt(data: Uint8Array, byteIndex: number): RgbaColor {
+    static getColorAt(data: Uint8ClampedArray, byteIndex: number): RgbaColor {
         return [
             data[byteIndex],
             data[byteIndex+1],

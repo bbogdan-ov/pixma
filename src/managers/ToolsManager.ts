@@ -1,7 +1,7 @@
 import { Trigger } from "@base/common/listenable";
 import { Manager } from "@base/managers";
 import { Utils } from "@base/utils";
-import { type Tool, EraseTool, PenTool } from "@source/common/tools";
+import { type Tool, EraseTool, PenTool, FillTool } from "@source/common/tools";
 import type { App } from "@source/App";
 
 export class ToolsManager extends Manager {
@@ -21,6 +21,7 @@ export class ToolsManager extends Manager {
 
 		this.register(PenTool.NAME, 	new PenTool(app));
 		this.register(EraseTool.NAME, 	new EraseTool(app));
+		this.register(FillTool.NAME, 	new FillTool(app));
 
         const firstTool = Utils.getValueAt(this.tools, 0);
         if (firstTool)

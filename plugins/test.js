@@ -6,7 +6,6 @@ class LineTool extends pixma.DrawingTool {
 
         this._iconName = "line-tool";
         this.customSizeState = new pixma.State(1);
-		this.keymap(["3", "l"]);
     }
 
 	use() {}
@@ -31,8 +30,6 @@ class LineTool extends pixma.DrawingTool {
 class RainbowTool extends pixma.DrawingTool {
     constructor(app) {
         super(NAMESPACE, "rainbow", app);
-
-		this.keymap(["4"]);
     }
 
     createButton() {
