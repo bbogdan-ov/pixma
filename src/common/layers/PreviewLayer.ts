@@ -1,7 +1,7 @@
 import { Layer } from ".";
-import { MouseData } from "@base/types/types";
 import type { LayersManager } from "@source/managers";
 import type { Tool } from "../tools";
+import { MouseData } from "@base/managers";
 
 export class PreviewLayer extends Layer {
     static readonly NAME = "preview";

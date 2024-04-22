@@ -1,9 +1,9 @@
 import { State } from "@base/common/listenable";
 import { DrawingTool } from ".";
+import { ToolParams } from "@source/elements/tools";
+import { MouseData } from "@base/managers";
 import type { App } from "@source/App";
 import type { Layer } from "../layers";
-import type { MouseData } from "@base/types/types";
-import { ToolParams } from "@source/elements/tools";
 
 export class PenLikeTool extends DrawingTool {
 	readonly isPixelPerfectState = new State<boolean>(false);

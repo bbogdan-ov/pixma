@@ -3,7 +3,7 @@ import { State, Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import type { Project } from "../project";
 import type { Tool } from "../tools";
-import type { MouseData } from "@base/types/types";
+import { MouseData } from "@base/managers";
 import type { LayersManager } from "@source/managers";
 import type { App } from "@source/App";
 

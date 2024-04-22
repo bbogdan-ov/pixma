@@ -7,7 +7,7 @@ import { Utils } from "@base/utils";
 import { MouseButton } from "@base/types/enums";
 import { ToolParams } from "@source/elements/tools";
 import { ColorfulTool } from "./ColorfulTool";
-import type { MouseData } from "@base/types/types";
+import { MouseData } from "@base/managers";
 import type { Layer } from "../layers";
 import type { App } from "@source/App";
 import type { Brush } from "../brushes";

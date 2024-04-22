@@ -1,5 +1,5 @@
 import type { State } from "@base/common/listenable";
-import type { AccentName, ColorName, MouseButton, SizeName } from "./enums";
+import type { AccentName, ColorName, SizeName } from "./enums";
 import { BaseApp } from "@base/BaseApp";
 
 export type HTMLTagNames = keyof HTMLElementTagNameMap;
@@ -10,18 +10,6 @@ export type ValueType = "string" | "number" | "bigint" | "boolean" | "symbol" | 
 export interface IPoint {
     x: number
     y: number
-}
-export interface MouseData {
-    pos: IPoint
-    last: IPoint
-    start: IPoint
-    end: IPoint
-    movement: IPoint
-
-    pressedButton: MouseButton | null
-    isCtrlPressed: boolean
-    isShiftPressed: boolean
-    isAltPressed: boolean
 }
 
 export type RgbColor = [red: number, green: number, blue: number];

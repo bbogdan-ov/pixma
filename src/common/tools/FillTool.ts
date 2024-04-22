@@ -1,10 +1,10 @@
 import { App } from "@source/App";
 import { ColorfulTool } from "./ColorfulTool";
 import { IconName } from "@base/types/enums";
-import { MouseData } from "@base/types/types";
 import { Layer } from "../layers";
 import { Algorithms, ImageUtils } from "@source/utils";
 import { CompositeOperation } from "@source/types/enums";
+import { MouseData } from "@base/managers";
 
 export class FillTool extends ColorfulTool {
 	static readonly NAME = "fill";

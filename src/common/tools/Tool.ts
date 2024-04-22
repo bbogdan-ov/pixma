@@ -1,12 +1,11 @@
 import { Trigger } from "@base/common/listenable";
 import { IconName } from "@base/types/enums";
 import { ToolButton, ToolParams } from "@source/elements/tools";
-import { MouseData } from "@base/types/types";
 import { KeymapBind } from "@base/managers/KeymapsManager";
+import { AppActionAttachable, AppContainedAction, MouseData, type Command } from "@base/managers";
+import { Draw } from "@source/utils";
 import type { Layer } from "../layers";
 import type { App } from "@source/App";
-import { AppActionAttachable, AppContainedAction, type Command } from "@base/managers";
-import { Draw } from "@source/utils";
 
 // Actions
 export class ChooseToolAction extends AppContainedAction<App> {

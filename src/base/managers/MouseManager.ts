@@ -2,7 +2,20 @@ import { Point } from "@base/common/math";
 import { Manager } from ".";
 import { MouseButton } from "@base/types/enums";
 import { MouseBind } from "@base/common/binds";
-import { MouseData } from "@base/types/types";
+import { IPoint } from "@base/types/types";
+
+export interface MouseData {
+    pos: IPoint
+    last: IPoint
+    start: IPoint
+    end: IPoint
+    movement: IPoint
+
+    pressedButton: MouseButton | null
+    isCtrlPressed: boolean
+    isShiftPressed: boolean
+    isAltPressed: boolean
+}
 
 export class MouseManager extends Manager implements MouseData {
     /** Pressed and move pos */

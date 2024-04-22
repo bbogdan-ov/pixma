@@ -1,8 +1,7 @@
 import { Trigger } from "@base/common/listenable";
 import { Canvas } from "@base/common/misc";
 import { Zoomable } from "@base/elements/layout";
-import { MouseManager } from "@base/managers";
-import { MouseData } from "@base/types/types";
+import { MouseData, MouseManager } from "@base/managers";
 import { DOM } from "@base/utils";
 import type { Layer } from "@source/common/layers";
 import type { Project } from "@source/common/project";

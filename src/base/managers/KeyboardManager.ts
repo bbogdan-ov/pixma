@@ -2,7 +2,15 @@ import { KeyCode } from "@base/types/enums";
 import { Manager } from ".";
 import { KeyBind } from "@base/common/binds";
 
-export class KeyboardManager extends Manager {
+export interface KeyboardData {
+    isPressed: boolean
+    pressedCode: KeyCode | null
+    isCtrlPressed: boolean
+    isShiftPressed: boolean
+    isAltPressed: boolean
+}
+
+export class KeyboardManager extends Manager implements KeyboardData {
     protected _isPressed = false;
     protected _pressedCode: KeyCode | null = null;
     protected _isCtrlPressed = false;
