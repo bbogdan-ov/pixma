@@ -4,7 +4,6 @@ import { IconName } from "@base/types/enums";
 import { MouseData } from "@base/types/types";
 import { Layer } from "../layers";
 import { Algorithms, ImageUtils } from "@source/utils";
-import { Point } from "@base/common/math";
 import { CompositeOperation } from "@source/types/enums";
 
 export class FillTool extends ColorfulTool {
@@ -38,5 +37,7 @@ export class FillTool extends ColorfulTool {
 		})
 
 		layer.context.globalCompositeOperation = CompositeOperation.DEFAULT;
+
+		layer.endEdit();
 	}
 }

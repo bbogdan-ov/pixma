@@ -67,10 +67,14 @@ export class Layer {
         return this.manager.remove(this);
     }
 	startEdit(pushToHistory: boolean) {
+		if (this.isEditing) return;
+
 		// TODO: stash to history
 		this._isEditing = true;
 	}
 	endEdit() {
+		if (!this.isEditing) return;
+
 		// TODO: push to history
 		this._isEditing = false;
 		this.edited();
