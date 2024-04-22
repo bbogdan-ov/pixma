@@ -66,9 +66,10 @@ export class Algorithms {
             const b = data[pixelIndex + 2];
             const a = data[pixelIndex + 3];
             
-			if (a == color[3])
+			if (a <= 0 && color[3] <= 0)
 				return true;
-            return (r == color[0] && g == color[1] && b == color[2]);
+
+            return (r == color[0] && g == color[1] && b == color[2] && a == color[3]);
         }
         
         while (queue.length > 0) {
