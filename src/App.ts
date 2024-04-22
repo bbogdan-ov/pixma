@@ -1,4 +1,5 @@
 import { BaseApp } from "@base/BaseApp";
+import { HistoryManager, KeyboardManager } from "@base/managers";
 import { BrushesManager, PluginsManager, ProjectsManager, ToolsManager } from "./managers";
 import AppElement from "@source/elements/AppElement";
 import type { Tool } from "./common/tools";
@@ -20,6 +21,8 @@ export class App extends BaseApp<AppElement> {
 	readonly windows: WindowsManager<App>;
     readonly plugins: PluginsManager;
 
+	readonly keyboard: KeyboardManager;
+
 	readonly editor: Editor;
 
     constructor() {
@@ -33,6 +36,8 @@ export class App extends BaseApp<AppElement> {
         this.projects = new ProjectsManager(this);
 		this.windows = new WindowsManager<App>(this);
         this.plugins = new PluginsManager(this);
+
+		this.keyboard = new KeyboardManager();
 
 		registerAppOptions(this);
 		registerAppCommands(this);
