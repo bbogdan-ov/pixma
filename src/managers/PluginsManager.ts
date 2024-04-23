@@ -18,7 +18,7 @@ export class PluginsManager extends Manager {
 
         this.app = app;
 
-        this.load("plugins/test.js");
+        this.load(new URL("/plugins/test.js", import.meta.url).href);
     }
 
     load(path: string) {
