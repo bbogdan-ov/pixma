@@ -21,9 +21,10 @@ export class ProjectsTabsPanel extends Panel<App> {
         this.classList.add("row", "justify-between");
         this.append(
 			this.tabsList,
-            // TEMP
-            new LagMeter(220, 30)
         );
+
+		if (import.meta.env.DEV)
+            this.append(new LagMeter(220, 30));
     }
 }
 
