@@ -79,7 +79,10 @@ export class DrawingTool extends ColorfulTool {
     }
 
     use(layer: Layer, mouse: MouseData) {
-		this.draw(layer.context, mouse);
+		if (this.drawOnPreview)
+			this.draw(layer.project.previewLayer.context, mouse);
+		else
+			this.draw(layer.context, mouse);
     }
     draw(context: CanvasRenderingContext2D, mouse: MouseData) {
 		this.brush.drawLine(
@@ -132,6 +135,9 @@ export class DrawingTool extends ColorfulTool {
 			this.renderBrush(mouse.pressedButton);
 	}
 	onUp(layer: Layer, mouse: MouseData): void {
+		if (this.drawOnPreview)
+			this.draw(layer.context, mouse);
+
 	    super.onUp(layer, mouse)
 
 		this.renderBrush(mouse.pressedButton);
@@ -145,4 +151,7 @@ export class DrawingTool extends ColorfulTool {
     get sizeState(): State<number> | null {
         return this.app.brushes.sizeState;
     }
+	get drawOnPreview(): boolean {
+		return false;
+	}
 }

@@ -1,6 +1,6 @@
 import { Layer } from ".";
 import type { LayersManager } from "@source/managers";
-import type { Tool } from "../tools";
+import { DrawingTool, type Tool } from "../tools";
 import { MouseData } from "@base/managers";
 
 export class PreviewLayer extends Layer {
@@ -15,14 +15,11 @@ export class PreviewLayer extends Layer {
 			if (layerEditedUnlisten)
 				layerEditedUnlisten();
 
-            this.drawCurrentLayer();
+            this.drawCurrentLayer(null);
 			layerEditedUnlisten = layer.onDidEdited.listen(()=> {
 				this.draw(null, null);
 			})
         })
-		manager.project.app.tools.onDidChosen.listen(tool=> {
-			this.draw(tool, null);
-		})
     }
 
     draw(tool: Tool | null, mouse: MouseData | null) {
@@ -30,29 +27,30 @@ export class PreviewLayer extends Layer {
 		mouse = mouse ?? this.manager.project.toolMouse;
 
         this.clear();
-        this.drawCurrentLayer();
+        this.drawCurrentLayer(tool);
 
 		// Draw preview
-        if (tool && mouse && this.getIsDrawPreview()) {
+        if (!this.isToolDown && tool && mouse && this.getIsDrawPreview()) {
             tool.drawPreview(this.context, mouse);
         }
     }
     
-    drawCurrentLayer() {
+    drawCurrentLayer(tool: Tool | null) {
         const layer = this.manager.current;
         if (!layer) return;
 
         // Don't draw and show current layer's canvas
         if (this.isToolDown) {
-            layer.setCanvasElementVisibility(layer.isVisible);
-            return;
+			if (!(tool instanceof DrawingTool && tool.drawOnPreview)) {
+				layer.setCanvasElementVisibility(layer.isVisible);
+				return;
+			}
         }
 
         // Hide current layer's canvas
         layer.setCanvasElementVisibility(false);
 
         // Draw current layer
-        this.clear();
 		if (layer.isVisible)
 			this.context.drawImage(layer.canvas.element, 0, 0);
     }

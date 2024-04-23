@@ -14,7 +14,7 @@ export class FillTool extends ColorfulTool {
 
 		this._iconName = IconName.FILL_TOOL;
 
-		this.keymap(["3", "f"])
+		this.keymap(["4", "f"])
 	}
 
 	onDown(layer: Layer, mouse: MouseData): void {

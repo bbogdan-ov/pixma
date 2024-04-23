@@ -63,12 +63,17 @@ export default class AppElement extends ActionAttachableElement<App> {
 		this.listen(window, EventName.CONTEXT_MENU, this._onContextMenu.bind(this));
         this.listen(window, EventName.SCROLL, this._onScroll.bind(this));
 		this.listen(window, EventName.KEY_DOWN, this._onKeyDown.bind(this));
+		this.listen(window, EventName.KEY_UP, this._onKeyUp.bind(this));
     }
 	protected _onContextMenu(event: MouseEvent) {
 		event.preventDefault();
 	}
 	protected _onKeyDown(event: KeyboardEvent) {
 		this.app.keymaps.onKeyDown(event);
+		this.app.keyboard.onDown(event);
+	}
+	protected _onKeyUp(event: KeyboardEvent) {
+		this.app.keyboard.onUp(event);
 	}
     protected _onScroll() {
         this.scrollTo(0, 0); // its a crutch
