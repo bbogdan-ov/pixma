@@ -59,7 +59,7 @@ export class CanvasZoomable extends Zoomable {
 
     protected _onDown(event: PointerEvent): void {
         super._onDown(event);
-        if (this.isPanning) return;
+        if (this.isPanning || this.mouse.isMiddle) return;
 
         // TODO: catch missed tool and layer
         const tool = this.project.manager.app.currentTool;

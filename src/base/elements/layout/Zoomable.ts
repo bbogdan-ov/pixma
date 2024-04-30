@@ -160,7 +160,7 @@ export class Zoomable extends BaseElement {
         this.mouse.onDown(event);
         this._isMouseDown = true;
 
-        if (event.ctrlKey || !(this.useMiddleMouseToPan ? this.mouse.getIsPressed(MouseBind.MIDDLE) : true))
+        if (event.ctrlKey || !(this.useMiddleMouseToPan ? this.mouse.isMiddle : true))
             return;
 
         event.preventDefault();
