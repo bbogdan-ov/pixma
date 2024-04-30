@@ -12,9 +12,9 @@ export interface MouseData {
     movement: IPoint
 
     pressedButton: MouseButton | null
-    isCtrlPressed: boolean
-    isShiftPressed: boolean
-    isAltPressed: boolean
+    isCtrl: boolean
+    isShift: boolean
+    isAlt: boolean
 }
 
 export class MouseManager extends Manager implements MouseData {
@@ -31,9 +31,9 @@ export class MouseManager extends Manager implements MouseData {
 
     protected _pressedButton: MouseButton | null = null;
     protected _isPressed = false;
-    protected _isCtrlPressed = false;
-    protected _isShiftPressed = false;
-    protected _isAltPressed = false;
+    protected _isCtrl = false;
+    protected _isShift = false;
+    protected _isAlt = false;
 
     protected _downEvent: MouseEvent | null = null;
     protected _upEvent: MouseEvent | null = null;
@@ -51,18 +51,18 @@ export class MouseManager extends Manager implements MouseData {
 
         this._pressedButton = null;
         this._isPressed = false;
-        this._isCtrlPressed = false;
-        this._isShiftPressed = false;
-        this._isAltPressed = false;
+        this._isCtrl = false;
+        this._isShift = false;
+        this._isAlt = false;
 
         this._downEvent = null;
         this._upEvent = null;
     }
 
     protected _updateKeys(event: MouseEvent) {
-        this._isCtrlPressed = event.ctrlKey;
-        this._isShiftPressed = event.shiftKey;
-        this._isAltPressed = event.altKey;
+        this._isCtrl = event.ctrlKey;
+        this._isShift = event.shiftKey;
+        this._isAlt = event.altKey;
     }
 
     // On
@@ -101,9 +101,9 @@ export class MouseManager extends Manager implements MouseData {
 
 		this._pressedButton = null;
         this._isPressed = false;
-        this._isCtrlPressed = false;
-        this._isShiftPressed = false;
-        this._isAltPressed = false;
+        this._isCtrl = false;
+        this._isShift = false;
+        this._isAlt = false;
     }
     
     // Get
@@ -117,6 +117,15 @@ export class MouseManager extends Manager implements MouseData {
 
         return false;
     }
+	get isLeft(): boolean {
+		return this.isPressed && this.pressedButton === MouseButton.LEFT;
+	}
+	get isMiddle(): boolean {
+		return this.isPressed && this.pressedButton === MouseButton.MIDDLE;
+	}
+	get isRigth(): boolean {
+		return this.isPressed && this.pressedButton === MouseButton.RIGHT;
+	}
     get downEvent(): MouseEvent | null {
         return this._downEvent;
     }
@@ -129,13 +138,13 @@ export class MouseManager extends Manager implements MouseData {
     get pressedButton(): MouseButton | null {
         return this._pressedButton;
     }
-    get isCtrlPressed(): boolean {
-        return this._isCtrlPressed;
+    get isCtrl(): boolean {
+        return this._isCtrl;
     }
-    get isShiftPressed(): boolean {
-        return this._isShiftPressed;
+    get isShift(): boolean {
+        return this._isShift;
     }
-    get isAltPressed(): boolean {
-        return this._isAltPressed;
+    get isAlt(): boolean {
+        return this._isAlt;
     }
 }
